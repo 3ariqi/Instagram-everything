@@ -1,0 +1,21 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+# Read-only: this workflow can never write to the repository.
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Self-check (banned code, hidden characters, injection text)
+        run: python3 -I skills/ie-tools/selfcheck.py . --quiet
+      - name: Tests
+        run: python3 -I -m unittest discover -s tests -v
