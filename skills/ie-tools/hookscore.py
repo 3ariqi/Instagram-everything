@@ -192,6 +192,9 @@ def main():
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
     lines = [args.hook] if args.hook else [ln for ln in tk.read_input(args.input).splitlines() if ln.strip()]
+    if not lines:
+        print("error: no hooks to score (one hook per line, or use --hook)", file=sys.stderr)
+        sys.exit(2)
     results = sorted((score_hook(h) for h in lines), key=lambda r: -r["score"])
     if args.json:
         print(json.dumps(results, ensure_ascii=False, indent=2))

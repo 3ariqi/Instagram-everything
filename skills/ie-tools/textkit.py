@@ -244,12 +244,42 @@ HASHTAG_RE = re.compile(r"(?<![^\s])#[^\s#]+")
 MENTION_RE = re.compile(r"(?<![\w@])@[A-Za-z0-9._]{1,30}")
 
 
+MAX_INPUT_CHARS = 400000
+
+
 def read_input(path):
+    """Read text from a file or stdin. On a problem, print one clear line and
+    exit with code 2 instead of a traceback. Accepts UTF-8 (with or without a
+    BOM) and UTF-16, the two encodings Arabic text files usually arrive in."""
     import sys
-    if path in (None, "-"):
-        return sys.stdin.read()
-    with open(path, encoding="utf-8") as fh:
-        return fh.read()
+    try:
+        if path in (None, "-"):
+            raw = sys.stdin.buffer.read()
+        else:
+            with open(path, "rb") as fh:
+                raw = fh.read(MAX_INPUT_CHARS * 4 + 1)
+    except OSError as e:
+        sys.stderr.write("error: cannot read %s (%s)\n" % (path, e.strerror or e))
+        sys.exit(2)
+    if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        codecs = ("utf-16",)
+    else:
+        codecs = ("utf-8-sig",)
+    for codec in codecs:
+        try:
+            text = raw.decode(codec)
+            break
+        except UnicodeDecodeError:
+            text = None
+    if text is None:
+        sys.stderr.write("error: %s is not a UTF-8 text file. Save it as UTF-8 (in Notepad: "
+                         "Save As > Encoding > UTF-8) and try again.\n" % path)
+        sys.exit(2)
+    if len(text) > MAX_INPUT_CHARS:
+        sys.stderr.write("error: input is %d characters; the limit is %d. Split it into parts.\n"
+                         % (len(text), MAX_INPUT_CHARS))
+        sys.exit(2)
+    return text
 
 
 def bar(value, width=24):

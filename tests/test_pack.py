@@ -130,9 +130,11 @@ class Beats(unittest.TestCase):
 
 
 class Caption(unittest.TestCase):
-    def test_hashtag_limit_is_five(self):
+    def test_over_five_hashtags_warns_not_errors(self):
         r = caption.lint("نص\n#أ #ب #ج #د #هـ #و")
-        self.assertEqual(r["verdict"], "FIX")
+        self.assertEqual(r["verdict"], "REVIEW")
+        self.assertEqual(r["errors"], [])
+        self.assertTrue(any("6" in w for w in r["warnings"]))
 
     def test_signature_ignored_for_cta_count(self):
         sig = "تابعنا على منصات التواصل الاجتماعي @3ariqi"
@@ -228,6 +230,78 @@ class Pack(unittest.TestCase):
         finally:
             sys.argv = old
         self.assertIn("احذر", buf.getvalue())
+
+
+class Regressions(unittest.TestCase):
+    """One test per bug found in the pre-release audit."""
+
+    def _scan(self, name, body):
+        with tempfile.TemporaryDirectory() as d:
+            with open(os.path.join(d, name), "w", encoding="utf-8") as fh:
+                fh.write(body)
+            rep, _ = selfcheck.scan(d)
+            return [i["level"] for i in rep.items]
+
+    def test_selfcheck_catches_aliased_and_indirect_calls(self):
+        bodies = [
+            "import os as o\no.system('id')\n",
+            "from os import system\nsystem('id')\n",
+            "from os import *\n",
+            "e = eval\ne('1')\n",
+            "f = getattr\n",
+            "x = globals()\n",
+            "import builtins\n",
+        ]
+        for b in bodies:
+            self.assertIn("FAIL", self._scan("x.py", b), b)
+
+    def test_selfcheck_does_not_pass_a_wrong_path(self):
+        for target in ("/definitely/not/here", tempfile.mkdtemp()):
+            buf_out, buf_err = io.StringIO(), io.StringIO()
+            old = sys.argv
+            sys.argv = ["selfcheck.py", target]
+            try:
+                with contextlib.redirect_stdout(buf_out), contextlib.redirect_stderr(buf_err):
+                    with self.assertRaises(SystemExit) as cm:
+                        selfcheck.main()
+            finally:
+                sys.argv = old
+            self.assertEqual(cm.exception.code, 2, target)
+            self.assertNotIn("PASS", buf_out.getvalue())
+
+    def test_selfcheck_does_not_skip_hidden_directories(self):
+        with tempfile.TemporaryDirectory() as d:
+            for sub in ("node_modules", ".venv", "__pycache__"):
+                os.makedirs(os.path.join(d, sub))
+            with open(os.path.join(d, "node_modules", "x.py"), "w", encoding="utf-8") as fh:
+                fh.write("import socket\n")
+            rep, _ = selfcheck.scan(d)
+            self.assertTrue(any(i["level"] == "FAIL" and "node_modules" in i["file"] for i in rep.items))
+
+    def test_unreadable_input_exits_cleanly(self):
+        with tempfile.TemporaryDirectory() as d:
+            bad = os.path.join(d, "b.bin")
+            with open(bad, "wb") as fh:
+                fh.write(bytes([0x80, 0x81, 0xFE, 0xFF, 0x00, 0x80]))
+            for path in (os.path.join(d, "missing.txt"), bad):
+                with contextlib.redirect_stderr(io.StringIO()) as err:
+                    with self.assertRaises(SystemExit) as cm:
+                        tk.read_input(path)
+                self.assertEqual(cm.exception.code, 2)
+                self.assertIn("error:", err.getvalue())
+
+    def test_bom_and_utf16_files_are_read(self):
+        with tempfile.TemporaryDirectory() as d:
+            for enc in ("utf-8-sig", "utf-16"):
+                path = os.path.join(d, enc + ".txt")
+                with open(path, "w", encoding=enc) as fh:
+                    fh.write("احذر تشحن جوالك")
+                self.assertEqual(tk.read_input(path), "احذر تشحن جوالك")
+
+    def test_empty_input_is_an_error_not_a_score(self):
+        with contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(SystemExit):
+                score.run("")
 
 
 if __name__ == "__main__":

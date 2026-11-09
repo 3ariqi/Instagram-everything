@@ -24,8 +24,7 @@ The figures here were checked in November 2026.
 ## Per platform
 
 **Instagram Reels** (the source)
-Caption up to 2,200 characters, about 125 visible before "more", 5 hashtags at
-most, links not clickable in captions.
+Caption up to 2,200 characters, about 125 visible before "more", up to 5 hashtags (gradual cap announced Dec 2025), links not clickable in captions.
 
 **TikTok**
 - Re-export the video **without** the Instagram watermark or on-screen handle.
