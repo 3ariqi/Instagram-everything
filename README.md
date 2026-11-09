@@ -2,7 +2,7 @@
 
 **حزمة مهارات لـ Claude تدير محتوى إنستقرام بالعربي أولاً، وتفحص نفسها أمنياً.**
 
-18 مهارة تكتب سكربتات الريلز والكابشن والكاروسيل والستوري، وتبحث عمّا ينجح في مجالك، وترد على التعليقات والرسائل، وتكشف رسائل الاحتيال، وتؤمّن حسابك، وتحوّل الأخبار التقنية إلى محتوى موثّق المصادر.
+19 مهارة تكتب سكربتات الريلز والكابشن والكاروسيل والستوري، وتبحث عمّا ينجح في مجالك، وترد على التعليقات والرسائل، وتكشف رسائل الاحتيال، وتؤمّن حسابك، وتحوّل الأخبار التقنية إلى محتوى موثّق المصادر.
 
 > مشروع من إعداد **م.أحمد طاهر** · [@3ariqi](https://github.com/3ariqi)
 > تابعنا على منصات التواصل الاجتماعي: يوتيوب، إنستقرام، تيك توك، X — **@3ariqi**
@@ -60,6 +60,23 @@
 | `/ie-harden` | قائمة تأمين الحساب خطوة بخطوة |
 | `/ie-technews` | خبر تقني ← تحقق من 3 مصادر ← سكربت ريل + كابشن بالمصادر |
 | `/ie-selfcheck` | يفحص الحزمة نفسها قبل التثبيت وبعد أي تحديث |
+| `/ie-update` | يفحص عند بدء كل جلسة هل صدر إصدار جديد، ويحدّث بعد اجتياز الفحص الأمني |
+
+## لأي وكيل ذكاء اصطناعي (Claude وCodex وGemini وغيرها)
+
+أرسل للوكيل رابط المستودع وقل له: «نزّل وثبّت هذه المهارات». ملف [`AGENTS.md`](AGENTS.md) يشرح له الخطوات بالترتيب: يجلب أحدث وسم إصدار، ويفحصه بـ`selfcheck`، ولا يثبّته إلا إذا نجح الفحص.
+
+أو ثبّت بنفسك بأمر واحد بعد `git clone` و`git checkout <وسم>`:
+
+```bash
+python3 install.py --agent claude    # Claude Code
+python3 install.py --agent agents    # Codex وGemini CLI (المجلد ~/.agents/skills)
+python3 install.py --dest <مجلد المهارات عند وكيلك>   # أي وكيل آخر
+```
+
+المثبّت يفحص الحزمة أولاً ويرفض التثبيت إن فشل الفحص. الأدوات بايثون فقط، فالوكلاء التي لا تشغّل أوامر (مثل المحادثات العادية) تقرأ ملفات `SKILL.md` وتطبّقها يدوياً بلا الأرقام.
+
+**التحديث:** مهارة `ie-update` تفحص عند بدء كل جلسة هل صدر إصدار جديد. إن وُجد جلبته وفحصته وثبّتته تلقائياً بعد نجاح الفحص، وتسأل أولاً عند تغيّر الرقم الرئيسي. يمكنك ضبط `updates: ask` أو `off` في ملف الإعدادات.
 
 ## التثبيت الآمن
 
@@ -119,7 +136,7 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 
 ## English
 
-**Instagram Everything** is an Arabic-first pack of 18 Claude skills for running an Instagram account, with built-in security checks.
+**Instagram Everything** is an Arabic-first pack of 19 agent skills (Claude Code, Codex, Gemini CLI and others) for running an Instagram account, with built-in security checks.
 
 - Reels, captions, carousels, stories, profile, weekly plan, comments, replies, DMs, research, audits, repurposing and cross-posting.
 - New: `/ie-scamguard` (scam message analysis), `/ie-harden` (account hardening), `/ie-technews` (3-source fact-checked tech news to Reel), `/ie-selfcheck` (audits the pack itself).

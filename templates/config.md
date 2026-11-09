@@ -53,3 +53,9 @@ The closing lines added to the end of every script and caption.
 
 - **Where you also post:** TikTok / YouTube Shorts / X
 - **Handle on each, if different:**
+
+## Updates
+
+- **updates:** auto / ask / off
+  (auto: a new release is installed after it passes the security audit; ask: the
+  agent asks first; off: never. A new major version always asks first.)

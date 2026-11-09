@@ -15,6 +15,7 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOOLS = os.path.join(ROOT, "skills", "ie-tools")
 sys.path.insert(0, TOOLS)
+sys.path.insert(0, ROOT)
 
 import textkit as tk  # noqa: E402
 import clean  # noqa: E402
@@ -24,6 +25,7 @@ import beats  # noqa: E402
 import caption  # noqa: E402
 import scamcheck  # noqa: E402
 import selfcheck  # noqa: E402
+import install  # noqa: E402
 
 TECH = chr(0x1F468) + chr(0x200D) + chr(0x1F4BB)          # man technologist (ZWJ sequence)
 FLAG_YE = chr(0x1F1FE) + chr(0x1F1EA)
@@ -188,7 +190,7 @@ class Pack(unittest.TestCase):
     def test_every_skill_has_valid_frontmatter(self):
         skills = os.path.join(ROOT, "skills")
         names = [d for d in os.listdir(skills) if os.path.isfile(os.path.join(skills, d, "SKILL.md"))]
-        self.assertEqual(len(names), 18)
+        self.assertEqual(len(names), 19)
         for d in names:
             with open(os.path.join(skills, d, "SKILL.md"), encoding="utf-8") as fh:
                 text = fh.read()
@@ -302,6 +304,49 @@ class Regressions(unittest.TestCase):
         with contextlib.redirect_stderr(io.StringIO()):
             with self.assertRaises(SystemExit):
                 score.run("")
+
+
+class Installer(unittest.TestCase):
+    def test_installs_every_skill_side_by_side(self):
+        with tempfile.TemporaryDirectory() as d:
+            written = install.install(ROOT, d)
+            folders = {w.split(os.sep)[0] for w in written}
+            self.assertEqual(len(folders), 20)  # 19 skills + ie-tools
+            self.assertIn("ie-tools", folders)
+            self.assertTrue(os.path.isfile(os.path.join(d, "ie-tools", "VERSION")))
+            self.assertTrue(os.path.isfile(os.path.join(d, "ie-update", "SKILL.md")))
+
+    def test_dry_run_writes_nothing(self):
+        with tempfile.TemporaryDirectory() as d:
+            install.install(ROOT, os.path.join(d, "x"), dry_run=True)
+            self.assertFalse(os.path.exists(os.path.join(d, "x")))
+
+    def test_refuses_a_pack_that_fails_the_audit(self):
+        with tempfile.TemporaryDirectory() as d:
+            sk = os.path.join(d, "skills", "ie-x")
+            os.makedirs(sk)
+            with open(os.path.join(sk, "SKILL.md"), "w", encoding="utf-8") as fh:
+                fh.write("---\nname: ie-x\ndescription: test\n---\nbody\n")
+            with open(os.path.join(sk, "bad.py"), "w", encoding="utf-8") as fh:
+                fh.write("import " + "soc" + "ket\n")
+            ok, fails, _ = install.audit(d)
+            self.assertFalse(ok)
+            self.assertGreaterEqual(fails, 1)
+
+    def test_no_arguments_is_an_error(self):
+        with contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(install.main([]), 2)
+
+    def test_version_file_matches_plugin_manifest(self):
+        with open(os.path.join(TOOLS, "VERSION"), encoding="utf-8") as fh:
+            v = fh.read().strip()
+        with open(os.path.join(ROOT, ".claude-plugin", "plugin.json"), encoding="utf-8") as fh:
+            self.assertEqual(json.load(fh)["version"], v)
+
+    def test_agent_files_point_to_agents_md(self):
+        for name in ("CLAUDE.md", "GEMINI.md"):
+            with open(os.path.join(ROOT, name), encoding="utf-8") as fh:
+                self.assertIn("AGENTS.md", fh.read())
 
 
 if __name__ == "__main__":
