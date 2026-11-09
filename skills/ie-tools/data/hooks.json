@@ -1,0 +1,407 @@
+{
+  "_about": "Hook formulas for the first 2-3 seconds of a Reel. Classification runs on folded text (lowercase; Arabic without diacritics, alef forms unified, ة→ه, ى→ي), so the match patterns are written in that folded form. Order matters: the first formula whose pattern matches wins, so the most specific ones come first. Add your own; give each a new id.",
+  "hooks": [
+    {
+      "id": 3,
+      "name_ar": "لا أحد يخبرك",
+      "name_en": "Nobody Tells You",
+      "shape_ar": "لا أحد يخبرك أن + حقيقة غير مريحة",
+      "shape_en": "Nobody tells you that + an uncomfortable truth",
+      "example_ar": "لا أحد يخبرك أن نسختك الاحتياطية غير مشفّرة",
+      "example_en": "Nobody tells you your backup isn't encrypted",
+      "match_ar": [
+        "لا احد (يخبرك|يقول لك|يقلك|بيقولك|يعلمك)",
+        "محد (يقولك|يقلك|بيقولك|قال لك)",
+        "ما احد (يقولك|قال لك)"
+      ],
+      "match_en": [
+        "nobody (tells|told) you",
+        "no one (tells|told) you"
+      ]
+    },
+    {
+      "id": 16,
+      "name_ar": "الرد على تعليق",
+      "name_en": "Comment Reply",
+      "shape_ar": "قراءة تعليق متابع + الإجابة",
+      "shape_en": "Read a follower's comment + answer it",
+      "example_ar": "أحدكم سأل: هل تطبيقات الـVPN المجانية آمنة؟",
+      "example_en": "Someone asked: are free VPNs safe?",
+      "match_ar": [
+        "(احدكم|واحد|احد المتابعين) (سال|كتب|علق)",
+        "ردا على"
+      ],
+      "match_en": [
+        "(someone|you|a follower) asked",
+        "replying to"
+      ]
+    },
+    {
+      "id": 10,
+      "name_ar": "القائمة",
+      "name_en": "Numbered List",
+      "shape_ar": "عدد صغير + أشياء محددة",
+      "shape_en": "A small number + specific things",
+      "example_ar": "٣ إعدادات في إنستقرام غيّرها الآن",
+      "example_en": "3 Instagram settings to change tonight",
+      "match_ar": [
+        "\\d+ (\\S+ ){0,2}(اشياء|طرق|نصائح|اسباب|ادوات|تطبيقات|اعدادات|خطوات|اخطاء|حيل|مواقع)"
+      ],
+      "match_en": [
+        "\\d+ (\\S+ ){0,2}(things|ways|tips|reasons|tools|apps|settings|steps|mistakes|tricks|sites)"
+      ]
+    },
+    {
+      "id": 1,
+      "name_ar": "الثغرة",
+      "name_en": "The Breach",
+      "shape_ar": "حدث أمني حقيقي + من يتأثر به",
+      "shape_en": "A real security event + who it hits",
+      "example_ar": "حسابات واتساب تُسرق هذا الأسبوع بخدعة رمز التحقق",
+      "example_en": "WhatsApp accounts are being stolen this week with one code trick",
+      "match_ar": [
+        "اختراق",
+        "اخترق",
+        "تسريب",
+        "تسرب",
+        "ثغره",
+        "سرقه",
+        "تسرق",
+        "انسرق",
+        "احتيال",
+        "نصب",
+        "تصيد"
+      ],
+      "match_en": [
+        "\\bhack",
+        "\\bleak",
+        "\\bbreach",
+        "\\bscam",
+        "\\bstolen\\b",
+        "\\bphish",
+        "vulnerab"
+      ]
+    },
+    {
+      "id": 2,
+      "name_ar": "العاجل",
+      "name_en": "Breaking",
+      "shape_ar": "جهة معروفة + ما أعلنته للتو + أثره عليك",
+      "shape_en": "Known company + what it just did + what it means for you",
+      "example_ar": "جوجل أعلنت رسمياً: كلمات المرور تنتهي في أندرويد",
+      "example_en": "Google just made passwords optional on Android",
+      "match_ar": [
+        "^عاجل",
+        "رسميا",
+        "اعلنت",
+        "اطلقت",
+        "للتو"
+      ],
+      "match_en": [
+        "^breaking",
+        "just (announced|launched|dropped|released)",
+        "officially"
+      ]
+    },
+    {
+      "id": 4,
+      "name_ar": "الأداة المخفية",
+      "name_en": "Hidden Feature",
+      "shape_ar": "ميزة موجودة في جهازك لا يعرفها أغلب الناس",
+      "shape_en": "A feature already on your phone most people never found",
+      "example_ar": "في إعدادات آيفون خيار يمنع سرقة حساباتك حتى لو عرفوا رمز القفل",
+      "example_en": "There's an iPhone setting that stops thieves even if they know your passcode",
+      "match_ar": [
+        "(اداه|تطبيق|خاصيه|ميزه|خيار|اعداد).{0,30}(مخفي|محد|ما احد|لا يعرف|ما يعرف)"
+      ],
+      "match_en": [
+        "(tool|app|feature|setting|option).{0,30}(hidden|nobody|no one|most people)"
+      ]
+    },
+    {
+      "id": 5,
+      "name_ar": "التحذير",
+      "name_en": "The Warning",
+      "shape_ar": "احذر + تصرف شائع + العاقبة",
+      "shape_en": "Warning + a common action + the consequence",
+      "example_ar": "احذر تشحن جوالك من شاحن المطار",
+      "example_en": "Don't charge your phone at airport USB ports",
+      "match_ar": [
+        "^(احذر|انتبه|تنبيه|تحذير)",
+        "خطير"
+      ],
+      "match_en": [
+        "^(warning|careful|watch out|heads up)",
+        "dangerous"
+      ]
+    },
+    {
+      "id": 6,
+      "name_ar": "الأمر السلبي",
+      "name_en": "Stop Doing",
+      "shape_ar": "توقف عن + عادة يفعلها جمهورك",
+      "shape_en": "Stop + a habit your audience has",
+      "example_ar": "توقف عن حفظ كلمات مرورك في الملاحظات",
+      "example_en": "Stop saving passwords in your notes app",
+      "match_ar": [
+        "^(لا |توقف عن|بطل|وقف|اوقف|ابعد عن)"
+      ],
+      "match_en": [
+        "^(stop|don'?t|never|quit)\\b"
+      ]
+    },
+    {
+      "id": 7,
+      "name_ar": "الخطأ المكلف",
+      "name_en": "Costly Mistake",
+      "shape_ar": "خطأ ارتكبته أنا أو غيري + ثمنه بالأرقام",
+      "shape_en": "A mistake + what it cost, in numbers",
+      "example_ar": "خسرت حسابي بعد ٧ سنوات بسبب رابط واحد",
+      "example_en": "I lost a 7-year-old account to one link",
+      "match_ar": [
+        "خسرت",
+        "كلفني",
+        "كلفتني",
+        "غلطه",
+        "خطا (كلف|دمر)",
+        "ضاع"
+      ],
+      "match_en": [
+        "i lost",
+        "cost (me|us|him|her)",
+        "mistake that"
+      ]
+    },
+    {
+      "id": 8,
+      "name_ar": "الخرافة",
+      "name_en": "Myth Bust",
+      "shape_ar": "اعتقاد شائع + لماذا هو خطأ",
+      "shape_en": "A common belief + why it's wrong",
+      "example_ar": "وضع التصفح الخفي لا يخفيك عن أحد",
+      "example_en": "Incognito mode doesn't hide you from anyone",
+      "match_ar": [
+        "خرافه",
+        "كذبه",
+        "مو صحيح",
+        "ليس صحيحا",
+        "غير صحيح",
+        "لا يحميك",
+        "ما يحميك"
+      ],
+      "match_en": [
+        "\\bmyth\\b",
+        "is a lie",
+        "isn'?t true",
+        "doesn'?t (protect|hide|work)"
+      ]
+    },
+    {
+      "id": 9,
+      "name_ar": "الرقم الصادم",
+      "name_en": "Shock Number",
+      "shape_ar": "رقم كبير أو غريب في أول كلمة",
+      "shape_en": "A big or strange number up front",
+      "example_ar": "٨١٪ من الاختراقات تبدأ بكلمة مرور ضعيفة",
+      "example_en": "81% of breaches start with a weak password",
+      "match_ar": [
+        "^\\d",
+        "مليون",
+        "مليار",
+        "٪",
+        "%"
+      ],
+      "match_en": [
+        "^\\$?\\d",
+        "\\bmillion\\b",
+        "\\bbillion\\b",
+        "%"
+      ]
+    },
+    {
+      "id": 11,
+      "name_ar": "هل تعلم",
+      "name_en": "Did You Know",
+      "shape_ar": "معلومة تقنية مفاجئة عن شيء يستخدمه الجميع",
+      "shape_en": "A surprising fact about something everyone uses",
+      "example_ar": "جوالك يعرف أين تنام كل ليلة، وهذا مكان الإعداد",
+      "example_en": "Your phone knows where you sleep, and here's the setting",
+      "match_ar": [
+        "هل تعلم",
+        "تعرف ان",
+        "تدري ان",
+        "هل تعرف"
+      ],
+      "match_en": [
+        "did you know",
+        "you know that"
+      ]
+    },
+    {
+      "id": 12,
+      "name_ar": "السر",
+      "name_en": "The Secret",
+      "shape_ar": "شيء يعرفه المحترفون ولا يقولونه",
+      "shape_en": "What insiders know and don't say",
+      "example_ar": "الشركات تعرف كلمة مرورك المسرّبة قبلك",
+      "example_en": "Companies see your leaked password before you do",
+      "match_ar": [
+        "\\bسر\\b",
+        "اسرار",
+        "ما يقولونه",
+        "لا يقولون"
+      ],
+      "match_en": [
+        "\\bsecret",
+        "insiders",
+        "won'?t tell you"
+      ]
+    },
+    {
+      "id": 13,
+      "name_ar": "لماذا",
+      "name_en": "Why",
+      "shape_ar": "لماذا + ظاهرة يراها الجميع ولا يفهمونها",
+      "shape_en": "Why + something everyone sees and nobody explains",
+      "example_ar": "ليش يطلب منك البنك رمزاً ثانياً كل مرة؟",
+      "example_en": "Why does your bank keep asking for a second code?",
+      "match_ar": [
+        "^(ليش|لماذا|ليه|لم |علاش|ليشن)"
+      ],
+      "match_en": [
+        "^why\\b"
+      ]
+    },
+    {
+      "id": 14,
+      "name_ar": "كيف بسرعة",
+      "name_en": "Fast How-To",
+      "shape_ar": "كيف + نتيجة + في وقت قصير",
+      "shape_en": "How to + result + in little time",
+      "example_ar": "كيف تعرف إذا كان جوالك مراقَباً في دقيقة",
+      "example_en": "How to tell if your phone is being tracked in one minute",
+      "match_ar": [
+        "^(كيف|طريقه|طريقة)"
+      ],
+      "match_en": [
+        "^how (to|i|you)\\b"
+      ]
+    },
+    {
+      "id": 15,
+      "name_ar": "قبل وبعد",
+      "name_en": "Before / After",
+      "shape_ar": "الحال قبل + الحال بعد تغيير واحد",
+      "shape_en": "Before + after one change",
+      "example_ar": "كنت أستقبل ٣٠ رسالة مزعجة يومياً، والآن صفر",
+      "example_en": "I used to get 30 spam calls a day. Now zero.",
+      "match_ar": [
+        "قبل .{1,40} بعد",
+        "كنت .{1,40} (والان|الحين|اليوم)"
+      ],
+      "match_en": [
+        "before .{1,40} after",
+        "used to .{1,40} now"
+      ]
+    },
+    {
+      "id": 17,
+      "name_ar": "الاعتراف",
+      "name_en": "Confession",
+      "shape_ar": "أنا + شيء لا أفخر به",
+      "shape_en": "I + something I'm not proud of",
+      "example_ar": "أنا مهندس أمن، ووقعت في رسالة تصيّد",
+      "example_en": "I teach security and I still clicked a phishing link",
+      "match_ar": [
+        "^(انا |اعترف|كنت )"
+      ],
+      "match_en": [
+        "^(i was|i used to|i admit|confession)"
+      ]
+    },
+    {
+      "id": 18,
+      "name_ar": "التحدي",
+      "name_en": "The Experiment",
+      "shape_ar": "جربت شيئاً لمدة + النتيجة",
+      "shape_en": "I tried X for N days + what happened",
+      "example_ar": "جربت أعيش أسبوعاً بدون جوجل",
+      "example_en": "I lived a week without Google",
+      "match_ar": [
+        "جربت",
+        "تحدي",
+        "لمده \\d+"
+      ],
+      "match_en": [
+        "i tried",
+        "for \\d+ days",
+        "challenge"
+      ]
+    },
+    {
+      "id": 19,
+      "name_ar": "القصة",
+      "name_en": "Story Open",
+      "shape_ar": "زمن ومكان محددان + ما حدث",
+      "shape_en": "A specific when and where + what happened",
+      "example_ar": "الساعة ٣ فجراً وصلني إشعار دخول من دولة ما زرتها",
+      "example_en": "3 a.m. I got a login alert from a country I've never been to",
+      "match_ar": [
+        "^(في يوم|مره|قبل \\d+|الساعه \\d+|امس)"
+      ],
+      "match_en": [
+        "^(one day|last (week|year|night)|\\d+ (years|months|days) ago|yesterday)"
+      ]
+    },
+    {
+      "id": 20,
+      "name_ar": "المقارنة",
+      "name_en": "Versus",
+      "shape_ar": "خياران يعرفهما جمهورك + أيهما أفضل",
+      "shape_en": "Two options your audience knows + which wins",
+      "example_ar": "تيليجرام ولا سيجنال؟ واحد منهما لا يشفّر محادثاتك افتراضياً",
+      "example_en": "Telegram or Signal? One doesn't encrypt your chats by default",
+      "match_ar": [
+        " ولا .{1,30}[؟?]",
+        " ضد ",
+        " مقابل ",
+        "\\bvs\\b"
+      ],
+      "match_en": [
+        "\\bvs\\.?\\b",
+        "\\bversus\\b",
+        " or .{1,30}\\?"
+      ]
+    },
+    {
+      "id": 22,
+      "name_ar": "النتيجة أولاً",
+      "name_en": "Result First",
+      "shape_ar": "النتيجة النهائية في أول جملة ثم كيف",
+      "shape_en": "The end result first, then how",
+      "example_ar": "هذا ما يحدث لحسابك بعد ٢٤ ساعة من نقر رابط تصيّد",
+      "example_en": "This is your account 24 hours after one phishing click",
+      "match_ar": [
+        "^(هذا ما|هذي النتيجه|هذه النتيجه|النتيجه)"
+      ],
+      "match_en": [
+        "^(this is what|here'?s what happened|the result)"
+      ]
+    },
+    {
+      "id": 21,
+      "name_ar": "السؤال المباشر",
+      "name_en": "Direct Question",
+      "shape_ar": "سؤال يجيب عنه المشاهد في رأسه",
+      "shape_en": "A question the viewer answers in their head",
+      "example_ar": "متى آخر مرة غيّرت كلمة مرور بريدك؟",
+      "example_en": "When did you last change your email password?",
+      "match_ar": [
+        "[؟?]\\s*$"
+      ],
+      "match_en": [
+        "\\?\\s*$"
+      ]
+    }
+  ]
+}
