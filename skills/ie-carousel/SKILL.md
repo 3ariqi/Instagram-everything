@@ -14,11 +14,25 @@ A carousel is the format people save. Saves come from reference value: a
 checklist, steps, a comparison they will need again. Write it for the second
 time they open it, not only the first.
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a carousel:
+
+1. **Shape / الشكل:** list · myth versus fact · step by step · story
+2. **Slides / عدد الشرائح:** 5 · 8 · 10
+3. **Goal / الهدف:** saves · shares
+4. **Text per slide / كثافة النص:** light · medium · dense
+5. **Cover / الغلاف:** a question · a number · a bold claim
+6. **Language / اللغة:** from the config, or different for this one
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## Tools
 
 `<base>/../ie-tools/` next to this skill's folder: `hookscore.py` for the
 cover line, `clean.py` for all slide text, `caption.py` for the caption.
-Read `~/.claude/instagram/config.md` first.
+Read `~/.instagram-everything/config.md` first.
 
 ## Platform facts
 

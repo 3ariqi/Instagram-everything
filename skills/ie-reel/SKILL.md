@@ -13,6 +13,20 @@ description: >-
 The writing skill the rest of the pack feeds. It produces a script the user can
 shoot today, with every claim in it true and every number in it checked.
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a Reel script:
+
+1. **Goal / الهدف:** warning · how-to steps · news · story · myth-busting
+2. **Platform and length / المنصة والمدة:** Reels 15 s · 30 s · 60 s · same script for TikTok and Shorts too
+3. **Delivery / طريقة التقديم:** you to camera · voiceover over the screen · text only · two voices
+4. **Tone / النبرة:** serious · friendly · sharp · urgent
+5. **Language / اللغة:** standard Arabic · my dialect · English
+6. **Audience level / مستوى الجمهور:** beginner · average · technical
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## Tools
 
 The tools live in `ie-tools`, the folder next to this skill's folder. Build
@@ -29,11 +43,11 @@ English, each with a shape and an example).
 
 ## Before writing
 
-1. Read `~/.claude/instagram/config.md` if it exists: language, dialect,
+1. Read `~/.instagram-everything/config.md` if it exists: language, dialect,
    voice, audience, signature. Write in **their** language and register. If
    the file is missing, ask in one question: language/dialect, audience,
    target length. Then go.
-2. Read `~/.claude/instagram/swipe.md` if it exists. Formulas that work in the
+2. Read `~/.instagram-everything/swipe.md` if it exists. Formulas that work in the
    user's niche beat the defaults.
 3. **Facts.** If the script states a fact about a product, a company, a law, a
    vulnerability, a statistic or a date, it must be checked before it is
@@ -126,7 +140,7 @@ CAPTION
 CHECKS  hook 86 · beats OK · natural 82 PASS
 ```
 
-When the user approves, append one line to `~/.claude/instagram/log.md`: date,
+When the user approves, append one line to `~/.instagram-everything/log.md`: date,
 topic, formula id, hook line. `/ie-audit` uses this later.
 
 ## Boundaries

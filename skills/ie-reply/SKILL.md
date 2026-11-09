@@ -13,6 +13,18 @@ description: >-
 Replies in the first hour after posting keep a post's conversation alive, and
 a question with real demand behind it is a ready-made next Reel.
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a replies:
+
+1. **Tone / النبرة:** as in the config, or different today
+2. **Length / الطول:** one line · two or three lines
+3. **Spam and risky accounts / الحسابات المشبوهة:** just flag them · draft a report note
+4. **Good questions / الأسئلة الجيدة:** also suggest turning them into Reels · replies only
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## Input
 
 The user pastes the comments (with handles if possible) or screenshots. Do not

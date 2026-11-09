@@ -13,7 +13,7 @@ A Reel brings a stranger to the profile. The profile has about three seconds
 to answer three questions: who is this, what will I get, why follow now. Views
 with no follows is a profile problem, not a content problem.
 
-Read `~/.claude/instagram/config.md` first. Run all rewritten text through
+Read `~/.instagram-everything/config.md` first. Run all rewritten text through
 `<base>/../ie-tools/clean.py`.
 
 ## Input

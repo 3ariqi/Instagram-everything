@@ -10,12 +10,25 @@ description: >-
 
 # ie-plan
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a weekly plan:
+
+1. **Posts per week / عدد المنشورات:** 3 · 5 · 7
+2. **Formats / الأشكال:** Reels only · Reels and a carousel · plus Stories
+3. **Goal this month / الهدف:** reach · followers · trust · sales
+4. **Fixed dates / مواعيد ثابتة:** an event, a launch, a workshop, news to cover
+5. **Who posts / من ينشر:** only you · a team
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## Inputs, in order of trust
 
-1. `~/.claude/instagram/config.md`: topic, audience, voice, platforms.
-2. `/ie-audit` results the user has shared, or `~/.claude/instagram/log.md`:
+1. `~/.instagram-everything/config.md`: topic, audience, voice, platforms.
+2. `/ie-audit` results the user has shared, or `~/.instagram-everything/log.md`:
    what actually worked for this account.
-3. `~/.claude/instagram/swipe.md` from `/ie-viral`: what works in the niche.
+3. `~/.instagram-everything/swipe.md` from `/ie-viral`: what works in the niche.
 4. Defaults below, only for what 1-3 do not cover.
 
 If 2 and 3 are both missing, say so in one line: the plan is a starting
@@ -42,7 +55,7 @@ guess until there is evidence.
 ## Output
 
 A table the user can follow, and the same table written to
-`~/.claude/instagram/plan.md` so the other skills can read it:
+`~/.instagram-everything/plan.md` so the other skills can read it:
 
 | day | format | pillar | idea | formula | hook draft | owner |
 | --- | --- | --- | --- | --- | --- | --- |

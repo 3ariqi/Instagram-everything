@@ -10,6 +10,17 @@ description: >-
 
 # ie-dm
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a direct message:
+
+1. **Situation / الموقف:** a link request · a collaboration · a complaint · first contact
+2. **Tone / النبرة:** warm · neutral · formal
+3. **Length / الطول:** two lines · short paragraph
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## Check inbound offers first
 
 If the user is replying to a message they **received** (a collab offer, a

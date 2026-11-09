@@ -70,7 +70,7 @@ Use the browsing tool this session has, with the user present.
 Save as a tab-separated file with a header row, then:
 
 ```bash
-python3 <base>/../ie-tools/swipe.py captured.tsv --out ~/.claude/instagram/swipe.md
+python3 <base>/../ie-tools/swipe.py captured.tsv --out ~/.instagram-everything/swipe.md
 ```
 
 It accepts Arabic digits and "48k" / "1.2m" shorthand, computes the outlier

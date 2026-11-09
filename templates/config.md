@@ -1,8 +1,10 @@
 # Instagram Everything — config
 
-Copy this file to `~/.claude/instagram/config.md` and fill it in. Every skill in
+Copy this file to `~/.instagram-everything/config.md` and fill it in. Every skill in
 the pack reads it before writing anything, so it is the single place to set
 your language, your voice and your signature. Delete any line you don't need.
+
+Easiest: run `/ie-setup`. It asks a few optional questions and writes this file for you. Your learned style goes to `style.md` and saved choices to `presets.md` in the same folder.
 
 Rather not fill it by hand? Paste three of your own captions or Reel scripts
 into Claude and ask it to draft this file from them, then correct it.

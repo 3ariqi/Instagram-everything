@@ -10,6 +10,20 @@ description: >-
 
 # ie-caption
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a caption:
+
+1. **Platform / المنصة:** Instagram · TikTok · YouTube Shorts · X
+2. **The one ask / الطلب الوحيد:** save · share · comment · follow · none
+3. **Length / الطول:** one line · short paragraph · long
+4. **Hashtags / الهاشتاقات:** none · three · five (see the platform facts below)
+5. **Tone / النبرة:** as in the config, or different for this post
+6. **Emoji / الإيموجي:** none · a few · plenty
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## Tools
 
 `<base>/../ie-tools/` next to this skill's folder:
@@ -19,7 +33,7 @@ python3 <base>/../ie-tools/caption.py caption.txt --signature "<signature from c
 python3 <base>/../ie-tools/clean.py caption.txt --report
 ```
 
-Read `~/.claude/instagram/config.md` first for language, voice and signature.
+Read `~/.instagram-everything/config.md` first for language, voice and signature.
 
 ## Platform facts this skill relies on
 

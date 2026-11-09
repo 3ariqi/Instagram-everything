@@ -12,6 +12,19 @@ description: >-
 A news account lives on one thing: being right and being early, in that order.
 A wrong story posted fast costs more trust than ten late right ones earn.
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a news Reel:
+
+1. **The news / الخبر:** a link, a pasted text, or just the topic
+2. **Audience / الجمهور:** general public · beginners · technical readers
+3. **Length / المدة:** 30 s · 60 s
+4. **Angle / الزاوية:** neutral explainer · warning · what to do now
+5. **Sources on screen / المصادر على الشاشة:** yes · no
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## The rule: three sources, then script
 
 Before any script exists, every factual claim it will contain (who, what, when,

@@ -24,7 +24,7 @@ Whatever the user has, screenshots are fine:
   says more than the rest combined.
 - Or just the posts and their view counts, which is enough for a first pass.
 
-Also read `~/.claude/instagram/log.md` if it exists: it records the hook
+Also read `~/.instagram-everything/log.md` if it exists: it records the hook
 formula each post used.
 
 ## What to compute, showing the working

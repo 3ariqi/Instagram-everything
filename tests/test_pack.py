@@ -26,6 +26,7 @@ import caption  # noqa: E402
 import scamcheck  # noqa: E402
 import selfcheck  # noqa: E402
 import install  # noqa: E402
+import stylekit  # noqa: E402
 
 TECH = chr(0x1F468) + chr(0x200D) + chr(0x1F4BB)          # man technologist (ZWJ sequence)
 FLAG_YE = chr(0x1F1FE) + chr(0x1F1EA)
@@ -190,7 +191,7 @@ class Pack(unittest.TestCase):
     def test_every_skill_has_valid_frontmatter(self):
         skills = os.path.join(ROOT, "skills")
         names = [d for d in os.listdir(skills) if os.path.isfile(os.path.join(skills, d, "SKILL.md"))]
-        self.assertEqual(len(names), 19)
+        self.assertEqual(len(names), 21)
         for d in names:
             with open(os.path.join(skills, d, "SKILL.md"), encoding="utf-8") as fh:
                 text = fh.read()
@@ -311,7 +312,7 @@ class Installer(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             written = install.install(ROOT, d)
             folders = {w.split(os.sep)[0] for w in written}
-            self.assertEqual(len(folders), 20)  # 19 skills + ie-tools
+            self.assertEqual(len(folders), 22)  # 21 skills + ie-tools
             self.assertIn("ie-tools", folders)
             self.assertTrue(os.path.isfile(os.path.join(d, "ie-tools", "VERSION")))
             self.assertTrue(os.path.isfile(os.path.join(d, "ie-update", "SKILL.md")))
@@ -347,6 +348,63 @@ class Installer(unittest.TestCase):
         for name in ("CLAUDE.md", "GEMINI.md"):
             with open(os.path.join(ROOT, name), encoding="utf-8") as fh:
                 self.assertIn("AGENTS.md", fh.read())
+
+
+SAMPLES = (
+    "لا أحد يخبرك أن حسابك قد يُسرق بدقيقتين.\nفعّل التحقق بخطوتين الآن.\nم.أحمد طاهر\n"
+    "---\n"
+    "كيف تعرف أن رسالة انتهاك الحقوق مزيفة؟\nانتبه للرابط قبل أن تضغط.\nم.أحمد طاهر\n"
+    "---\n"
+    "خسرت حسابي مرة بسبب رابط واحد.\nلا تكرر خطئي.\nم.أحمد طاهر\n"
+)
+
+
+class Stylekit(unittest.TestCase):
+    def test_learn_reports_counts_and_signature(self):
+        r = stylekit.learn(stylekit.split_posts(SAMPLES)[0])
+        self.assertEqual(r["posts"], 3)
+        self.assertEqual(r["lang"], {"ar": 3})
+        self.assertTrue(any("أحمد" in str(c[0]) for c in r["signature_candidates"]))
+
+    def test_split_without_separator_uses_blank_lines(self):
+        self.assertEqual(len(stylekit.split_posts("a b c\n\nd e f")[0]), 2)
+
+    def test_diff_runs_on_two_texts(self):
+        a = stylekit.learn(stylekit.split_posts(SAMPLES)[0])
+        b = stylekit.learn(stylekit.split_posts("مرحبا بكم في قناتي اليوم سنتحدث عن موضوع طويل جدا ومهم")[0])
+        self.assertTrue(stylekit.render_diff(stylekit.diff("لا أحد يخبرك بهذا", "هذا أمر لا يعرفه كثيرون"), "ar"))
+
+    def test_empty_input_exits_2(self):
+        with tempfile.TemporaryDirectory() as d:
+            f = os.path.join(d, "e.txt")
+            open(f, "w", encoding="utf-8").close()
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.assertEqual(stylekit.main(["learn", f]), 2)
+
+
+class Intake(unittest.TestCase):
+    CREATIVE = ("ie-reel", "ie-caption", "ie-carousel", "ie-story", "ie-crosspost",
+                "ie-technews", "ie-plan", "ie-comment", "ie-reply", "ie-dm", "ie-edit")
+
+    def test_every_creative_skill_has_optional_intake(self):
+        for d in self.CREATIVE:
+            with open(os.path.join(ROOT, "skills", d, "SKILL.md"), encoding="utf-8") as fh:
+                t = fh.read()
+            self.assertIn("Intake", t, d)
+            self.assertIn("ie-setup/INTAKE.md", t, d)
+
+    def test_protocol_and_paths(self):
+        self.assertTrue(os.path.isfile(os.path.join(ROOT, "skills", "ie-setup", "INTAKE.md")))
+        for d in os.listdir(os.path.join(ROOT, "skills")):
+            f = os.path.join(ROOT, "skills", d, "SKILL.md")
+            if os.path.isfile(f):
+                with open(f, encoding="utf-8") as fh:
+                    self.assertNotIn("~/.claude/instagram", fh.read(), d)
+
+    def test_no_skill_asks_for_credentials(self):
+        with open(os.path.join(ROOT, "skills", "ie-setup", "INTAKE.md"), encoding="utf-8") as fh:
+            t = fh.read().lower()
+        self.assertIn("password", t)
 
 
 if __name__ == "__main__":

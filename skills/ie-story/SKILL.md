@@ -13,8 +13,20 @@ description: >-
 Stories reach people who already follow. Their job is not reach, it is
 conversation: replies, poll votes and DMs, which is where trust is built.
 
-Read `~/.claude/instagram/config.md` first. Use `clean.py` from
+Read `~/.instagram-everything/config.md` first. Use `clean.py` from
 `<base>/../ie-tools/` on all on-screen text.
+
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a Story sequence:
+
+1. **Goal / الهدف:** start a conversation · teach one thing · point to a post · behind the scenes
+2. **Frames / عدد اللقطات:** 3 · 5 · 7
+3. **Sticker / الملصق التفاعلي:** poll · quiz · slider · question box · none
+4. **On camera or text / الشكل:** you on camera · text and images only
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
 
 ## The sequence
 

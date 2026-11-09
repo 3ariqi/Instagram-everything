@@ -12,8 +12,20 @@ description: >-
 Same idea, different room. The video can often stay the same; the text around
 it should not.
 
-Read `~/.claude/instagram/config.md` for the handles on each platform and the
+Read `~/.instagram-everything/config.md` for the handles on each platform and the
 signature. Run all text through `<base>/../ie-tools/clean.py`.
+
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a cross-post:
+
+1. **Platforms / المنصات:** TikTok · YouTube Shorts · X · Facebook · all
+2. **Watermark / العلامة المائية:** I have the original file · I only have the Instagram download · not sure
+3. **X format / شكل منشور X:** one post · a thread
+4. **Language / اللغة:** same as Instagram · different for some platforms
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
 
 ## Before you adapt
 

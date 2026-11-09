@@ -14,6 +14,17 @@ accounts' own posts, and a stranger can tap straight through to the profile.
 A generic comment is worse than none: it marks the account as a bot to the one
 person whose opinion mattered, the creator.
 
+## Intake (optional questions)
+
+Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
+missing, in one batch, every question optional. For a comment:
+
+1. **Tone / النبرة:** respectful · curious · funny
+2. **Length / الطول:** one line · two lines
+3. **Mention your account / ذكر حسابك:** no · yes
+
+Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+
 ## Input
 
 The user pastes the post text or a screenshot, with the account name. If they
@@ -64,7 +75,7 @@ Post the first: it adds something the post didn't have.
 ## Batch mode
 
 For an engagement round: the user pastes 5-10 posts in one message; return one
-comment each. Keep a short note in `~/.claude/instagram/log.md` of accounts
+comment each. Keep a short note in `~/.instagram-everything/log.md` of accounts
 commented on this week, so the round doesn't hit the same three accounts daily.
 
 ## Boundaries

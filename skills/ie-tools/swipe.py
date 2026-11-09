@@ -14,7 +14,7 @@ Optional: followers, length, cta, platform, url
 
 Usage:
   python3 swipe.py captured.tsv
-  python3 swipe.py captured.tsv --out ~/.claude/instagram/swipe.md
+  python3 swipe.py captured.tsv --out ~/.instagram-everything/swipe.md
 """
 
 import argparse
