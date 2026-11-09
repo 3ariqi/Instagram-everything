@@ -116,7 +116,7 @@ def score_hook(hook):
     else:
         over = max(n - 12, 0) * 8 + max(secs - 3.2, 0) * 25
         length = 100 - over
-    notes.append(tk.say(lang, "%d كلمات، نحو %.1f ث نطقاً (المطلوب 5-12 كلمة وحتى 3 ث)",
+    notes.append(tk.say(lang, "%d كلمات، نحو %.1f ث نطقاً (المطلوب من 5 إلى 12 كلمة، وحتى 3 ث)",
                         "%d words, ~%.1fs spoken (want 5-12 words, 3s or less)") % (n, secs))
     if n > 20:
         deal = deal or tk.say(lang, "أطول من 20 كلمة. هذا ليس افتتاحية.", "Over 20 words. That is not a hook.")
