@@ -134,7 +134,7 @@ def structural_flags(text, lex):
     tags = tk.HASHTAG_RE.findall(text)
     if len(tags) > 5:
         flags.append((" ".join(tags[:6]) + " ...",
-                      "More than 5 hashtags. Instagram caps posts at 5 / إنستقرام يسمح بخمسة هاشتاقات كحد أقصى."))
+                      "More than 5 hashtags. Instagram is rolling out a cap of 5 / إنستقرام تطبّق تدريجياً حداً قدره خمسة هاشتاقات."))
     emoji_lines = [ln for ln in text.split("\n") if ln.strip() and tk.is_emoji(ln.strip()[0])]
     if len(emoji_lines) >= 3:
         flags.append((emoji_lines[0][:40], "Emoji-bullet list / قائمة بإيموجي في أول كل سطر: تبدو قالباً جاهزاً."))

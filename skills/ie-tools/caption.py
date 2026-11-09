@@ -2,10 +2,12 @@
 """
 caption.py - lint an Instagram caption before it goes out. Arabic and English.
 
-Platform limits it checks (verified November 2026):
+Platform limits it checks (checked November 2026):
   - 2,200 characters per caption
   - about 125 characters show in the feed before "more"
-  - 5 hashtags per post (Instagram's cap since December 2025)
+  - hashtags: Instagram announced in December 2025 that it will gradually cap
+    a post at 5. The rollout is uneven (some accounts still see 30, some see 3),
+    so going over 5 is a WARNING, not an error. Fewer is safer either way.
   - links in captions are not clickable
 
 Writing checks:
@@ -88,8 +90,8 @@ def lint(text, signature=None):
 
     tags = tk.HASHTAG_RE.findall(text)
     if len(tags) > MAX_TAGS:
-        errors.append(S("%d هاشتاقات. إنستقرام يسمح بـ%d كحد أقصى منذ ديسمبر 2025." % (len(tags), MAX_TAGS),
-                        "%d hashtags. Instagram allows %d since December 2025." % (len(tags), MAX_TAGS)))
+        warnings.append(S("%d هاشتاقات. أعلنت إنستقرام في ديسمبر 2025 خفض الحد إلى %d تدريجياً، وقد يرفض حسابك أكثر من ذلك. الأقل أأمن." % (len(tags), MAX_TAGS),
+                          "%d hashtags. Instagram announced a gradual cap of %d (Dec 2025); your account may reject more. Fewer is safer." % (len(tags), MAX_TAGS)))
     if tags and tk.HASHTAG_RE.search(cut):
         warnings.append(S("هاشتاق داخل الجزء الظاهر. مكانه آخر الكابشن.",
                           "A hashtag in the visible part. Put hashtags at the end."))

@@ -27,7 +27,7 @@
 | الأمر | الوظيفة |
 | --- | --- |
 | `/ie-reel` | سكربت ريل كامل: خيارات افتتاحية (Hook) مقيّمة، ونص بتوقيت كل لقطة |
-| `/ie-caption` | كابشن يتوقف في المكان الصحيح قبل «المزيد»، مع 5 هاشتاقات كحد أقصى |
+| `/ie-caption` | كابشن يتوقف في المكان الصحيح قبل «المزيد»، مع 5 هاشتاقات أو أقل (الحد الذي أعلنته إنستقرام تدريجياً) |
 | `/ie-carousel` | كاروسيل شريحة بشريحة، من الغلاف إلى دعوة الفعل |
 | `/ie-story` | تسلسل ستوري بملصقات تفاعلية |
 | `/ie-profile` | تقييم البايو والصورة والهايلايت وتحسينها |
@@ -77,7 +77,7 @@ cp -r skills/ie-* ~/.claude/skills/
 
 ```
 /plugin marketplace add 3ariqi/instagram-everything
-/plugin install instagram-everything
+/plugin install instagram-everything@instagram-everything
 ```
 
 ثم شغّل `/ie-selfcheck` بعد التثبيت وبعد كل تحديث.

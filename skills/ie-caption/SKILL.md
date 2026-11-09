@@ -25,7 +25,9 @@ Read `~/.claude/instagram/config.md` first for language, voice and signature.
 
 - A caption holds up to 2,200 characters.
 - The feed shows roughly the first 125 characters before "more".
-- Five hashtags per post at most (Instagram's limit since December 2025).
+- Hashtags: Instagram announced in December 2025 a gradual cap of five per post. It is
+  not applied evenly (some accounts still see 30, some see 3), so keep to five or fewer
+  and say so if the user asks for more.
 - Links in captions are not clickable.
 
 ## Two jobs, so ask which one

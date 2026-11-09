@@ -30,7 +30,8 @@ Usage:
   python3 selfcheck.py .                  # run from the pack root
   python3 selfcheck.py ~/.claude/skills
   python3 selfcheck.py . --json
-Exit code 1 on any FAIL, so CI can block a change.
+Exit code 1 on any FAIL, 2 if there was nothing to check (a wrong path is
+never a PASS), 0 otherwise, so CI can block a change.
 """
 
 import argparse
@@ -46,13 +47,14 @@ ALLOWED_IMPORTS = {
     "string", "textwrap", "datetime", "typing", "ast", "unittest", "tempfile", "io", "pathlib",
     "contextlib", "functools", "itertools", "dataclasses",
 }
-BANNED_CALLS = {"eval", "exec", "compile", "__import__", "breakpoint"}
+BANNED_CALLS = {"eval", "exec", "compile", "__import__", "breakpoint",
+                "getattr", "setattr", "delattr", "globals", "locals", "vars"}
 BANNED_OS = {"system", "popen", "fork", "forkpty", "kill", "killpg", "execv", "execve", "execl",
              "execle", "execlp", "execlpe", "execvp", "execvpe", "spawnl", "spawnle", "spawnlp",
              "spawnlpe", "spawnv", "spawnve", "spawnvp", "spawnvpe", "posix_spawn", "posix_spawnp",
              "startfile", "putenv", "chmod", "chown", "setuid", "setgid"}
 DELETE_OS = {"remove", "unlink", "rmdir", "removedirs"}
-SKIP_DIRS = {".git", "__pycache__", ".venv", "node_modules", ".pytest_cache"}
+SKIP_DIRS = {".git"}  # nothing else may hide files from the audit
 TEXT_EXT = {".py", ".md", ".json", ".txt", ".yml", ".yaml", ".toml", ".cfg", ".ini", ".sh", ".tsv", ".csv", ""}
 
 # Patterns are written with character classes ([o], [e]) so this file does not
@@ -129,32 +131,40 @@ def check_python(rel, text, rep, local_modules):
     except SyntaxError as e:
         rep.add("FAIL", rel, e.lineno or 0, "Python does not parse: cannot be audited")
         return
+    # Names that refer to the os module, however they were imported.
+    os_names = {"os"}
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             for a in node.names:
                 root = a.name.split(".")[0]
+                if root == "os":
+                    os_names.add(a.asname or "os")
                 if root not in ALLOWED_IMPORTS and root not in local_modules:
                     rep.add("FAIL", rel, node.lineno, "import outside the allowlist: %s" % a.name)
         elif isinstance(node, ast.ImportFrom):
             root = (node.module or "").split(".")[0]
             if node.level == 0 and root not in ALLOWED_IMPORTS and root not in local_modules:
                 rep.add("FAIL", rel, node.lineno, "import outside the allowlist: %s" % node.module)
+            if node.level == 0 and root == "os":
+                for a in node.names:
+                    if a.name in BANNED_OS or a.name == "*":
+                        rep.add("FAIL", rel, node.lineno, "imports a banned os function: %s" % a.name)
+                    elif a.name in DELETE_OS:
+                        rep.add("WARN", rel, node.lineno, "imports a file-deleting function: %s" % a.name)
+            if node.level == 0 and root in ("builtins", "__builtin__"):
+                rep.add("FAIL", rel, node.lineno, "imports builtins")
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Name) and node.id in BANNED_CALLS and isinstance(node.ctx, ast.Load):
+            # any reference counts, not only a direct call: "e = eval" is the same thing.
+            # getattr/globals/vars are banned too: they reach any name, including a banned one.
+            rep.add("FAIL", rel, node.lineno, "dynamic code execution or name lookup: %s" % node.id)
         elif isinstance(node, ast.Call):
             fn = node.func
-            if isinstance(fn, ast.Name) and fn.id in BANNED_CALLS:
-                rep.add("FAIL", rel, node.lineno, "dynamic code execution: %s()" % fn.id)
-            if isinstance(fn, ast.Attribute) and isinstance(fn.value, ast.Name) and fn.value.id == "os":
+            if isinstance(fn, ast.Attribute) and isinstance(fn.value, ast.Name) and fn.value.id in os_names:
                 if fn.attr in BANNED_OS:
                     rep.add("FAIL", rel, node.lineno, "process/system call: os.%s()" % fn.attr)
                 elif fn.attr in DELETE_OS:
                     rep.add("WARN", rel, node.lineno, "deletes files: os.%s()" % fn.attr)
-            if isinstance(fn, ast.Name) and fn.id in ("getattr", "setattr", "delattr"):
-                for arg in node.args[1:2]:
-                    if isinstance(arg, ast.Constant) and isinstance(arg.value, str) and \
-                            (arg.value in BANNED_OS or arg.value in BANNED_CALLS):
-                        rep.add("FAIL", rel, node.lineno, "%s() reaching a banned name: %s" % (fn.id, arg.value))
-                    elif not isinstance(arg, ast.Constant):
-                        rep.add("WARN", rel, node.lineno, "%s() with a computed name" % fn.id)
             if isinstance(fn, ast.Name) and fn.id == "open":
                 mode = None
                 if len(node.args) > 1 and isinstance(node.args[1], ast.Constant):
@@ -164,11 +174,15 @@ def check_python(rel, text, rep, local_modules):
                         mode = kw.value.value
                 if isinstance(mode, str) and any(c in mode for c in "wax+"):
                     rep.add("INFO", rel, node.lineno, "writes a file (mode %r)" % mode)
+            if isinstance(fn, ast.Attribute) and fn.attr in ("write_text", "write_bytes"):
+                rep.add("INFO", rel, node.lineno, "writes a file (%s)" % fn.attr)
         elif isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
             if node.value.id == "sys" and node.attr == "modules":
                 rep.add("WARN", rel, node.lineno, "touches sys.modules")
             if node.value.id in ("__builtins__", "builtins"):
                 rep.add("FAIL", rel, node.lineno, "reaches into builtins")
+        elif isinstance(node, ast.Name) and node.id == "__builtins__":
+            rep.add("FAIL", rel, node.lineno, "reaches into builtins")
 
 
 def check_text(rel, text, rep, is_skill):
@@ -222,6 +236,9 @@ def scan(root):
             rep.add("FAIL", rel, 0, "symbolic link to %s" % os.readlink(f))
             continue
         ext = os.path.splitext(f)[1].lower()
+        if "__pycache__" in rel.split(os.sep) or ext == ".pyc":
+            rep.add("WARN", rel, 0, "compiled bytecode cache: not source, cannot be audited; delete it (find . -name __pycache__ -prune -exec rm -r {} +)")
+            continue
         with open(f, "rb") as fh:
             data = fh.read()
         try:
@@ -246,7 +263,14 @@ def main():
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--quiet", action="store_true", help="hide INFO lines")
     args = ap.parse_args()
+    target = os.path.abspath(os.path.expanduser(args.path))
+    if not os.path.isdir(target):
+        print("  ERROR  not a folder: %s\n  Nothing was checked. This is not a PASS." % args.path, file=sys.stderr)
+        sys.exit(2)
     rep, n = scan(args.path)
+    if n == 0:
+        print("  ERROR  no files found in %s\n  Nothing was checked. This is not a PASS." % args.path, file=sys.stderr)
+        sys.exit(2)
     fails, warns = rep.count("FAIL"), rep.count("WARN")
     verdict = "FAIL" if fails else "WARN" if warns else "PASS"
     if args.json:

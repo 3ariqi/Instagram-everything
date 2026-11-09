@@ -153,6 +153,9 @@ def check_voice(text, lex):
 
 def run(text, lex=None):
     lex = lex or load_lexicon()
+    if not tk.words(text):
+        print("error: no words to score", file=sys.stderr)
+        sys.exit(2)
     checks = [
         ("VARIETY",) + check_variety(text),
         ("SPECIFICS",) + check_specifics(text),
