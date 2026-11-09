@@ -69,7 +69,7 @@ PASS: overall 70+ with no check under 55.
 These are local writing checks. They run on the user's machine, upload
 nothing, and are **not** an AI detector. Passing them does not promise any
 detector's verdict, and the goal is not to hide anything: it is writing people
-want to read. Never tell the user a text is "undetectable".
+want to read. Do not describe a text as "undetectable": no one can promise that.
 
 ## Order
 
