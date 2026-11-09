@@ -41,8 +41,11 @@ Caption up to 2,200 characters, about 125 visible before "more", up to 5 hashtag
 - Description: the source links (clickable here), and the signature.
 
 **X (Twitter)**
-- A post is short (280 characters for standard accounts, longer for paid
-  ones). Arabic text counts per character the same way.
+- A post is short: 280 weighted characters for standard accounts, up to 25,000
+  for Premium. A link always counts as 23. Emoji and, per one source, most
+  non-Latin scripts count as 2, so an Arabic post may fit only about half of
+  280 characters. Not confirmed for Arabic: paste the draft into X's own
+  composer, which shows the real count.
 - Lead with the claim, not "new video". The video attached plays inline.
 - For how-tos, a thread works better than a clip alone: hook post with the
   video, then one step per reply, sources in the last reply.

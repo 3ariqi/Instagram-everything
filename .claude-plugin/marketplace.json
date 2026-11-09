@@ -1,5 +1,6 @@
 {
   "name": "instagram-everything",
+  "description": "Arabic-first Instagram skill pack with built-in security checks.",
   "owner": { "name": "Ahmed Taher (@3ariqi)" },
   "plugins": [
     {
