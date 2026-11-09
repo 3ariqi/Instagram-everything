@@ -1,0 +1,290 @@
+{
+  "_about": "Signals used by scamcheck.py. Patterns run on folded text (lowercase; Arabic without diacritics, alef forms unified, ة→ه, ى→ي, Eastern digits converted). A signal counts once however many of its patterns match. Weights add up to a 0-100 risk score. These are heuristics: a clean score is not a guarantee.",
+  "signals": [
+    {
+      "id": "credentials",
+      "weight": 40,
+      "label_ar": "يطلب كلمة المرور أو رمز التحقق",
+      "label_en": "Asks for a password or a login code",
+      "why_ar": "إنستقرام وميتا لا يطلبان كلمة مرورك أو رمز التحقق في رسالة أبداً. من يملك الرمز يملك الحساب.",
+      "why_en": "Instagram and Meta never ask for your password or login code in a message. Whoever has the code has the account.",
+      "match_ar": [
+        "كلمه (المرور|السر)",
+        "الباسورد",
+        "الباس ورد",
+        "(رمز|كود) (التحقق|الدخول|التاكيد)",
+        "الرمز (اللي|الذي) (وصلك|وصلك)",
+        "رموز الاسترداد",
+        "رمز من \\d ارقام"
+      ],
+      "match_en": [
+        "password",
+        "verification code",
+        "login code",
+        "security code",
+        "2fa",
+        "backup code",
+        "\\botp\\b",
+        "\\d-digit code"
+      ],
+      "request_ar": "(ارسل|ارسله|ابعث|ابعته|اعطني|اعطنا|عطني|شارك|اكتب|زودنا|حط|ادخل|اكد)",
+      "request_en": "(send|give|share|enter|type|reply with|provide|confirm|tell us)",
+      "_note": "Full weight only when the message also asks you to hand something over; a mere mention counts half."
+    },
+    {
+      "id": "account_threat",
+      "weight": 30,
+      "label_ar": "يهدد بحذف الحساب أو بلاغ حقوق نشر",
+      "label_en": "Threatens deletion or a copyright strike",
+      "why_ar": "أشهر خدعة على صناع المحتوى: «انتهاك حقوق نشر» مع مهلة قصيرة ورابط «اعتراض» يسرق بيانات الدخول.",
+      "why_en": "The classic creator scam: a fake copyright notice with a short deadline and an 'appeal' link that steals your login.",
+      "match_ar": [
+        "انتهاك (حقوق|لحقوق)",
+        "حقوق (النشر|الملكيه)",
+        "سيتم (حذف|تعطيل|ايقاف|اغلاق) (حسابك|الحساب)",
+        "بلاغ (ضد|على) حسابك",
+        "نموذج (الاعتراض|الطعن)",
+        "مخالفه (لمعايير|للمعايير|لسياسات)"
+      ],
+      "match_en": [
+        "copyright (infringement|violation|strike)",
+        "your account (will be|has been) (deleted|disabled|suspended|restricted)",
+        "appeal (form|link)",
+        "violat(ed|ion of) (our )?(community|terms)"
+      ]
+    },
+    {
+      "id": "badge_offer",
+      "weight": 25,
+      "label_ar": "يعرض التوثيق أو العلامة الزرقاء",
+      "label_en": "Offers verification or a blue badge",
+      "why_ar": "التوثيق يتم من داخل التطبيق فقط. لا أحد يرسل لك عرض توثيق في الخاص.",
+      "why_en": "Verification happens inside the app only. Nobody DMs you a verification offer.",
+      "match_ar": [
+        "توثيق حسابك",
+        "(العلامه|الشاره) الزرقاء",
+        "حساب موثق",
+        "مؤهل للتوثيق"
+      ],
+      "match_en": [
+        "blue (badge|tick|check)",
+        "verified badge",
+        "get verified",
+        "eligible for verification"
+      ]
+    },
+    {
+      "id": "impersonation",
+      "weight": 20,
+      "label_ar": "ينتحل صفة دعم إنستقرام أو ميتا",
+      "label_en": "Claims to be Instagram or Meta support",
+      "why_ar": "فرق الدعم لا تبدأ محادثة معك في الخاص. الرسائل الرسمية تظهر داخل التطبيق.",
+      "why_en": "Support teams don't open DMs with you. Official notices show inside the app.",
+      "match_ar": [
+        "فريق (الدعم|ميتا|انستقرام|انستغرام)",
+        "(دعم|الدعم الفني) (انستقرام|انستغرام|ميتا|فيسبوك)",
+        "اداره (انستقرام|انستغرام|ميتا)",
+        "مركز (المساعده|الامان) (في|ل)?ميتا"
+      ],
+      "match_en": [
+        "(instagram|meta|facebook) (support|team|security|help center)",
+        "meta business (support|team)"
+      ]
+    },
+    {
+      "id": "payment",
+      "weight": 25,
+      "label_ar": "يطلب دفعة أو رسوماً أو عملات رقمية",
+      "label_en": "Asks for a payment, fee or crypto",
+      "why_ar": "التعاون الحقيقي يدفع لك، لا يطلب منك رسوماً مقدّمة.",
+      "why_en": "A real collaboration pays you. It never asks you for an upfront fee.",
+      "match_ar": [
+        "رسوم",
+        "حول (مبلغ|لنا)",
+        "ادفع",
+        "رقم (البطاقه|بطاقتك)",
+        "بيانات (البطاقه|بطاقتك)",
+        "عملات رقميه",
+        "بيتكوين",
+        "usdt",
+        "بطاقه (هدايا|ايتونز|جوجل بلاي)"
+      ],
+      "match_en": [
+        "\\bfee\\b",
+        "send (money|payment|funds)",
+        "gift card",
+        "\\bcrypto",
+        "bitcoin",
+        "usdt",
+        "wire transfer",
+        "card (number|details)"
+      ]
+    },
+    {
+      "id": "too_good",
+      "weight": 15,
+      "label_ar": "عرض أو جائزة أكبر من المعقول",
+      "label_en": "A prize or offer that is too good",
+      "why_ar": "جائزة لم تشارك في مسابقتها، أو تعاون مدفوع بلا أي تفاصيل عن الشركة، علامة كلاسيكية.",
+      "why_en": "A prize for a contest you never entered, or a paid deal with no company details, is a classic sign.",
+      "match_ar": [
+        "(ربحت|فزت|كسبت)",
+        "جائزه",
+        "هديه مجانيه",
+        "سفير (للعلامه|لعلامه|للماركه)",
+        "تعاون مدفوع",
+        "منتجات مجانيه"
+      ],
+      "match_en": [
+        "you('ve| have)? won",
+        "giveaway winner",
+        "\\bprize\\b",
+        "free gift",
+        "brand ambassador",
+        "paid (collab|partnership)"
+      ]
+    },
+    {
+      "id": "off_platform",
+      "weight": 10,
+      "label_ar": "يريد نقلك إلى واتساب أو تيليجرام",
+      "label_en": "Moves you to WhatsApp or Telegram",
+      "why_ar": "نقل المحادثة لمنصة أخرى يُبعدها عن أدوات الإبلاغ والحماية في إنستقرام.",
+      "why_en": "Moving the chat elsewhere takes it away from Instagram's reporting and safety tools.",
+      "match_ar": [
+        "واتساب",
+        "واتس",
+        "تيليجرام",
+        "تلجرام",
+        "تليجرام",
+        "راسلنا على",
+        "تواصل معنا على"
+      ],
+      "match_en": [
+        "whatsapp",
+        "telegram",
+        "contact us on",
+        "text us at"
+      ]
+    },
+    {
+      "id": "urgency",
+      "weight": 10,
+      "label_ar": "ضغط واستعجال",
+      "label_en": "Pressure and urgency",
+      "why_ar": "المهلة القصيرة هدفها أن تتصرف قبل أن تفكر.",
+      "why_en": "A short deadline is there so you act before you think.",
+      "match_ar": [
+        "فورا",
+        "عاجل",
+        "اخر فرصه",
+        "خلال \\d+ (ساعه|ساعات|دقيقه|دقائق|يوم)",
+        "قبل فوات الاوان",
+        "اخر تحذير",
+        "تحذير نهائي"
+      ],
+      "match_en": [
+        "urgent",
+        "immediately",
+        "final (notice|warning)",
+        "within \\d+ (hours|minutes|days)",
+        "act now",
+        "last chance"
+      ]
+    },
+    {
+      "id": "download",
+      "weight": 20,
+      "label_ar": "يطلب تحميل ملف أو تطبيق",
+      "label_en": "Asks you to download a file or app",
+      "why_ar": "ملفات APK والملفات المضغوطة المرسلة في الخاص طريقة شائعة لزرع برامج تجسس.",
+      "why_en": "APKs and archives sent in DMs are a common way to plant spyware.",
+      "match_ar": [
+        "(حمل|نزل|ثبت) (الملف|التطبيق|البرنامج)",
+        "\\bapk\\b",
+        "افتح المرفق",
+        "ملف مضغوط"
+      ],
+      "match_en": [
+        "download (the|this|our)",
+        "install (the|this|our)",
+        "\\bapk\\b",
+        "\\.exe\\b",
+        "\\.zip\\b",
+        "open the attachment"
+      ]
+    }
+  ],
+  "official_domains": [
+    "instagram.com",
+    "facebook.com",
+    "meta.com",
+    "fb.com",
+    "fb.me",
+    "instagr.am",
+    "whatsapp.com",
+    "wa.me",
+    "threads.net",
+    "threads.com",
+    "messenger.com"
+  ],
+  "brand_words": [
+    "instagram",
+    "instgram",
+    "lnstagram",
+    "1nstagram",
+    "insta",
+    "meta",
+    "facebook",
+    "faceb00k",
+    "whatsapp",
+    "threads"
+  ],
+  "shorteners": [
+    "bit.ly",
+    "tinyurl.com",
+    "t.co",
+    "goo.gl",
+    "is.gd",
+    "cutt.ly",
+    "rb.gy",
+    "ow.ly",
+    "shorturl.at",
+    "tiny.cc",
+    "s.id",
+    "rebrand.ly",
+    "t.ly"
+  ],
+  "risky_tlds": [
+    "xyz",
+    "top",
+    "click",
+    "live",
+    "online",
+    "site",
+    "info",
+    "ru",
+    "tk",
+    "ml",
+    "ga",
+    "cf",
+    "gq",
+    "zip",
+    "mov",
+    "icu",
+    "buzz",
+    "rest",
+    "cam"
+  ],
+  "lure_words": [
+    "copyright",
+    "verify",
+    "verification",
+    "support",
+    "appeal",
+    "login",
+    "secure",
+    "badge",
+    "helpcenter"
+  ]
+}
