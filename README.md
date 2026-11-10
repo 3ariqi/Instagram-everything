@@ -113,7 +113,7 @@ python3 install.py --dest <مجلد المهارات عند وكيلك>   # أي
 **ثبّت إصداراً محدداً، لا «أحدث نسخة».** هذا يضمن أن ما تثبّته هو ما فُحص:
 
 ```bash
-git clone https://github.com/3ariqi/instagram-everything.git
+git clone https://github.com/3ariqi/Instagram-everything.git
 cd instagram-everything
 git checkout v1.0.0
 python3 skills/ie-tools/selfcheck.py .      # افحص قبل النسخ
@@ -123,7 +123,7 @@ cp -r skills/ie-* ~/.claude/skills/
 أو كإضافة في Claude Code:
 
 ```
-/plugin marketplace add 3ariqi/instagram-everything
+/plugin marketplace add 3ariqi/Instagram-everything
 /plugin install instagram-everything@instagram-everything
 ```
 

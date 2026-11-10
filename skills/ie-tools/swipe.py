@@ -121,7 +121,7 @@ def render(a, lang):
         f = a["names"][fid]
         L.append("- #%d %s: %d %s، %d %s" % (fid, f["name_ar"] if lang == "ar" else f["name_en"], n_top,
                                             S("في الأعلى", "in the top"), n_bot, S("في الأدنى", "in the bottom")))
-    L.append("- " + S("متوسط طول الافتتاحية: %s كلمة في الأعلى، %s في الأدنى",
+    L.append("- " + S("متوسط عدد كلمات الافتتاحية: %s في الأعلى، و%s في الأدنى",
                       "median hook length: %s words up top, %s at the bottom") % (a["top_len"], a["bot_len"]))
     L.append("")
     L.append("## " + S("غير مصنّفة (%d): اقرأها بنفسك", "Unclassified (%d): read these by hand") % len(a["unclassified"]))

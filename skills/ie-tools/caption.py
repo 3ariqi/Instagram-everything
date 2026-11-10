@@ -74,7 +74,10 @@ def lint(text, signature=None):
 
     cut, truncated = visible_part(text)
     info.append(S("الظاهر قبل «المزيد»:", "visible before 'more':") + "\n      " + cut.replace("\n", " / "))
-    if truncated:
+    first_len = len(text.split("\n")[0])
+    if truncated and first_len > len(cut):
+        # Only line one matters: if it already ends before the cut, the hook is
+        # complete and the second line trailing off into "more" is normal.
         nxt = text[len(cut):len(cut) + 1]
         if nxt and not nxt.isspace() and cut[-1:].isalnum():
             warnings.append(S("القطع يقع في منتصف كلمة. اجعل السطر الأول ينتهي بنقطة تشويق قبل 125 حرفاً.",

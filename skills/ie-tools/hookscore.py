@@ -116,7 +116,8 @@ def score_hook(hook):
     else:
         over = max(n - 12, 0) * 8 + max(secs - 3.2, 0) * 25
         length = 100 - over
-    notes.append(tk.say(lang, "%d كلمات، نحو %.1f ث نطقاً (المطلوب من 5 إلى 12 كلمة، وحتى 3 ث)",
+    ar_words = "كلمات" if 3 <= n <= 10 else "كلمة"
+    notes.append(tk.say(lang, "%d " + ar_words + "، نحو %.1f ث نطقاً (المطلوب من 5 إلى 12 كلمة، وحتى 3 ث)",
                         "%d words, ~%.1fs spoken (want 5-12 words, 3s or less)") % (n, secs))
     if n > 20:
         deal = deal or tk.say(lang, "أطول من 20 كلمة. هذا ليس افتتاحية.", "Over 20 words. That is not a hook.")
@@ -130,12 +131,13 @@ def score_hook(hook):
     money = len(re.findall(r"[$€£%٪]", raw))
     concrete_n = digits + units + spoken + names + money
     concrete = {0: 20, 1: 75}.get(concrete_n, 100)
-    notes.append(tk.say(lang, "%d عناصر محددة (رقم، اسم، وقت، مبلغ)", "%d concrete markers") % concrete_n)
+    notes.append(tk.say(lang, "عناصر محددة (رقم، اسم، وقت، مبلغ): %d", "%d concrete markers") % concrete_n)
 
     # TENSION
     stakes = _phrases_in(folded, STAKES_AR) + [w for w in fws if w in STAKES_EN]
     tension = {0: 30, 1: 80}.get(len(stakes), 100)
-    notes.append(tk.say(lang, "%d كلمات توتر: %s", "%d stakes words: %s") % (len(stakes), ", ".join(stakes[:4]) or "-"))
+    notes.append(tk.say(lang, "كلمات التوتر: %d (%s)", "%d stakes words: %s") % (len(stakes), "، ".join(stakes[:4]) if lang == "ar" else ", ".join(stakes[:4]) or "-") if stakes
+                 else tk.say(lang, "كلمات التوتر: لا شيء", "0 stakes words: -"))
 
     # ADDRESS
     you = sum(1 for w in fws if w in YOU_AR or w in YOU_EN)

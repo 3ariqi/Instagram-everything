@@ -382,6 +382,16 @@ class Stylekit(unittest.TestCase):
                 self.assertEqual(stylekit.main(["learn", f]), 2)
 
 
+class CaptionCut(unittest.TestCase):
+    def test_short_first_line_is_not_a_mid_word_cut(self):
+        text = "كلمة مرورك قد تكون معروضة للبيع الآن، وأنت لا تعرف.\n" + "كلمة " * 40
+        self.assertFalse(any("منتصف" in w for w in caption.lint(text)["warnings"]))
+
+    def test_long_first_line_cut_mid_word_warns(self):
+        text = "كلمةطويلة" * 20
+        self.assertTrue(any("منتصف" in w for w in caption.lint(text)["warnings"]))
+
+
 class EmptyInputs(unittest.TestCase):
     def test_every_scoring_tool_refuses_empty_input(self):
         import swipe  # noqa: F401  (the others are imported at the top)
