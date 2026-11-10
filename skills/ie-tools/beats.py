@@ -131,7 +131,11 @@ def main():
     ap.add_argument("--target", type=int, help="target length in seconds")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
-    r = analyse(tk.read_input(args.input), args.target)
+    text = tk.read_input(args.input)
+    if not text.strip():
+        print("error: the script is empty (one beat per line, with or without timestamps)", file=sys.stderr)
+        sys.exit(2)
+    r = analyse(text, args.target)
     if args.json:
         print(json.dumps(r, ensure_ascii=False, indent=2))
     else:

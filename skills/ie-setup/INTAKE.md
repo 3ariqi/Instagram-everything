@@ -12,7 +12,7 @@ Everything lives in one folder, `~/.instagram-everything/`:
 - `config.md`   who the user is, language, dialect, signature (template: `templates/config.md`)
 - `style.md`    how the user writes, measured by `stylekit.py` and confirmed by them
 - `presets.md`  the answers they chose to keep as defaults, one block per task
-- `log.md`, `swipe.md`   results and research, used by other skills
+- `log.md`, `swipe.md`, `plan.md`   results, research and the weekly plan, used by other skills
 
 If this folder cannot be written or does not survive between conversations (a
 chat sandbox, for example), say so once, write the same files into the working

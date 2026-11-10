@@ -16,10 +16,12 @@ Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and prese
 missing, in one batch, every question optional. For a direct message:
 
 1. **Situation / الموقف:** a link request · a collaboration · a complaint · first contact
-2. **Tone / النبرة:** warm · neutral · formal
-3. **Length / الطول:** two lines · short paragraph
+2. **Who and why / لمن ولماذا:** their handle, what they do, and what happened today that is the reason to write (not optional: no trigger, no message)
+3. **What you want / ماذا تريد:** a conversation · a sale · a collab
+4. **Tone / النبرة:** warm · neutral · formal
+5. **Length / الطول:** two lines · short paragraph
 
-Skipped answers use the saved defaults. Say what you assumed in one line at the top.
+Skipped answers (except 2) use the saved defaults. Say what you assumed in one line at the top.
 
 ## Check inbound offers first
 
@@ -48,14 +50,6 @@ or a login code.
 Cold messages to strangers who never interacted are the lowest-yield use of
 the hour. Say so, offer the alternative (two weeks of real comments first),
 then write it if they still want it.
-
-## Before writing, ask in one batch
-
-1. Who: handle, what they do, what started this.
-2. The trigger: the actual reason to message today.
-3. What the user wants: a conversation, a sale, a collab.
-
-No trigger, no message. Say so.
 
 ## Keyword delivery
 

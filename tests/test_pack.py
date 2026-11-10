@@ -382,6 +382,26 @@ class Stylekit(unittest.TestCase):
                 self.assertEqual(stylekit.main(["learn", f]), 2)
 
 
+class EmptyInputs(unittest.TestCase):
+    def test_every_scoring_tool_refuses_empty_input(self):
+        import swipe  # noqa: F401  (the others are imported at the top)
+        mods = {"hookscore": hookscore, "beats": beats, "caption": caption, "clean": clean,
+                "score": score, "scamcheck": scamcheck, "swipe": swipe}
+        with tempfile.TemporaryDirectory() as d:
+            f = os.path.join(d, "empty.txt")
+            open(f, "w", encoding="utf-8").close()
+            for tool, mod in mods.items():
+                with contextlib.redirect_stderr(io.StringIO()), contextlib.redirect_stdout(io.StringIO()):
+                    old_argv, sys.argv = sys.argv, [tool + ".py", f]
+                    try:
+                        with self.assertRaises(SystemExit, msg=tool) as c:
+                            mod.main()
+                    finally:
+                        sys.argv = old_argv
+                self.assertNotEqual(c.exception.code, 0, tool)
+            self.assertEqual(stylekit.main(["learn", f]), 2)
+
+
 class Intake(unittest.TestCase):
     CREATIVE = ("ie-reel", "ie-caption", "ie-carousel", "ie-story", "ie-crosspost",
                 "ie-technews", "ie-plan", "ie-comment", "ie-reply", "ie-dm", "ie-edit")

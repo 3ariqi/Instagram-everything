@@ -15,11 +15,11 @@ description: >-
 Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
 missing, in one batch, every question optional. For a weekly plan:
 
-1. **Posts per week / عدد المنشورات:** 3 · 5 · 7
+1. **Posts you can really make this week / عدد المنشورات الواقعي:** 3 · 5 · 7 (plan for that, not more)
 2. **Formats / الأشكال:** Reels only · Reels and a carousel · plus Stories
 3. **Goal this month / الهدف:** reach · followers · trust · sales
 4. **Fixed dates / مواعيد ثابتة:** an event, a launch, a workshop, news to cover
-5. **Who posts / من ينشر:** only you · a team
+5. **Who posts / من ينشر:** only you · a team (then plan an owner per post)
 
 Skipped answers use the saved defaults. Say what you assumed in one line at the top.
 
@@ -33,12 +33,6 @@ Skipped answers use the saved defaults. Say what you assumed in one line at the 
 
 If 2 and 3 are both missing, say so in one line: the plan is a starting
 guess until there is evidence.
-
-## Ask once, batched
-
-- How many posts can you really make this week? (Plan for that, not more.)
-- Anything fixed: a launch, an event, a workshop date, news you want to cover?
-- Who else posts on this account, if anyone? (Plan owners per post.)
 
 ## Shape of a week
 

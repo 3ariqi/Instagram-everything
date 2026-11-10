@@ -73,9 +73,9 @@ Report what the checker found and what you read by hand, and separate the two.
 ## Output
 
 ```
-PASS   29 files   0 fail   0 warn
+PASS   50 files   0 fail   0 warn
 Python: standard library only, no network or process calls.
 Text:   no hidden characters, no override phrases.
-Writes: clean.py and swipe.py write only the file you name with -o / --out.
+Writes: clean.py, swipe.py and stylekit.py write only the file you name with -o / --out.
 Still do: read the SKILL.md files, and pin this commit.
 ```

@@ -27,6 +27,13 @@ Whatever the user has, screenshots are fine:
 Also read `~/.instagram-everything/log.md` if it exists: it records the hook
 formula each post used.
 
+**How the numbers get here.** The user opens Instagram's own Insights
+(professional accounts) or each post's "View insights", and pastes the figures,
+exports them, or sends screenshots. This skill never logs in, never asks for a
+password, a login code or an access token, and never scrapes. If the user's
+agent has a data connector they authorised themselves, they can paste its
+output here like any other export.
+
 ## What to compute, showing the working
 
 | metric | how | tells you |

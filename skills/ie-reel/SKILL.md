@@ -45,8 +45,8 @@ English, each with a shape and an example).
 
 1. Read `~/.instagram-everything/config.md` if it exists: language, dialect,
    voice, audience, signature. Write in **their** language and register. If
-   the file is missing, ask in one question: language/dialect, audience,
-   target length. Then go.
+   the file is missing, the Intake batch above already covers language and
+   audience: do not ask again, and suggest `/ie-setup` once, at the end.
 2. Read `~/.instagram-everything/swipe.md` if it exists. Formulas that work in the
    user's niche beat the defaults.
 3. **Facts.** If the script states a fact about a product, a company, a law, a

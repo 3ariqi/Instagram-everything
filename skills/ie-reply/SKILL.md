@@ -16,7 +16,7 @@ a question with real demand behind it is a ready-made next Reel.
 ## Intake (optional questions)
 
 Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
-missing, in one batch, every question optional. For a replies:
+missing, in one batch, every question optional. For replies:
 
 1. **Tone / النبرة:** as in the config, or different today
 2. **Length / الطول:** one line · two or three lines

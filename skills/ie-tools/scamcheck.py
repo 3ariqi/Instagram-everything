@@ -171,7 +171,11 @@ def main():
     ap.add_argument("input", nargs="?", default="-")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
-    r = analyse(tk.read_input(args.input))
+    text = tk.read_input(args.input)
+    if not text.strip():
+        print("error: no message to analyse (paste the message text, or a file name, or - for stdin)", file=sys.stderr)
+        sys.exit(2)
+    r = analyse(text)
     if args.json:
         out = dict(r)
         out["signals"] = [{"id": s["id"], "weight": s["weight"], "label_ar": s["label_ar"], "label_en": s["label_en"]}

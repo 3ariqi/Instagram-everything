@@ -162,7 +162,11 @@ def main():
     ap.add_argument("--signature", help="text that must close the caption")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
-    r = lint(tk.read_input(args.input), args.signature)
+    text = tk.read_input(args.input)
+    if not text.strip():
+        print("error: the caption is empty (nothing to lint)", file=sys.stderr)
+        sys.exit(2)
+    r = lint(text, args.signature)
     if args.json:
         print(json.dumps(r, ensure_ascii=False, indent=2))
     else:

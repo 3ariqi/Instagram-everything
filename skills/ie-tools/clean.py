@@ -191,6 +191,9 @@ def main():
     args = ap.parse_args()
 
     raw = tk.read_input(args.input)
+    if not raw.strip():
+        print("error: nothing to clean (the input is empty)", file=sys.stderr)
+        sys.exit(2)
     r = clean(raw)
     lang = tk.lang_of(raw)
     if args.json:
