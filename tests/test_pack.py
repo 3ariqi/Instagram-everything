@@ -338,6 +338,33 @@ class Installer(unittest.TestCase):
         with contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(install.main([]), 2)
 
+    def test_project_install_goes_inside_the_project(self):
+        with tempfile.TemporaryDirectory() as d:
+            with contextlib.redirect_stdout(io.StringIO()) as out:
+                self.assertEqual(install.main(["--agent", "claude", "--project", d]), 0)
+            dest = os.path.join(d, ".claude", "skills")
+            self.assertTrue(os.path.isfile(os.path.join(dest, "ie-reel", "SKILL.md")))
+            self.assertIn("INSTALLED_PATH=" + dest, out.getvalue())
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(install.main(["--agent", "codex", "--project", d]), 0)
+            self.assertTrue(os.path.isfile(os.path.join(d, ".agents", "skills", "ie-tools", "VERSION")))
+
+    def test_project_needs_one_agent_and_an_existing_folder(self):
+        with contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(install.main(["--project", "."]), 2)
+            self.assertEqual(install.main(["--agent", "all", "--project", "."]), 2)
+            self.assertEqual(install.main(["--agent", "claude", "--project", "/no/such/folder/x"]), 2)
+
+    def test_codex_uses_the_agents_folder(self):
+        self.assertEqual(install.TARGETS["codex"], "~/.agents/skills")
+
+    def test_agents_md_asks_where_to_install(self):
+        with open(os.path.join(ROOT, "AGENTS.md"), encoding="utf-8") as fh:
+            t = fh.read()
+        self.assertIn("Ask the user where to install", t)
+        self.assertIn("temporary", t)
+        self.assertIn("INSTALLED_PATH=", t)
+
     def test_version_file_matches_plugin_manifest(self):
         with open(os.path.join(TOOLS, "VERSION"), encoding="utf-8") as fh:
             v = fh.read().strip()

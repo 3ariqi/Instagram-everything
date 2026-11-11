@@ -17,7 +17,7 @@
 
 ### كيف تثبّت بأمان
 
-1. ثبّت إصداراً محدداً (`git checkout v1.0.0`) لا أحدث نسخة.
+1. ثبّت إصداراً محدداً (`git checkout vX.Y.Z`) لا أحدث نسخة.
 2. شغّل `python3 skills/ie-tools/selfcheck.py .` قبل النسخ.
 3. اقرأ ملفات `SKILL.md` التي ستستخدمها.
 4. بعد أي تحديث، اقرأ التغييرات (`git diff`) وأعد الفحص.
@@ -45,7 +45,7 @@
 
 ### Installing safely
 
-1. Pin a release (`git checkout v1.0.0`), not the latest commit.
+1. Pin a release (`git checkout vX.Y.Z`), not the latest commit.
 2. Run `python3 skills/ie-tools/selfcheck.py .` before copying.
 3. Read the `SKILL.md` files you will use.
 4. After any update, read the diff and re-run the check.

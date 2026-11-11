@@ -6,12 +6,14 @@ It audits the pack first and refuses to install if the audit fails, then copies
 every skills/ie-* folder to the skills folder of the agent you choose. Standard
 library only: no network, no subprocess.
 
-  python3 install.py --agent claude      # ~/.claude/skills
-  python3 install.py --agent agents      # ~/.agents/skills  (Codex and Gemini CLI read this one)
-  python3 install.py --agent codex       # ~/.codex/skills
+  python3 install.py --agent claude      # ~/.claude/skills   (all your projects)
+  python3 install.py --agent agents      # ~/.agents/skills   (Codex and Gemini CLI read this one)
+  python3 install.py --agent codex       # ~/.agents/skills   (same as agents)
   python3 install.py --agent gemini      # ~/.gemini/skills
-  python3 install.py --agent all         # all four
-  python3 install.py --dest /some/folder # any other agent: point it at that agent's skills folder
+  python3 install.py --agent all         # every folder above
+  python3 install.py --agent claude --project /path/to/project   # that project only: <project>/.claude/skills
+  python3 install.py --agent agents --project /path/to/project   # that project only: <project>/.agents/skills
+  python3 install.py --dest /some/folder # any other agent, or any folder the user chose
   python3 install.py --agent agents --dry-run
 
 Every ie-* folder must land in the SAME skills folder, because the skills call
@@ -29,8 +31,15 @@ import selfcheck  # noqa: E402
 TARGETS = {
     "claude": "~/.claude/skills",
     "agents": "~/.agents/skills",
-    "codex": "~/.codex/skills",
+    "codex": "~/.agents/skills",
     "gemini": "~/.gemini/skills",
+}
+# Inside a project folder, relative to the project root.
+PROJECT_TARGETS = {
+    "claude": ".claude/skills",
+    "agents": ".agents/skills",
+    "codex": ".agents/skills",
+    "gemini": ".agents/skills",
 }
 SKIP_DIRS = {"__pycache__", ".git"}
 SKIP_SUFFIX = (".pyc", ".pyo")
@@ -90,6 +99,7 @@ def install(root, dest, dry_run=False):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Install Instagram-everything for any AI agent.")
     ap.add_argument("--agent", choices=sorted(TARGETS) + ["all"], help="which agent's skills folder to use")
+    ap.add_argument("--project", help="install for one project only, inside this project folder")
     ap.add_argument("--dest", help="a custom skills folder (for any other agent)")
     ap.add_argument("--dry-run", action="store_true", help="show what would be copied, copy nothing")
     args = ap.parse_args(argv)
@@ -97,9 +107,21 @@ def main(argv=None):
     if not args.agent and not args.dest:
         print("error: choose --agent (claude, agents, codex, gemini, all) or --dest FOLDER", file=sys.stderr)
         return 2
+    if args.project and (not args.agent or args.agent == "all"):
+        print("error: --project needs one --agent (claude, agents, codex or gemini)", file=sys.stderr)
+        return 2
     dests = []
-    if args.agent == "all":
-        dests += [os.path.expanduser(p) for p in TARGETS.values()]
+    if args.project:
+        root = os.path.abspath(os.path.expanduser(args.project))
+        if not os.path.isdir(root):
+            print("error: project folder not found: %s" % root, file=sys.stderr)
+            return 2
+        dests.append(os.path.join(root, PROJECT_TARGETS[args.agent]))
+    elif args.agent == "all":
+        for p in TARGETS.values():
+            p = os.path.expanduser(p)
+            if p not in dests:
+                dests.append(p)
     elif args.agent:
         dests.append(os.path.expanduser(TARGETS[args.agent]))
     if args.dest:
@@ -117,6 +139,7 @@ def main(argv=None):
         folders = sorted({w.split(os.sep)[0] for w in written})
         print("%s %d files in %d skills -> %s" % ("Would copy" if args.dry_run else "Installed",
                                                  len(written), len(folders), dest))
+        print("INSTALLED_PATH=%s" % dest if not args.dry_run else "TARGET_PATH=%s" % dest)
     if not args.dry_run:
         print("Restart the agent (or open its /skills list) so it picks the new skills up.")
     return 0
