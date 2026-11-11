@@ -1,18 +1,43 @@
 # Instagram Everything
 
-**حزمة مهارات لـ Claude تدير محتوى إنستقرام بالعربي أولاً، وتفحص نفسها أمنياً.**
+[![Release](https://img.shields.io/github/v/release/3ariqi/Instagram-everything?label=%D8%A7%D9%84%D8%A5%D8%B5%D8%AF%D8%A7%D8%B1)](https://github.com/3ariqi/Instagram-everything/releases/latest)
+[![Checks](https://github.com/3ariqi/Instagram-everything/actions/workflows/check.yml/badge.svg)](https://github.com/3ariqi/Instagram-everything/actions/workflows/check.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-21 مهارة تكتب سكربتات الريلز والكابشن والكاروسيل والستوري، وتبحث عمّا ينجح في مجالك، وترد على التعليقات والرسائل، وتكشف رسائل الاحتيال، وتؤمّن حسابك، وتحوّل الأخبار التقنية إلى محتوى موثّق المصادر.
+**حزمة مهارات لوكلاء الذكاء الاصطناعي (Claude Code وCodex وGemini CLI) تدير محتوى إنستقرام بالعربي أولاً، وتفحص نفسها أمنياً.**
 
-> مشروع من إعداد **م.أحمد طاهر** · [@3ariqi](https://github.com/3ariqi)
+21 مهارة تكتب سكربتات الريلز والكابشن والكاروسيل والستوري، وتبحث عمّا ينجح في مجالك، وترد على التعليقات والرسائل، وتكشف رسائل الاحتيال، وتؤمّن حسابك، وتحوّل أخبار مجالك (تقني، ديني، سياسي، اجتماعي...) إلى محتوى موثّق المصادر.
+
+> مشروع من إعداد **م.أحمد طاهر** · [@3ariqi](https://github.com/3ariqi) · [3ariqi.com](https://3ariqi.com)
 > تابعنا على منصات التواصل الاجتماعي: يوتيوب، إنستقرام، تيك توك، X — **@3ariqi**
 
 ---
+
+## ثبّت في دقيقة
+
+انسخ هذا الرابط وأرسله لوكيلك (Claude Code أو Codex أو Gemini CLI) وقل له: **«نزّل وثبّت»**
+
+```
+https://github.com/3ariqi/Instagram-everything
+```
+
+سيسألك عن اللغة (عربي أو إنجليزي) وعن المجلد الذي تريد العمل فيه، ثم يفحص الحزمة ويثبّتها ويخبرك بالمسار. بعدها افتح الوكيل من ذلك المجلد وقل: «ابدأ».
 
 ## الدليل المصوّر
 
 - [دليل المستخدم (PDF)](docs/user-guide.pdf): لكل شخص، بلا أوامر برمجية: ماذا تفعل الحزمة، كيف تبدأ، أمثلة محادثة كاملة.
 - [دليل المبرمجين (PDF)](docs/developer-guide.pdf): البنية، التثبيت لكل وكيل، الأدوات بمخرجاتها الحقيقية، والفحص الأمني.
+
+## الإصدار الحالي: v1.1.0
+
+- **مجلد عمل مرتّب:** مجلد لكل نوع من العمل (ريلز، كابشن، أخبار، تقارير...)، وملف «ابدأ-هنا»، والحزمة نفسها في مجلد منفصل لا يُعدَّل.
+- **لغتك من أول خطوة:** تختار العربية أو الإنجليزية عند التثبيت، فتصبح بها أسماء المجلدات والملفات وكل تعامل المساعد معك.
+- **أنت تختار مكان التثبيت:** مجلد عمل، أو لكل مشاريعك، أو مجلد وكيل آخر.
+- **أخبار لأي مجال:** `/ie-news` يتحقق من ثلاثة مصادر ويكتب بأسلوب مجالك وخطوطه الحمراء، وكل مهارات الكتابة تتكيف مع مجالك.
+- **تحليل الأداء بطريقتين:** ترفق لقطات الشاشة، أو تسمح للمساعد بقراءة صفحة «رؤى» حسابك بنفسه (قراءة فقط).
+- **بصمة لكل ملف:** تكشف أي تعديل على الحزمة بعد التثبيت، والمثبّت يرفض النسخة المعدّلة.
+
+كل الإصدارات وملاحظاتها في [صفحة الإصدارات](https://github.com/3ariqi/Instagram-everything/releases).
 
 ## لماذا هذه الحزمة؟
 
@@ -58,7 +83,7 @@
 | --- | --- |
 | `/ie-natural` | ينظّف النص من العبارات الآلية المكررة بالعربي والإنجليزي، ويقيس طبيعية الأسلوب |
 
-### الأمان والأخبار (جديدة كلياً)
+### الأمان والأخبار والتحديث
 | الأمر | الوظيفة |
 | --- | --- |
 | `/ie-scamguard` | يحلل رسالة أو تعليقاً مشبوهاً: انتهاك حقوق مزيف، توثيق مزيف، تعاون احتيالي، تصيّد |
@@ -67,14 +92,14 @@
 | `/ie-selfcheck` | يفحص الحزمة نفسها قبل التثبيت وبعد أي تحديث |
 | `/ie-update` | يفحص عند بدء كل جلسة هل صدر إصدار جديد، ويحدّث بعد اجتياز الفحص الأمني |
 
-### الإعداد والمونتاج (جديدة)
+### الإعداد والمونتاج
 
 | الأمر | ماذا يفعل |
 | --- | --- |
 | `/ie-setup` | أسئلة اختيارية عن حسابك ولهجتك، ثم يتعلّم أسلوبك من منشوراتك ويحفظه |
 | `/ie-edit` | خطة مونتاج ريل: اللقطات والقطعات والنصوص على الشاشة بتوقيت محسوب |
 
-قبل أي كتابة أو مونتاج تسألك المهارة أسئلة **اختيارية** (المنصة، الأسلوب، الطول، الجمهور...). تجاوز ما شئت وتستخدم المحفوظ. وعند موافقتك الصريحة فقط تحفظ إجاباتك كقالب في `~/.instagram-everything/presets.md`، وتتعلم أسلوبك من تعديلاتك على المسودات.
+قبل أي كتابة أو مونتاج تسألك المهارة أسئلة **اختيارية** (المنصة، الأسلوب، الطول، الجمهور...). تجاوز ما شئت وتستخدم المحفوظ. وعند موافقتك الصريحة فقط تحفظ إجاباتك كقالب في `الإعدادات/presets.md` داخل مجلد عملك، وتتعلم أسلوبك من تعديلاتك على المسودات.
 
 ## لأي وكيل ذكاء اصطناعي (Claude وCodex وGemini وغيرها)
 
@@ -163,7 +188,7 @@ python3 -I install.py --workspace <مجلدك> --agent claude --lang ar
 
 ## الإعداد
 
-الأسهل أن تشغّل `/ie-setup`. أو يدوياً: انسخ `templates/config.md` إلى `~/.instagram-everything/config.md` واملأه: لغتك ولهجتك، أسلوبك، جمهورك، وتوقيعك الذي يُضاف لنهاية السكربتات والكابشن. كل المهارات تقرأه.
+الأسهل أن تشغّل `/ie-setup`. أو يدوياً: انسخ `templates/config.md` إلى مجلد `الإعدادات` داخل مجلد عملك (`settings` إن اخترت الإنجليزية) واملأه: مجالك، لغتك ولهجتك، أسلوبك، جمهورك، وتوقيعك الذي يُضاف لنهاية السكربتات والكابشن. كل المهارات تقرأه.
 
 ## الأدوات
 
@@ -184,7 +209,8 @@ python3 skills/ie-tools/scamcheck.py message.txt
 
 - **لا تسجيل دخول نيابةً عنك، ولا طلب كلمات مرور، ولا كشط آلي، ولا نشر أو إرسال تلقائي.** هذه قواعد مكتوبة داخل كل مهارة.
 - كل تعديل على المستودع يمر بفحص تلقائي (GitHub Actions) يرفض: الاتصال بالشبكة، تشغيل الأوامر، `eval`/`exec`، الأحرف الخفية، وعبارات حقن الأوامر.
-- للإبلاغ عن ثغرة: راجع [SECURITY.md](SECURITY.md).
+- الفرع الرئيسي محمي: لا يمكن حذفه ولا الكتابة فوق تاريخه، وكل إصدار له وسم ثابت تثبّت منه.
+- للإبلاغ عن ثغرة: استخدم **Report a vulnerability** من تبويب Security (إبلاغ خاص)، وراجع [SECURITY.md](SECURITY.md).
 
 ## الرخصة
 
@@ -194,17 +220,28 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 
 ## English
 
-Guides: [user guide](docs/user-guide.pdf) and [developer guide](docs/developer-guide.pdf) (Arabic, PDF).
-
+[![Release](https://img.shields.io/github/v/release/3ariqi/Instagram-everything)](https://github.com/3ariqi/Instagram-everything/releases/latest)
 
 **Instagram Everything** is an Arabic-first pack of 21 agent skills (Claude Code, Codex, Gemini CLI and others) for running an Instagram account, with built-in security checks.
 
+**Quick install:** send `https://github.com/3ariqi/Instagram-everything` to your agent and say "download and install". It asks your language (Arabic or English) and where to put your workspace, audits the pack, installs it and tells you the path.
+
 - Reels, captions, carousels, stories, profile, weekly plan, comments, replies, DMs, research, audits, repurposing and cross-posting.
-- New: `/ie-scamguard` (scam message analysis), `/ie-harden` (account hardening), `/ie-news` (3-source fact-checked news in any field, written for that field), `/ie-selfcheck` (audits the pack itself).
+- Security and news: `/ie-scamguard` (scam message analysis), `/ie-harden` (account hardening), `/ie-news` (3-source fact-checked news in any field, written for that field), `/ie-selfcheck` (audits the pack itself), `/ie-update` (safe updates).
+- v1.1.0: an organised workspace (one folder per kind of work, a START-HERE file, the pack kept apart), language chosen at install, field-aware writing, performance audits from screenshots or read-only browsing, and a SHA-256 manifest that detects any change to the installed pack.
 - Unicode-aware tools: Arabic tokenization, Arabic punctuation, ZWJ emoji preserved.
 - Standard-library Python only. No network, no subprocess, nothing uploaded. Nothing is posted or sent on your behalf.
-- CI rejects network code, process execution, hidden Unicode and prompt-injection phrases on every change.
+- CI rejects network code, process execution, hidden Unicode and prompt-injection phrases on every change. `main` is protected against deletion and force pushes.
 
-Install a pinned release (`git clone --depth 1 --branch v1.1.0 ...`), run `python3 skills/ie-tools/selfcheck.py .`, then `python3 install.py --workspace <folder> --agent claude --lang en`. You get one folder per kind of work, a START-HERE file, and the skills in `<folder>/.claude/skills`. Agents following AGENTS.md ask your language and folder first.
+Manual install of the pinned release:
 
-By **Ahmed Taher** ([@3ariqi](https://github.com/3ariqi)). MIT licensed.
+```bash
+git clone --depth 1 --branch v1.1.0 https://github.com/3ariqi/Instagram-everything.git
+cd Instagram-everything
+python3 -I skills/ie-tools/selfcheck.py .
+python3 -I install.py --workspace <folder> --agent claude --lang en
+```
+
+Guides: [user guide](docs/user-guide.pdf) and [developer guide](docs/developer-guide.pdf) (Arabic, PDF). Report vulnerabilities privately via **Report a vulnerability** under the Security tab ([SECURITY.md](SECURITY.md)).
+
+By **Ahmed Taher** ([@3ariqi](https://github.com/3ariqi) · [3ariqi.com](https://3ariqi.com)). MIT licensed.
