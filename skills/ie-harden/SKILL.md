@@ -13,6 +13,8 @@ description: >-
 A checklist the user does on their own phone, one step at a time. Claude
 cannot see the account and must not ask for access to it.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Rules
 
 - **Never ask for the password, a login code, a backup code or a recovery key,

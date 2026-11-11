@@ -12,6 +12,8 @@ description: >-
 
 ## Intake (optional questions)
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
 missing, in one batch, every question optional. For a caption:
 
@@ -33,7 +35,7 @@ python3 <base>/../ie-tools/caption.py caption.txt --signature "<signature from c
 python3 <base>/../ie-tools/clean.py caption.txt --report
 ```
 
-Read `~/.instagram-everything/config.md` first for language, voice and signature.
+Read `<settings>/config.md` first for language, voice and signature.
 
 ## Platform facts this skill relies on
 

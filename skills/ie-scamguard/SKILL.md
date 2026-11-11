@@ -15,6 +15,8 @@ deadline, a fake verification offer, a "brand" asking for a fee, a "support"
 account asking for a login code. They work because the victim is rushed. This
 skill slows the moment down and names the trick.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Tool
 
 ```bash

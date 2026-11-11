@@ -12,6 +12,8 @@ description: >-
 
 ## Intake (optional questions)
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
 missing, in one batch, every question optional. For a weekly plan:
 
@@ -25,10 +27,10 @@ Skipped answers use the saved defaults. Say what you assumed in one line at the 
 
 ## Inputs, in order of trust
 
-1. `~/.instagram-everything/config.md`: topic, audience, voice, platforms.
-2. `/ie-audit` results the user has shared, or `~/.instagram-everything/log.md`:
+1. `<settings>/config.md`: topic, audience, voice, platforms.
+2. `/ie-audit` results the user has shared, or `<settings>/log.md`:
    what actually worked for this account.
-3. `~/.instagram-everything/swipe.md` from `/ie-viral`: what works in the niche.
+3. `<settings>/swipe.md` from `/ie-viral`: what works in the niche.
 4. Defaults below, only for what 1-3 do not cover.
 
 If 2 and 3 are both missing, say so in one line: the plan is a starting
@@ -49,7 +51,7 @@ guess until there is evidence.
 ## Output
 
 A table the user can follow, and the same table written to
-`~/.instagram-everything/plan.md` so the other skills can read it:
+`<settings>/plan.md` so the other skills can read it:
 
 | day | format | pillar | idea | formula | hook draft | owner |
 | --- | --- | --- | --- | --- | --- | --- |

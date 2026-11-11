@@ -338,32 +338,115 @@ class Installer(unittest.TestCase):
         with contextlib.redirect_stderr(io.StringIO()):
             self.assertEqual(install.main([]), 2)
 
-    def test_project_install_goes_inside_the_project(self):
+    def _run(self, args):
+        with contextlib.redirect_stdout(io.StringIO()) as out, contextlib.redirect_stderr(io.StringIO()):
+            rc = install.main(args)
+        return rc, out.getvalue()
+
+    def test_workspace_install_puts_skills_inside_and_creates_folders(self):
+        layout = install.load_layout()
         with tempfile.TemporaryDirectory() as d:
-            with contextlib.redirect_stdout(io.StringIO()) as out:
-                self.assertEqual(install.main(["--agent", "claude", "--project", d]), 0)
-            dest = os.path.join(d, ".claude", "skills")
-            self.assertTrue(os.path.isfile(os.path.join(dest, "ie-reel", "SKILL.md")))
-            self.assertIn("INSTALLED_PATH=" + dest, out.getvalue())
-            with contextlib.redirect_stdout(io.StringIO()):
-                self.assertEqual(install.main(["--agent", "codex", "--project", d]), 0)
-            self.assertTrue(os.path.isfile(os.path.join(d, ".agents", "skills", "ie-tools", "VERSION")))
+            rc, out = self._run(["--workspace", d, "--agent", "claude", "--lang", "ar"])
+            self.assertEqual(rc, 0)
+            skills = os.path.join(d, ".claude", "skills")
+            self.assertTrue(os.path.isfile(os.path.join(skills, "ie-reel", "SKILL.md")))
+            self.assertIn("INSTALLED_PATH=" + skills, out)
+            self.assertIn("WORKSPACE_PATH=" + d, out)
+            for f in layout["folders"]:
+                self.assertTrue(os.path.isdir(os.path.join(d, f["ar"])), f["ar"])
+            self.assertTrue(os.path.isfile(os.path.join(d, layout["start_here"]["ar"])))
+            with open(os.path.join(skills, "ie-tools", "workspace.json"), encoding="utf-8") as fh:
+                info = json.load(fh)
+            self.assertEqual(info["lang"], "ar")
+            self.assertEqual(info["workspace"], d)
+            self.assertEqual(info["settings"], os.path.join(d, "الإعدادات"))
+            self.assertFalse(any(n.startswith("ie-") for n in os.listdir(d)))
 
-    def test_project_needs_one_agent_and_an_existing_folder(self):
-        with contextlib.redirect_stderr(io.StringIO()):
-            self.assertEqual(install.main(["--project", "."]), 2)
-            self.assertEqual(install.main(["--agent", "all", "--project", "."]), 2)
-            self.assertEqual(install.main(["--agent", "claude", "--project", "/no/such/folder/x"]), 2)
+    def test_english_workspace_for_both_agents(self):
+        with tempfile.TemporaryDirectory() as d:
+            rc, _ = self._run(["--workspace", d, "--agent", "all", "--lang", "en"])
+            self.assertEqual(rc, 0)
+            for sub in (".claude", ".agents"):
+                self.assertTrue(os.path.isfile(os.path.join(d, sub, "skills", "ie-tools", "VERSION")))
+            self.assertTrue(os.path.isfile(os.path.join(d, "START-HERE.md")))
+            self.assertTrue(os.path.isdir(os.path.join(d, "01-reels")))
 
-    def test_codex_uses_the_agents_folder(self):
-        self.assertEqual(install.TARGETS["codex"], "~/.agents/skills")
+    def test_update_keeps_workspace_and_language(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._run(["--workspace", d, "--agent", "codex", "--lang", "en"])
+            skills = os.path.join(d, ".agents", "skills")
+            with open(os.path.join(skills, "ie-reel", "SKILL.md"), "a", encoding="utf-8") as fh:
+                fh.write("tampered")
+            rc, out = self._run(["--dest", skills])
+            self.assertEqual(rc, 0)
+            self.assertIn("WORKSPACE_PATH=" + d, out)
+            with open(os.path.join(skills, "ie-tools", "workspace.json"), encoding="utf-8") as fh:
+                self.assertEqual(json.load(fh)["lang"], "en")
+            self.assertEqual(selfcheck.verify(skills), ([], [], []))
 
-    def test_agents_md_asks_where_to_install(self):
+    def test_reports_skill_folders_left_loose_by_an_old_install(self):
+        with tempfile.TemporaryDirectory() as d:
+            os.makedirs(os.path.join(d, "ie-reel"))
+            rc, out = self._run(["--workspace", d, "--agent", "claude"])
+            self.assertEqual(rc, 0)
+            self.assertIn("OLD_LAYOUT=ie-reel", out)
+
+    def test_bad_arguments(self):
+        self.assertEqual(self._run(["--workspace", "."])[0], 2)
+        self.assertEqual(self._run(["--agent", "claude", "--workspace", "/no/such/parent/x"])[0], 2)
+
+    def test_global_targets(self):
+        self.assertEqual(install.GLOBAL_TARGETS["codex"], "~/.agents/skills")
+        self.assertEqual(install.GLOBAL_TARGETS["claude"], "~/.claude/skills")
+        self.assertEqual(install.LOCAL_TARGETS["gemini"], ".agents/skills")
+
+    def test_layout_gives_every_skill_exactly_one_folder(self):
+        layout = install.load_layout()
+        mapped = [s for f in layout["folders"] for s in f["skills"]]
+        skills = sorted(n for n in os.listdir(os.path.join(ROOT, "skills"))
+                        if n.startswith("ie-") and n != "ie-tools")
+        self.assertEqual(sorted(mapped), skills)
+        for f in layout["folders"]:
+            self.assertTrue(f["ar"] and f["en"] and f["desc_ar"] and f["desc_en"])
+
+    def test_every_skill_follows_the_workspace_protocol(self):
+        for d in os.listdir(os.path.join(ROOT, "skills")):
+            f = os.path.join(ROOT, "skills", d, "SKILL.md")
+            if os.path.isfile(f):
+                with open(f, encoding="utf-8") as fh:
+                    self.assertIn("ie-setup/WORKSPACE.md", fh.read(), d)
+
+    def test_agents_md_asks_language_and_place(self):
         with open(os.path.join(ROOT, "AGENTS.md"), encoding="utf-8") as fh:
             t = fh.read()
-        self.assertIn("Ask the user where to install", t)
-        self.assertIn("temporary", t)
-        self.assertIn("INSTALLED_PATH=", t)
+        for needle in ("language", "workspace", "temporary", "INSTALLED_PATH=", "WORKSPACE_PATH=", "OLD_LAYOUT="):
+            self.assertIn(needle, t)
+
+
+class Manifest(unittest.TestCase):
+    SKILLS = os.path.join(ROOT, "skills")
+
+    def test_manifest_is_current(self):
+        with open(os.path.join(TOOLS, selfcheck.MANIFEST), encoding="utf-8") as fh:
+            self.assertEqual(fh.read(), selfcheck.build_manifest(self.SKILLS),
+                             "run: python3 skills/ie-tools/selfcheck.py --write-manifest skills")
+
+    def test_verify_catches_a_change_and_ignores_line_endings(self):
+        with tempfile.TemporaryDirectory() as d:
+            install.install(ROOT, d)
+            self.assertEqual(selfcheck.verify(d), ([], [], []))
+            p = os.path.join(d, "ie-reel", "SKILL.md")
+            with open(p, "rb") as fh:
+                data = fh.read()
+            with open(p, "wb") as fh:
+                fh.write(data.replace(b"\n", b"\r\n"))
+            self.assertEqual(selfcheck.verify(d), ([], [], []))
+            with open(p, "ab") as fh:
+                fh.write(b"x")
+            open(os.path.join(d, "ie-reel", "new.md"), "w").close()
+            changed, missing, extra = selfcheck.verify(d)
+            self.assertEqual(changed, ["ie-reel/SKILL.md"])
+            self.assertEqual(extra, ["ie-reel/new.md"])
 
     def test_version_file_matches_plugin_manifest(self):
         with open(os.path.join(TOOLS, "VERSION"), encoding="utf-8") as fh:

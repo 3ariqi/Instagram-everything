@@ -35,6 +35,7 @@ never a PASS), 0 otherwise, so CI can block a change.
 """
 
 import argparse
+import hashlib
 import ast
 import json
 import os
@@ -45,7 +46,7 @@ import unicodedata
 ALLOWED_IMPORTS = {
     "argparse", "json", "os", "re", "sys", "statistics", "unicodedata", "math", "collections",
     "string", "textwrap", "datetime", "typing", "ast", "unittest", "tempfile", "io", "pathlib",
-    "contextlib", "functools", "itertools", "dataclasses",
+    "contextlib", "functools", "itertools", "dataclasses", "hashlib",
 }
 BANNED_CALLS = {"eval", "exec", "compile", "__import__", "breakpoint",
                 "getattr", "setattr", "delattr", "globals", "locals", "vars"}
@@ -55,7 +56,7 @@ BANNED_OS = {"system", "popen", "fork", "forkpty", "kill", "killpg", "execv", "e
              "startfile", "putenv", "chmod", "chown", "setuid", "setgid"}
 DELETE_OS = {"remove", "unlink", "rmdir", "removedirs"}
 SKIP_DIRS = {".git"}  # nothing else may hide files from the audit
-TEXT_EXT = {".py", ".md", ".json", ".txt", ".yml", ".yaml", ".toml", ".cfg", ".ini", ".sh", ".tsv", ".csv", ""}
+TEXT_EXT = {".py", ".md", ".json", ".txt", ".yml", ".yaml", ".toml", ".cfg", ".ini", ".sh", ".tsv", ".csv", ".sha256", ""}
 
 # Patterns are written with character classes ([o], [e]) so this file does not
 # match its own rules when it scans itself.
@@ -257,12 +258,95 @@ def scan(root):
     return rep, len(files)
 
 
+# ---------------------------------------------------------------- integrity
+MANIFEST = "MANIFEST.sha256"
+NOT_IN_MANIFEST = {MANIFEST, "workspace.json"}
+
+
+def _digest(path):
+    """sha256 of a file, with CRLF folded to LF so a Windows checkout matches."""
+    with open(path, "rb") as fh:
+        data = fh.read()
+    return hashlib.sha256(data.replace(b"\r\n", b"\n")).hexdigest()
+
+
+def pack_files(skills_dir):
+    """{'ie-reel/SKILL.md': '/abs/path', ...} for every file in skills_dir/ie-*."""
+    out = {}
+    for name in sorted(os.listdir(skills_dir)):
+        top = os.path.join(skills_dir, name)
+        if not (name.startswith("ie-") and os.path.isdir(top)):
+            continue
+        for d, dirs, files in os.walk(top, followlinks=False):
+            dirs[:] = sorted(x for x in dirs if x != "__pycache__")
+            for f in sorted(files):
+                if f in NOT_IN_MANIFEST or f.endswith((".pyc", ".pyo")):
+                    continue
+                full = os.path.join(d, f)
+                out[os.path.relpath(full, skills_dir).replace(os.sep, "/")] = full
+    return out
+
+
+def build_manifest(skills_dir):
+    files = pack_files(skills_dir)
+    return "".join("%s  %s\n" % (_digest(full), rel) for rel, full in files.items())
+
+
+def read_manifest(path):
+    want = {}
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.rstrip("\n")
+            if line:
+                digest, rel = line.split("  ", 1)
+                want[rel] = digest
+    return want
+
+
+def verify(skills_dir, manifest_path=None):
+    """Compare an installed skills folder with the manifest.
+    Returns (changed, missing, extra) as sorted lists of relative paths."""
+    manifest_path = manifest_path or os.path.join(skills_dir, "ie-tools", MANIFEST)
+    want = read_manifest(manifest_path)
+    have = pack_files(skills_dir)
+    changed = sorted(r for r in want if r in have and _digest(have[r]) != want[r])
+    missing = sorted(r for r in want if r not in have)
+    extra = sorted(r for r in have if r not in want)
+    return changed, missing, extra
+
+
 def main():
     ap = argparse.ArgumentParser(description="Audit a skill pack before installing it.")
     ap.add_argument("path", nargs="?", default=".")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--quiet", action="store_true", help="hide INFO lines")
+    ap.add_argument("--verify", metavar="SKILLS_DIR",
+                    help="check an installed skills folder against ie-tools/MANIFEST.sha256")
+    ap.add_argument("--manifest", help="with --verify: use this manifest (for example from a fresh clone)")
+    ap.add_argument("--write-manifest", metavar="SKILLS_DIR", help="maintainers: rebuild the manifest")
     args = ap.parse_args()
+    if args.write_manifest:
+        d = os.path.abspath(os.path.expanduser(args.write_manifest))
+        with open(os.path.join(d, "ie-tools", MANIFEST), "w", encoding="utf-8", newline="\n") as fh:
+            fh.write(build_manifest(d))
+        print("  wrote %s" % os.path.join(d, "ie-tools", MANIFEST))
+        sys.exit(0)
+    if args.verify:
+        d = os.path.abspath(os.path.expanduser(args.verify))
+        m = args.manifest or os.path.join(d, "ie-tools", MANIFEST)
+        if not os.path.isfile(m):
+            print("  ERROR  no manifest at %s. Nothing was verified." % m, file=sys.stderr)
+            sys.exit(2)
+        changed, missing, extra = verify(d, m)
+        for label, items in (("CHANGED", changed), ("MISSING", missing), ("EXTRA", extra)):
+            for r in items:
+                print("  %-7s  %s" % (label, r))
+        if changed or missing or extra:
+            print("\n  MODIFIED   %d changed   %d missing   %d extra" % (len(changed), len(missing), len(extra)))
+            print("  The installed pack is not the released one. Reinstall the release, or ask who changed it.\n")
+            sys.exit(1)
+        print("\n  INTACT   every file matches the release manifest.\n")
+        sys.exit(0)
     target = os.path.abspath(os.path.expanduser(args.path))
     if not os.path.isdir(target):
         print("  ERROR  not a folder: %s\n  Nothing was checked. This is not a PASS." % args.path, file=sys.stderr)

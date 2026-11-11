@@ -73,16 +73,42 @@
 
 ## لأي وكيل ذكاء اصطناعي (Claude وCodex وGemini وغيرها)
 
-أرسل للوكيل رابط المستودع وقل له: «نزّل وثبّت هذه المهارات». ملف [`AGENTS.md`](AGENTS.md) يشرح له الخطوات بالترتيب: يجلب أحدث وسم إصدار، **ويسألك أين يثبّت** (لكل مشاريعك، أو لهذا المشروع فقط، أو مجلد تحدده)، ثم ينزّل نسخة مؤقتة ويفحصها بـ`selfcheck`، ولا يثبّت إلا إذا نجح الفحص، ثم يحذف النسخة المؤقتة ويخبرك بالمسار الذي ثبّت فيه.
+أرسل للوكيل رابط المستودع وقل له: «نزّل وثبّت هذه المهارات». ملف [`AGENTS.md`](AGENTS.md) يشرح له الخطوات بالترتيب: يجلب أحدث وسم إصدار، **ويسألك عن اللغة (عربي أو إنجليزي) وعن مكان مجلد العمل**، ثم ينزّل نسخة مؤقتة ويفحصها، ولا يثبّت إلا إذا نجح الفحص، ثم يحذف النسخة المؤقتة ويخبرك بالمسارات.
 
-أو ثبّت بنفسك بأمر واحد بعد `git clone` و`git checkout <وسم>`:
+### شكل مجلد العمل بعد التثبيت
+
+```
+D:\AI-Work\instagram\          ← المجلد الذي اخترته
+├── ابدأ-هنا.md               ← افتحه أولاً: شرح كل مجلد وكيف تبدأ
+├── 00-ملفاتي\                ← ضع هنا لقطات التحليلات والتصدير ومنشوراتك القديمة
+├── 01-ريلز\                  ← سكربتات الريلز وخطط المونتاج
+├── 02-كابشن\
+├── 03-كاروسيل-وستوري\
+├── 04-تعليقات-وردود\
+├── 05-أخبار\
+├── 06-نشر-وإعادة-استخدام\
+├── 07-تقارير\                ← تحليل الأداء، خطة الأسبوع، البايو
+├── 08-حماية\
+├── الإعدادات\                ← حسابك وأسلوبك واختياراتك المحفوظة
+└── .claude\skills\           ← الحزمة نفسها (لا تعدّل فيها)
+```
+
+كل ناتج يُحفظ في مجلده باسم التاريخ والموضوع، مثل `2026-11-11-سرقة-الحسابات.md`. وإن اخترت الإنجليزية تصبح الأسماء `01-reels` و`START-HERE.md` وهكذا، ويتعامل معك المساعد بالإنجليزية.
+
+افتح المساعد من هذا المجلد نفسه حتى يرى المهارات (Claude Code يقرأ `.claude/skills`، وCodex وGemini CLI يقرآن `.agents/skills`).
+
+أو ثبّت بنفسك بعد `git clone --depth 1 --branch <وسم>`:
 
 ```bash
-python3 install.py --agent claude                       # Claude Code لكل مشاريعك: ~/.claude/skills
-python3 install.py --agent agents                       # Codex وGemini CLI لكل مشاريعك: ~/.agents/skills
-python3 install.py --agent claude --project <مجلد المشروع>  # لمشروع واحد فقط: <المشروع>/.claude/skills
-python3 install.py --dest <أي مجلد>                       # أي وكيل آخر أو مجلد تختاره
+python3 -I install.py --workspace "D:/AI-Work/instagram" --agent claude --lang ar   # كل شيء في مجلد واحد
+python3 -I install.py --workspace "D:/AI-Work/instagram" --agent all --lang ar      # لـClaude Code وCodex معاً
+python3 -I install.py --global --agent claude --lang en                            # المهارات لكل مشاريعك
+python3 -I install.py --dest <مجلد مهارات وكيل آخر> --workspace <مجلد> --lang ar
 ```
+
+**هل عدّل أحد الحزمة؟** كل إصدار فيه بصمة لكل ملف. شغّل
+`python3 -I <مجلد المهارات>/ie-tools/selfcheck.py --verify <مجلد المهارات>`
+فيخبرك أي ملف تغيّر بالضبط، أو `INTACT` إن لم يتغير شيء.
 
 المثبّت يفحص الحزمة أولاً ويرفض التثبيت إن فشل الفحص. الأدوات بايثون فقط، فالوكلاء التي لا تشغّل أوامر (مثل المحادثات العادية) تقرأ ملفات `SKILL.md` وتطبّقها يدوياً بلا الأرقام.
 
@@ -90,8 +116,8 @@ python3 install.py --dest <أي مجلد>                       # أي وكيل 
 
 ## كيف أفعّل المهارات وأستخدمها؟ (خطوة بخطوة)
 
-1. **ثبّت**: أرسل للوكيل رابط المستودع وقل «نزّل وثبّت». سيسألك أين يثبّت: لكل مشاريعك (موصى به)، أو لهذا المشروع فقط، أو مجلد تحدده.
-2. **افتح محادثة جديدة** أو أعد تشغيل الوكيل، فالمهارات لا تُحمَّل في محادثة كانت مفتوحة قبل التثبيت.
+1. **ثبّت**: أرسل للوكيل رابط المستودع وقل «نزّل وثبّت». سيسألك عن اللغة وعن مكان مجلد العمل.
+2. **افتح محادثة جديدة من مجلد العمل** (أو أعد تشغيل الوكيل)، فالمهارات لا تُحمَّل في محادثة كانت مفتوحة قبل التثبيت. وافتح `ابدأ-هنا.md` لتعرف كل مجلد.
 3. **تأكد أنها ظهرت:** في Claude Code و Codex و Gemini CLI اكتب `/skills` وابحث عن أسماء تبدأ بـ `ie-`.
 4. **ابدأ بالإعداد:** اكتب `/ie-setup` (في Codex: `$ie-setup`)، أو قل ببساطة «ابدأ» أو «تعلّم أسلوبي». أجب عمّا تريد وألصق 3 إلى 10 من منشوراتك.
 5. **اطلب بكلامك العادي:** «اكتب لي ريل عن حماية الحساب». الوكيل يفهم من وصف المهارة أي واحدة يشغّل، أو نادِها بالاسم: `/ie-reel` في Claude Code، `$ie-reel` في Codex، وفي Gemini CLI تُفعَّل تلقائياً حسب الوصف.
@@ -114,10 +140,10 @@ python3 install.py --dest <أي مجلد>                       # أي وكيل 
 **ثبّت إصداراً محدداً، لا «أحدث نسخة».** هذا يضمن أن ما تثبّته هو ما فُحص:
 
 ```bash
-git clone --depth 1 --branch v1.0.1 https://github.com/3ariqi/Instagram-everything.git
+git clone --depth 1 --branch v1.1.0 https://github.com/3ariqi/Instagram-everything.git
 cd Instagram-everything
 python3 -I skills/ie-tools/selfcheck.py .      # افحص قبل النسخ
-python3 -I install.py --agent claude           # أو --project <مجلد المشروع> أو --dest <مجلد>
+python3 -I install.py --workspace <مجلدك> --agent claude --lang ar
 ```
 
 أو كإضافة في Claude Code:
@@ -170,6 +196,6 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 - Standard-library Python only. No network, no subprocess, nothing uploaded. Nothing is posted or sent on your behalf.
 - CI rejects network code, process execution, hidden Unicode and prompt-injection phrases on every change.
 
-Install a pinned release (`git clone --depth 1 --branch v1.0.1 ...`), run `python3 skills/ie-tools/selfcheck.py .`, then `python3 install.py --agent claude` (or `--project <dir>`, or `--dest <dir>`). Agents following AGENTS.md ask you where to install first.
+Install a pinned release (`git clone --depth 1 --branch v1.1.0 ...`), run `python3 skills/ie-tools/selfcheck.py .`, then `python3 install.py --workspace <folder> --agent claude --lang en`. You get one folder per kind of work, a START-HERE file, and the skills in `<folder>/.claude/skills`. Agents following AGENTS.md ask your language and folder first.
 
 By **Ahmed Taher** ([@3ariqi](https://github.com/3ariqi)). MIT licensed.

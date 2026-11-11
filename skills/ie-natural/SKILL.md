@@ -15,6 +15,8 @@ Captions are short and scripts are said out loud, so one template phrase is a
 bigger share of the text than it would be in an essay. The tell is not a
 detector; it is a viewer scrolling past something that sounds like a brochure.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Tools
 
 In `<base>/../ie-tools/`:

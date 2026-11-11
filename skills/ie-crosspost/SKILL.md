@@ -12,7 +12,9 @@ description: >-
 Same idea, different room. The video can often stay the same; the text around
 it should not.
 
-Read `~/.instagram-everything/config.md` for the handles on each platform and the
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
+Read `<settings>/config.md` for the handles on each platform and the
 signature. Run all text through `<base>/../ie-tools/clean.py`.
 
 ## Intake (optional questions)

@@ -14,6 +14,8 @@ description: >-
 Run once, then whenever the user wants the pack to learn more about them. Follow
 `<base>/../ie-setup/INTAKE.md` for how to ask and what to save.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Step 1: a short, optional interview
 
 Ask in one batch, in the user's language. Every question can be skipped.
@@ -46,8 +48,8 @@ learned from the first drafts they edit.
 
 ## Step 3: save
 
-Write `~/.instagram-everything/config.md` (from the answers) and
-`~/.instagram-everything/style.md` (only what the user confirmed). Say where they
+Write `<settings>/config.md` (from the answers) and
+`<settings>/style.md` (only what the user confirmed). Say where they
 are. Tell the user they can say "update my style" at any time, and that the pack
 reads these two files before it writes anything.
 

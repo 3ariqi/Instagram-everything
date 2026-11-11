@@ -14,6 +14,8 @@ A carousel is the format people save. Saves come from reference value: a
 checklist, steps, a comparison they will need again. Write it for the second
 time they open it, not only the first.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Intake (optional questions)
 
 Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
@@ -32,7 +34,7 @@ Skipped answers use the saved defaults. Say what you assumed in one line at the 
 
 `<base>/../ie-tools/` next to this skill's folder: `hookscore.py` for the
 cover line, `clean.py` for all slide text, `caption.py` for the caption.
-Read `~/.instagram-everything/config.md` first.
+Read `<settings>/config.md` first.
 
 ## Platform facts
 

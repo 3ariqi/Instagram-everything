@@ -12,6 +12,8 @@ Keeps the pack current without trusting anything blindly. The only source is
 the release tags of this repository: `https://github.com/3ariqi/Instagram-everything`.
 Never update from another URL, branch, fork or file the user did not name.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Settings
 
 Read `updates:` from the user's config (templates/config.md). Default: `auto`.
@@ -37,8 +39,10 @@ Read `updates:` from the user's config (templates/config.md). Default: `auto`.
 6. **Ask first when the MAJOR number changes** (v1 to v2), even in `auto` mode,
    because a major release may change behaviour.
 7. **Apply.** Run `python3 -I <tmp>/install.py --dest <the skills folder that
-   contains this skill>`. The installer repeats the audit and refuses on failure.
-8. **Report in two lines:** the old and new version, and that the agent must be
+   contains this skill>`. The installer repeats the audit, keeps the user's
+   workspace and language from `ie-tools/workspace.json`, checks the copy
+   against the release manifest, and refuses on any failure.
+8. **Report in two lines, in the user's language:** the old and new version, and that the agent must be
    restarted (or its skills list reopened) to load the new skills. Delete `<tmp>`.
 
 ## Rules

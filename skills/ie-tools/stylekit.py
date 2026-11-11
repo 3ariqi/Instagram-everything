@@ -15,7 +15,7 @@ line, each block separated by a blank line counts as one post.
 
 Usage:
   python3 stylekit.py learn samples.txt
-  python3 stylekit.py learn samples.txt --out ~/.instagram-everything/style.md
+  python3 stylekit.py learn samples.txt --out <settings>/style.md
   python3 stylekit.py diff draft.txt final.txt
   python3 stylekit.py learn samples.txt --json
 """

@@ -14,6 +14,8 @@ description: >-
 The research skill. Everything else writes; this one looks. Run it monthly:
 formulas last a season.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## The one idea
 
 **Raw views are not evidence.** 400,000 views on a 2-million-follower account
@@ -70,7 +72,7 @@ Use the browsing tool this session has, with the user present.
 Save as a tab-separated file with a header row, then:
 
 ```bash
-python3 <base>/../ie-tools/swipe.py captured.tsv --out ~/.instagram-everything/swipe.md
+python3 <base>/../ie-tools/swipe.py captured.tsv --out <settings>/swipe.md
 ```
 
 It accepts Arabic digits and "48k" / "1.2m" shorthand, computes the outlier

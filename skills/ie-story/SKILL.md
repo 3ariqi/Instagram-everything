@@ -13,7 +13,9 @@ description: >-
 Stories reach people who already follow. Their job is not reach, it is
 conversation: replies, poll votes and DMs, which is where trust is built.
 
-Read `~/.instagram-everything/config.md` first. Use `clean.py` from
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
+Read `<settings>/config.md` first. Use `clean.py` from
 `<base>/../ie-tools/` on all on-screen text.
 
 ## Intake (optional questions)

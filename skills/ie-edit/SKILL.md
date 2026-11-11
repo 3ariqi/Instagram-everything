@@ -13,6 +13,8 @@ description: >-
 Turns a finished script (from `/ie-reel` or the user's own) into an edit plan
 someone can follow in any editor. It plans; it does not touch the video.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Intake (optional questions)
 
 Follow `<base>/../ie-setup/INTAKE.md`. Ask these in one batch, all optional:

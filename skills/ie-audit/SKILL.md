@@ -14,6 +14,8 @@ The only honest evidence for what works on an account is that account's own
 last 20 to 30 posts. Every rule in every guide, this pack included, is a guess
 until the account's numbers agree.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Input
 
 Whatever the user has, screenshots are fine:
@@ -24,7 +26,7 @@ Whatever the user has, screenshots are fine:
   says more than the rest combined.
 - Or just the posts and their view counts, which is enough for a first pass.
 
-Also read `~/.instagram-everything/log.md` if it exists: it records the hook
+Also read `<settings>/log.md` if it exists: it records the hook
 formula each post used.
 
 **How the numbers get here.** The user opens Instagram's own Insights

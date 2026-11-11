@@ -13,6 +13,8 @@ description: >-
 One source, several posts, each standing alone. The mistake is cutting the
 source into pieces; the goal is finding the separate ideas inside it.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Input
 
 A transcript, an article, slides, or notes. If it's a video, ask for the

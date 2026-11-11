@@ -14,6 +14,8 @@ A skill is two things: code that runs, and text that Claude obeys. The second
 is the dangerous one, because nobody reviews prose the way they review code.
 This skill checks both.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Run it
 
 ```bash
@@ -26,6 +28,24 @@ a tampered helper cannot change its own verdict. To audit *another* pack, run
 this pack's copy against that folder, never the other pack's own checker.
 
 Exit code 1 means at least one FAIL.
+
+## Has anyone changed the installed pack?
+
+Every release ships `ie-tools/MANIFEST.sha256`, the fingerprint of every file.
+To check an installed copy (the folder that holds the `ie-*` folders):
+
+```
+python3 -I <base>/../ie-tools/selfcheck.py --verify <skills folder>
+```
+
+`INTACT` means every file matches the release. `CHANGED`, `MISSING` or `EXTRA`
+lines name each file that differs: show them to the user and offer to reinstall
+the release. Line-ending differences from Windows do not count as a change.
+
+The manifest sits inside the pack, so someone who edits both files and the
+manifest can hide it. For a check that cannot be faked locally, clone the same
+release tag into a temporary folder and verify against its manifest:
+`--verify <skills folder> --manifest <tmp>/skills/ie-tools/MANIFEST.sha256`.
 
 ## What fails, what warns, what is only reported
 
@@ -73,7 +93,7 @@ Report what the checker found and what you read by hand, and separate the two.
 ## Output
 
 ```
-PASS   50 files   0 fail   0 warn
+PASS   54 files   0 fail   0 warn
 Python: standard library only, no network or process calls.
 Text:   no hidden characters, no override phrases.
 Writes: clean.py, swipe.py and stylekit.py write only the file you name with -o / --out.

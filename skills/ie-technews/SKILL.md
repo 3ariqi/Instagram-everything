@@ -12,6 +12,8 @@ description: >-
 A news account lives on one thing: being right and being early, in that order.
 A wrong story posted fast costs more trust than ten late right ones earn.
 
+**Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
+
 ## Intake (optional questions)
 
 Follow `<base>/../ie-setup/INTAKE.md`: look at the saved config, style and presets first, ask only what is
