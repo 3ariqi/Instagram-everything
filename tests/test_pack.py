@@ -392,7 +392,7 @@ class Installer(unittest.TestCase):
             self.assertIn("OLD_LAYOUT=ie-reel", out)
 
     def test_update_of_an_old_loose_install_turns_its_folder_into_the_workspace(self):
-        # v1.0 put ie-* straight into the chosen folder, and its ie-update runs
+        # An early pre-release put ie-* straight into the chosen folder, and its ie-update runs
         # the new installer with --dest <that folder>.
         with tempfile.TemporaryDirectory() as d:
             old = os.path.join(d, "instagram")

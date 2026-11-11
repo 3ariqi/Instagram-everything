@@ -122,7 +122,7 @@ def stale_skills(root, dest):
 
 
 def old_flat_install(workspace):
-    """ie-* skill folders sitting directly in the workspace (the v1.0 layout)."""
+    """ie-* skill folders sitting directly in the workspace (an early pre-release layout)."""
     if not os.path.isdir(workspace):
         return []
     return sorted(n for n in os.listdir(workspace)
@@ -186,7 +186,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Install Instagram-everything for any AI agent.")
     ap.add_argument("--agent", choices=sorted(GLOBAL_TARGETS) + ["all"], help="which agent")
     ap.add_argument("--workspace", help="the folder the user chose for their work (and, by default, the skills)")
-    ap.add_argument("--project", help=argparse.SUPPRESS)  # v1.0.1 name for --workspace
+    ap.add_argument("--project", help=argparse.SUPPRESS)  # earlier name for --workspace
     ap.add_argument("--global", dest="global_", action="store_true",
                     help="put the skills in the agent's folder for all projects; the workspace holds outputs only")
     ap.add_argument("--dest", help="a custom skills folder (for any other agent)")
@@ -206,7 +206,7 @@ def main(argv=None):
             lang = args.lang or info.get("lang")
     migrate = False
     if args.dest and not workspace:
-        # A v1.0 install put the ie-* folders straight into the folder the user
+        # An early pre-release install put the ie-* folders straight into the folder the user
         # chose. Updating it in place would keep that mess and create the
         # workspace somewhere else, so turn that folder into the workspace.
         dest_abs = os.path.abspath(os.path.expanduser(args.dest))
