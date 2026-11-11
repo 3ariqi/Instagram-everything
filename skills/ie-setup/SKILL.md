@@ -62,3 +62,6 @@ reads these two files before it writes anything.
 Two lines: what was saved, and the one thing they can try next, for example
 "اكتب لي ريل عن ..." (the reel skill will ask its own few questions, or use your
 saved defaults).
+
+If they want posts prepared by themselves from a weekly plan, mention
+`/ie-autopilot` in one line.

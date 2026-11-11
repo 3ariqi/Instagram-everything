@@ -32,6 +32,7 @@ All in the `settings` folder:
 - `style.md`    how the user writes, measured by `stylekit.py` and confirmed by them
 - `presets.md`  the answers they chose to keep as defaults, one block per task
 - `log.md`, `plan.md`, `swipe.md`   results, the weekly plan, research notes
+- `autopilot.md`, `queue.json`, `autopilot-log.md`   the autopilot's routine, its queue and its run log
 
 Written only with the user's clear yes (see `INTAKE.md`).
 
@@ -56,7 +57,8 @@ exists, add `-2`, `-3`. Tell the user the file path in one line at the end.
 | `crosspost` | ie-crosspost, ie-repurpose, ie-natural (when the user wants the cleaned text kept) |
 | `reports` | ie-audit, ie-plan, ie-viral, ie-profile |
 | `security` | ie-scamguard, ie-harden (a checklist of what was done), ie-selfcheck |
-| `settings` | ie-setup; ie-update writes nothing else |
+| `ready` | ie-autopilot: one package per post (everything needed to post it) and `00-ماذا-ينتظرك.md` / `00-whats-waiting.md` |
+| `settings` | ie-setup, ie-autopilot (routine and queue); ie-update writes nothing else |
 | `inbox` | nothing is saved here: it is where the user drops screenshots, exports and old posts for you to read |
 
 Short answers that are not a deliverable (a quick question, a one-line reply)

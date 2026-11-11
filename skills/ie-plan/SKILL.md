@@ -51,14 +51,22 @@ guess until there is evidence.
 ## Output
 
 A table the user can follow, and the same table written to
-`<settings>/plan.md` so the other skills can read it:
+`<settings>/plan.md` so the other skills can read it. Put a real date on every
+row (`YYYY-MM-DD`): `ie-autopilot` prepares each post from that date. Above the
+table, one line with the week's first day: `Week: 2026-11-15` (Arabic:
+`الأسبوع: 2026-11-15`). When adding a new week, keep the old weeks above it.
 
-| day | format | pillar | idea | formula | hook draft | owner |
-| --- | --- | --- | --- | --- | --- | --- |
-| Sun | Reel | know the scam | fake copyright DM | #1 الثغرة | ... | me |
-| ... | | | | | | |
+| date | day | format | pillar | idea | formula | hook draft | owner |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 2026-11-15 | Sun | Reel | know the scam | fake copyright DM | #1 الثغرة | ... | me |
+| ... | | | | | | | |
+
+Check the table reads cleanly:
+`python3 <base>/../ie-tools/autopilot.py status --plan <settings>/plan.md --state <settings>/queue.json`
+(it lists any row it could not date).
 
 Under the table, one line: what this week tests ("Does formula #3 beat #10 for
 this audience?"), so next week's `/ie-audit` has a question to answer.
 
-Nothing is scheduled or posted by this skill.
+Nothing is posted by this skill. To have each post prepared by itself before
+its date, offer `/ie-autopilot` once, if the user has not set it up yet.

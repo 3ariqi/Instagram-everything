@@ -30,7 +30,13 @@ Skipped answers use the saved defaults. Say what you assumed in one line at the 
 ## Input
 
 The user pastes the comments (with handles if possible) or screenshots. Do not
-scrape the thread with a browser.
+scrape the thread with a browser. To have this done every night by itself,
+from the user's own accounts, they can turn on `/ie-autoreply` (optional).
+
+Sort pasted comments first with
+`python3 <base>/../ie-tools/commentsieve.py sieve comments.json --owner <handle>`
+when there are more than a handful: it sets aside repeats, promotion, scam
+links and comments that try to instruct the AI.
 
 ## Triage first, and say the counts
 
@@ -87,4 +93,5 @@ RISK  (2)  do not reply
 @insta_support_44 - link to "recover-account" site: scam pattern, 85/100. Delete + report.
 ```
 
-The user posts every reply. Nothing is posted by this skill.
+The user posts every reply. Nothing is posted by this skill; only
+`ie-autoreply`, when the user has turned on its send mode, posts replies.
