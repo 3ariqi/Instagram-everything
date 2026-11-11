@@ -198,6 +198,7 @@ def render(r, label=None):
 
 
 def main():
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Score how natural a draft reads (Arabic/English).")
     ap.add_argument("inputs", nargs="+", help="one file, or two to compare (before after)")
     ap.add_argument("--json", action="store_true")

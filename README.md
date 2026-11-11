@@ -28,7 +28,7 @@ https://github.com/3ariqi/Instagram-everything
 - [دليل المستخدم (PDF)](docs/user-guide.pdf): لكل شخص، بلا أوامر برمجية: ماذا تفعل الحزمة، كيف تبدأ، أمثلة محادثة كاملة.
 - [دليل المبرمجين (PDF)](docs/developer-guide.pdf): البنية، التثبيت لكل وكيل، الأدوات بمخرجاتها الحقيقية، والفحص الأمني.
 
-## الإصدار الحالي: v1.1.1
+## الإصدار الحالي: v1.1.2
 
 - **مجلد عمل مرتّب:** مجلد لكل نوع من العمل (ريلز، كابشن، أخبار، تقارير...)، وملف «ابدأ-هنا»، والحزمة نفسها في مجلد منفصل لا يُعدَّل.
 - **لغتك من أول خطوة:** تختار العربية أو الإنجليزية عند التثبيت، فتصبح بها أسماء المجلدات والملفات وكل تعامل المساعد معك.
@@ -37,6 +37,7 @@ https://github.com/3ariqi/Instagram-everything
 - **تحليل الأداء بطريقتين:** ترفق لقطات الشاشة، أو تسمح للمساعد بقراءة صفحة «رؤى» حسابك بنفسه (قراءة فقط).
 - **بصمة لكل ملف:** تكشف أي تعديل على الحزمة بعد التثبيت، والمثبّت يرفض النسخة المعدّلة.
 - **v1.1.1:** من ثبّت نسخة قديمة كانت مجلداتها مبعثرة، يرتّبها التحديث في نفس المجلد تلقائياً، ثم يسألك قبل حذف النسخ القديمة.
+- **v1.1.2:** إصلاح لمستخدمي ويندوز: كان المثبّت وكل الأدوات تتوقف بخطأ `UnicodeEncodeError` عند طباعة أي نص عربي، مع أن الملفات كانت تُنسخ سليمة. الآن المخرجات UTF-8 دائماً.
 
 كل الإصدارات وملاحظاتها في [صفحة الإصدارات](https://github.com/3ariqi/Instagram-everything/releases).
 
@@ -172,7 +173,7 @@ python3 -I install.py --dest <مجلد مهارات وكيل آخر> --workspace
 **ثبّت إصداراً محدداً، لا «أحدث نسخة».** هذا يضمن أن ما تثبّته هو ما فُحص:
 
 ```bash
-git clone --depth 1 --branch v1.1.1 https://github.com/3ariqi/Instagram-everything.git
+git clone --depth 1 --branch v1.1.2 https://github.com/3ariqi/Instagram-everything.git
 cd Instagram-everything
 python3 -I skills/ie-tools/selfcheck.py .      # افحص قبل النسخ
 python3 -I install.py --workspace <مجلدك> --agent claude --lang ar
@@ -229,7 +230,7 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 
 - Reels, captions, carousels, stories, profile, weekly plan, comments, replies, DMs, research, audits, repurposing and cross-posting.
 - Security and news: `/ie-scamguard` (scam message analysis), `/ie-harden` (account hardening), `/ie-news` (3-source fact-checked news in any field, written for that field), `/ie-selfcheck` (audits the pack itself), `/ie-update` (safe updates).
-- v1.1 (current v1.1.1): an organised workspace (one folder per kind of work, a START-HERE file, the pack kept apart), language chosen at install, field-aware writing, performance audits from screenshots or read-only browsing, and a SHA-256 manifest that detects any change to the installed pack. v1.1.1: updating an old loose install now reorganises that same folder instead of leaving it as is.
+- v1.1 (current v1.1.2): an organised workspace (one folder per kind of work, a START-HERE file, the pack kept apart), language chosen at install, field-aware writing, performance audits from screenshots or read-only browsing, and a SHA-256 manifest that detects any change to the installed pack. v1.1.1: updating an old loose install now reorganises that same folder instead of leaving it as is. v1.1.2: Windows fix, the installer and every tool no longer stop with UnicodeEncodeError when printing Arabic.
 - Unicode-aware tools: Arabic tokenization, Arabic punctuation, ZWJ emoji preserved.
 - Standard-library Python only. No network, no subprocess, nothing uploaded. Nothing is posted or sent on your behalf.
 - CI rejects network code, process execution, hidden Unicode and prompt-injection phrases on every change. `main` is protected against deletion and force pushes.
@@ -237,7 +238,7 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 Manual install of the pinned release:
 
 ```bash
-git clone --depth 1 --branch v1.1.1 https://github.com/3ariqi/Instagram-everything.git
+git clone --depth 1 --branch v1.1.2 https://github.com/3ariqi/Instagram-everything.git
 cd Instagram-everything
 python3 -I skills/ie-tools/selfcheck.py .
 python3 -I install.py --workspace <folder> --agent claude --lang en

@@ -140,6 +140,7 @@ def render(a, lang):
 
 
 def main():
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Rank collected Reels by outlier multiple.")
     ap.add_argument("input", nargs="?", default="-")
     ap.add_argument("--out", help="write the swipe file (markdown) here")

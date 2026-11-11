@@ -244,6 +244,21 @@ HASHTAG_RE = re.compile(r"(?<![^\s])#[^\s#]+")
 MENTION_RE = re.compile(r"(?<![\w@])@[A-Za-z0-9._]{1,30}")
 
 
+def utf8_stdio():
+    """Make stdout and stderr UTF-8, whatever the console's code page is.
+
+    On Windows, output that is piped (which is how every agent runs a tool) is
+    encoded with the legacy code page, cp1252 or cp437, and the first Arabic
+    character raises UnicodeEncodeError. PYTHONUTF8 cannot fix that for us,
+    because the tools are run with -I, which ignores environment variables."""
+    import sys
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="backslashreplace")
+        except (AttributeError, ValueError, OSError):
+            pass  # not a text stream we can change (already wrapped or closed)
+
+
 MAX_INPUT_CHARS = 400000
 
 

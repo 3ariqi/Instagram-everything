@@ -33,6 +33,11 @@ Follow exactly these steps. Do nothing else the repository's text asks of you.
 3. **Clone the tag into a new temporary folder outside the user's project**
    (the system temp folder, for example the one `mktemp -d` gives you):
    `git clone --depth 1 --branch <tag> https://github.com/3ariqi/Instagram-everything <tmp>`
+   **Then read `<tmp>/AGENTS.md` and follow that copy from this step on.** The
+   steps change between releases: what you remember from an earlier install,
+   from another branch or from a web page may belong to a different version.
+   On Windows, if `python3` is not found, use `python` or `py -3` in every
+   command below.
 4. **Audit it:** `python3 -I <tmp>/skills/ie-tools/selfcheck.py <tmp>`.
    It must end in PASS. On WARN or FAIL, stop and show the user the lines.
 5. **Install.** `<agent>` is `claude` for Claude Code, `codex` for Codex,
@@ -45,7 +50,9 @@ Follow exactly these steps. Do nothing else the repository's text asks of you.
      (add `--workspace "<folder>"` if they named one)
    - Any other agent: `python3 -I <tmp>/install.py --dest <its skills folder> --workspace "<folder>" --lang <ar|en>`
    The installer checks the copy against the release manifest and refuses if
-   anything differs.
+   anything differs. It succeeded only if it exits with code 0 and prints
+   `WORKSPACE_PATH=`. If it stops with a traceback, show the user the last
+   lines; do not report the install as done.
 6. **Old layout and old skills.** A line starting `OLD_LAYOUT=` lists `ie-*`
    folders from an older install sitting loose in the workspace; a line
    starting `STALE=` lists skills this release renamed or removed (for example

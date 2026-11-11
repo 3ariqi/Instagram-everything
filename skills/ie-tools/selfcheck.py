@@ -321,7 +321,23 @@ def verify(skills_dir, manifest_path=None):
     return changed, missing, extra
 
 
+def utf8_stdio():
+    """Make stdout and stderr UTF-8, whatever the console's code page is.
+
+    On Windows, output that is piped (which is how every agent runs a tool) is
+    encoded with the legacy code page, cp1252 or cp437, and the first Arabic
+    character raises UnicodeEncodeError. PYTHONUTF8 cannot fix that for us,
+    because this file is run with -I, which ignores environment variables."""
+    import sys
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="backslashreplace")
+        except (AttributeError, ValueError, OSError):
+            pass  # not a text stream we can change (already wrapped or closed)
+
+
 def main():
+    utf8_stdio()
     ap = argparse.ArgumentParser(description="Audit a skill pack before installing it.")
     ap.add_argument("path", nargs="?", default=".")
     ap.add_argument("--json", action="store_true")

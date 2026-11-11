@@ -167,6 +167,7 @@ def render(r):
 
 
 def main():
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Score a suspicious message (Arabic/English).")
     ap.add_argument("input", nargs="?", default="-")
     ap.add_argument("--json", action="store_true")

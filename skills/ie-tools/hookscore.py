@@ -188,6 +188,7 @@ def render(results):
 
 
 def main():
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Score Reel hooks (Arabic/English).")
     ap.add_argument("input", nargs="?", default="-", help="file with one hook per line, or -")
     ap.add_argument("--hook", help="score a single hook")
