@@ -391,6 +391,26 @@ class Installer(unittest.TestCase):
             self.assertEqual(rc, 0)
             self.assertIn("OLD_LAYOUT=ie-reel", out)
 
+    def test_reports_skills_the_release_no_longer_ships(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._run(["--workspace", d, "--agent", "claude"])
+            skills = os.path.join(d, ".claude", "skills")
+            os.makedirs(os.path.join(skills, "ie-technews"))
+            rc, out = self._run(["--dest", skills])
+            self.assertEqual(rc, 0)
+            self.assertIn("STALE=" + os.path.join(skills, "ie-technews"), out)
+
+    def test_every_field_has_rules(self):
+        with open(os.path.join(ROOT, "skills", "ie-setup", "NICHES.md"), encoding="utf-8") as fh:
+            t = fh.read()
+        for field in ("## Tech", "## Religious", "## Political", "## Social", "## Health",
+                      "## Money", "## Education", "## Entertainment", "## Other"):
+            self.assertIn(field, t)
+        with open(os.path.join(ROOT, "skills", "ie-news", "SKILL.md"), encoding="utf-8") as fh:
+            news = fh.read()
+        self.assertIn("NICHES.md", news)
+        self.assertIn("name: ie-news", news)
+
     def test_bad_arguments(self):
         self.assertEqual(self._run(["--workspace", "."])[0], 2)
         self.assertEqual(self._run(["--agent", "claude", "--workspace", "/no/such/parent/x"])[0], 2)
@@ -524,7 +544,7 @@ class EmptyInputs(unittest.TestCase):
 
 class Intake(unittest.TestCase):
     CREATIVE = ("ie-reel", "ie-caption", "ie-carousel", "ie-story", "ie-crosspost",
-                "ie-technews", "ie-plan", "ie-comment", "ie-reply", "ie-dm", "ie-edit")
+                "ie-news", "ie-plan", "ie-comment", "ie-reply", "ie-dm", "ie-edit")
 
     def test_every_creative_skill_has_optional_intake(self):
         for d in self.CREATIVE:

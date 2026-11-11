@@ -112,6 +112,15 @@ def install(root, dest, dry_run=False):
     return written
 
 
+def stale_skills(root, dest):
+    """ie-* folders in dest that this release no longer ships (renamed or removed)."""
+    if not os.path.isdir(dest):
+        return []
+    shipped = {n for n in os.listdir(os.path.join(root, "skills")) if n.startswith("ie-")}
+    return sorted(n for n in os.listdir(dest)
+                  if n.startswith("ie-") and n not in shipped and os.path.isdir(os.path.join(dest, n)))
+
+
 def old_flat_install(workspace):
     """ie-* skill folders sitting directly in the workspace (the v1.0 layout)."""
     if not os.path.isdir(workspace):
@@ -247,6 +256,10 @@ def main(argv=None):
                       % (dest, len(changed), len(missing)), file=sys.stderr)
                 return 1
             print("INSTALLED_PATH=%s" % dest)
+            stale = stale_skills(HERE, dest)
+            if stale:
+                print("STALE=%s" % ", ".join(os.path.join(dest, n) for n in stale))
+                print("These skills are no longer part of the pack (renamed or removed). Ask the user, then delete them.")
         else:
             print("TARGET_PATH=%s" % dest)
 

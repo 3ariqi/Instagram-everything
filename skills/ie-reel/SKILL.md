@@ -25,7 +25,7 @@ missing, in one batch, every question optional. For a Reel script:
 3. **Delivery / طريقة التقديم:** you to camera · voiceover over the screen · text only · two voices
 4. **Tone / النبرة:** serious · friendly · sharp · urgent
 5. **Language / اللغة:** standard Arabic · my dialect · English
-6. **Audience level / مستوى الجمهور:** beginner · average · technical
+6. **Audience level / مستوى الجمهور:** beginner · average · specialist
 
 Skipped answers use the saved defaults. Say what you assumed in one line at the top.
 
@@ -53,7 +53,7 @@ English, each with a shape and an example).
    user's niche beat the defaults.
 3. **Facts.** If the script states a fact about a product, a company, a law, a
    vulnerability, a statistic or a date, it must be checked before it is
-   scripted. For anything newsworthy, hand off to `/ie-technews`. Never
+   scripted. For anything newsworthy, hand off to `/ie-news`. Never
    invent a number to make a hook concrete: ask the user for theirs.
 
 ## Steps

@@ -21,14 +21,18 @@ Run once, then whenever the user wants the pack to learn more about them. Follow
 Ask in one batch, in the user's language. Every question can be skipped.
 
 1. **Account:** the handle and one line on what it is about.
-2. **Platforms:** Instagram, TikTok, YouTube Shorts, X, or all of them.
-3. **Language and register:** Arabic, English or both. For Arabic: plain standard
+2. **Field:** tech and security · religious · political and public affairs ·
+   social and community · health · money and business · education ·
+   entertainment and lifestyle · other (one or two). Every skill adapts its
+   sources, tone and red lines to it (see `NICHES.md`).
+3. **Platforms:** Instagram, TikTok, YouTube Shorts, X, or all of them.
+4. **Language and register:** Arabic, English or both. For Arabic: plain standard
    Arabic, a local dialect (which one), or a mix. Keep technical terms in
    English or translate them?
-4. **Audience:** who they are, how technical, what they want from the account.
-5. **Voice:** three words for how you sound; words you never use; emoji (none, a
+5. **Audience:** who they are, how technical, what they want from the account.
+6. **Voice:** three words for how you sound; words you never use; emoji (none, a
    few, plenty); on camera, voiceover or text only.
-6. **Signature:** the closing lines added to every script and caption, and the
+7. **Signature:** the closing lines added to every script and caption, and the
    name credit, if any.
 
 ## Step 2: learn from the user's own writing

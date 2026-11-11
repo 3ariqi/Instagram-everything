@@ -40,7 +40,7 @@ guess until there is evidence.
 
 - **Content pillars:** 3, from the config. For a security-awareness account,
   for example: protect yourself (how-tos), know the scam (warnings),
-  tech news explained (`/ie-technews`).
+  news in your field, explained (`/ie-news`).
 - **Formats:** mostly Reels for reach, one carousel for saves, Stories every
   posting day for conversation.
 - **One idea per post.** If two posts in the week share a hook formula, change

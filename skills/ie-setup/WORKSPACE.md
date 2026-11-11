@@ -52,7 +52,7 @@ exists, add `-2`, `-3`. Tell the user the file path in one line at the end.
 | `captions` | ie-caption |
 | `carousels` | ie-carousel, ie-story |
 | `engage` | ie-comment, ie-reply, ie-dm |
-| `news` | ie-technews (script and evidence table in one file) |
+| `news` | ie-news (script and evidence table in one file) |
 | `crosspost` | ie-crosspost, ie-repurpose, ie-natural (when the user wants the cleaned text kept) |
 | `reports` | ie-audit, ie-plan, ie-viral, ie-profile |
 | `security` | ie-scamguard, ie-harden (a checklist of what was done), ie-selfcheck |

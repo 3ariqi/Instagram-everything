@@ -18,7 +18,7 @@
 | الأمان | ثق بنا | فحص ذاتي تلقائي مع كل تعديل، وأمر `/ie-selfcheck` تشغّله بنفسك |
 | النشر على إنستقرام | — | لا تنشر ولا ترسل أي شيء نيابةً عنك. أنت من ينشر |
 | الحماية من الاحتيال | — | `/ie-scamguard` و`/ie-harden` |
-| الأخبار التقنية | — | `/ie-technews` يتحقق من ثلاثة مصادر قبل كتابة أي سكربت |
+| الأخبار في أي مجال | — | `/ie-news` يتحقق من ثلاثة مصادر، ويكتب حسب مجالك (تقني، ديني، سياسي، اجتماعي...) |
 | المنصات | إنستقرام | إنستقرام + تيك توك + يوتيوب شورتس + X |
 
 ## المهارات
@@ -58,7 +58,7 @@
 | --- | --- |
 | `/ie-scamguard` | يحلل رسالة أو تعليقاً مشبوهاً: انتهاك حقوق مزيف، توثيق مزيف، تعاون احتيالي، تصيّد |
 | `/ie-harden` | قائمة تأمين الحساب خطوة بخطوة |
-| `/ie-technews` | خبر تقني ← تحقق من 3 مصادر ← سكربت ريل + كابشن بالمصادر |
+| `/ie-news` | خبر من مجالك ← تحقق من 3 مصادر ← سكربت ريل + كابشن بالمصادر، بأسلوب مجالك وخطوطه الحمراء |
 | `/ie-selfcheck` | يفحص الحزمة نفسها قبل التثبيت وبعد أي تحديث |
 | `/ie-update` | يفحص عند بدء كل جلسة هل صدر إصدار جديد، ويحدّث بعد اجتياز الفحص الأمني |
 
@@ -128,12 +128,13 @@ python3 -I install.py --dest <مجلد مهارات وكيل آخر> --workspace
 
 ## كيف يتم الربط بحسابك؟
 
-**لا يوجد ربط بالحساب في هذه الحزمة، ولا تطلب منك الحزمة ولا الوكيل كلمة مرور أو رمز دخول أو توكن.** الحزمة تعمل على ما تعطيه للوكيل بنفسك:
+**الحزمة لا تطلب منك كلمة مرور ولا رمز تحقق ولا توكن، أبداً.** وفي تحليل الأداء (`/ie-audit`) أنت تختار الطريقة:
 
-- **الطريقة الافتراضية:** تنسخ أرقام منشوراتك (مشاهدات، حفظ، مشاركات) أو تلصق ملف CSV، أو تصوّر شاشة التحليلات (Insights) وتعطيها للوكيل. تحصل بها على `/ie-audit` و`/ie-plan`.
-- **اختيارياً:** إن كان وكيلك يدعم موصّلات (Connectors) يمكنك أنت ربط حسابك من واجهة الوكيل نفسها وبموافقتك. هذا خارج الحزمة، ولا تراه الحزمة ولا تحتفظ به.
-- **واجهة إنستقرام الرسمية** تتطلب حساباً احترافياً (تجاري أو صانع محتوى) وتطبيقاً في Meta ورموز وصول لها مدة صلاحية، وبعض الصلاحيات تحتاج مراجعة من Meta. لا تعتمد عليها الحزمة.
-- **القاعدة:** إن طلب منك أي وكيل كلمة مرور إنستقرام أو رمز تحقق أو رمز استرداد فارفض، فهذا خارج عمل هذه الحزمة.
+1. **ترفق لقطات شاشة أو ملف تصدير** من «رؤى» (Insights)، أو تنسخ الأرقام. ضعها في مجلد `00-ملفاتي` ويقرؤها المساعد من هناك.
+2. **تسمح للمساعد يتصفح صفحة «رؤى» حسابك بنفسه**، إن كان عنده متصفح يتحكم فيه. أنت تسجّل الدخول بنفسك، وهو يقرأ فقط: لا يضغط متابعة ولا إعجاب ولا نشر ولا يغيّر أي إعداد، ويتوقف عند أي شاشة دخول أو تحقق لتكملها أنت. يقرأ حسابك فقط وبهدوء، لأن الجمع الآلي مخالف لشروط إنستقرام. ثم يعرض لك جدول الأرقام التي قرأها قبل أن يحللها، لتصحح أي رقم.
+
+- **موصّل (Connector) في وكيلك:** إن ربطت حسابك بنفسك من واجهة الوكيل، يستخدم المساعد وظائف القراءة فقط.
+- **القاعدة:** إن طلب منك أي وكيل كلمة مرور إنستقرام أو رمز تحقق أو رمز استرداد فارفض.
 
 ## التثبيت الآمن
 
@@ -191,7 +192,7 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 **Instagram Everything** is an Arabic-first pack of 21 agent skills (Claude Code, Codex, Gemini CLI and others) for running an Instagram account, with built-in security checks.
 
 - Reels, captions, carousels, stories, profile, weekly plan, comments, replies, DMs, research, audits, repurposing and cross-posting.
-- New: `/ie-scamguard` (scam message analysis), `/ie-harden` (account hardening), `/ie-technews` (3-source fact-checked tech news to Reel), `/ie-selfcheck` (audits the pack itself).
+- New: `/ie-scamguard` (scam message analysis), `/ie-harden` (account hardening), `/ie-news` (3-source fact-checked news in any field, written for that field), `/ie-selfcheck` (audits the pack itself).
 - Unicode-aware tools: Arabic tokenization, Arabic punctuation, ZWJ emoji preserved.
 - Standard-library Python only. No network, no subprocess, nothing uploaded. Nothing is posted or sent on your behalf.
 - CI rejects network code, process execution, hidden Unicode and prompt-injection phrases on every change.

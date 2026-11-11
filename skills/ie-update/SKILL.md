@@ -42,7 +42,10 @@ Read `updates:` from the user's config (templates/config.md). Default: `auto`.
    contains this skill>`. The installer repeats the audit, keeps the user's
    workspace and language from `ie-tools/workspace.json`, checks the copy
    against the release manifest, and refuses on any failure.
-8. **Report in two lines, in the user's language:** the old and new version, and that the agent must be
+8. **Old skills.** If the installer printed `STALE=`, those skill folders were
+   renamed or removed in the new release. Tell the user, and delete them only
+   on a yes.
+9. **Report in two lines, in the user's language:** the old and new version, and that the agent must be
    restarted (or its skills list reopened) to load the new skills. Delete `<tmp>`.
 
 ## Rules

@@ -3,7 +3,9 @@ name: ie-audit
 description: >-
   Post-mortem on what the user already posted: which posts really worked, why,
   and what to stop making, ranked by outlier multiple and shares, not raw
-  views. Use when the user pastes Instagram insights or asks "what's working",
+  views, from screenshots the user attaches or, if they allow it, by reading
+  their own Insights in their browser. Use when the user pastes Instagram
+  insights or asks "what's working",
   "why did this flop", "حلل أدائي", "ليش ما نجح الفيديو", "audit my content",
   "read my analytics".
 ---
@@ -16,9 +18,15 @@ until the account's numbers agree.
 
 **Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
 
-## Input
+## Two ways to get the numbers: the user chooses
 
-Whatever the user has, screenshots are fine:
+Ask once, in the user's language, and do whichever they pick:
+
+> كيف تحب أعطيك أرقامك؟
+> 1. أرفق لقطات شاشة أو ملف تصدير من «رؤى» (Insights)
+> 2. أتصفح أنا صفحة «رؤى» حسابك من متصفحك وأنت مسجّل الدخول، للقراءة فقط
+
+**Option 1: screenshots or an export.** Whatever the user has is fine:
 
 - Per post: views, reach, likes, comments, saves, shares, follows, and the
   share of reach from non-followers.
@@ -26,15 +34,37 @@ Whatever the user has, screenshots are fine:
   says more than the rest combined.
 - Or just the posts and their view counts, which is enough for a first pass.
 
-Also read `<settings>/log.md` if it exists: it records the hook
-formula each post used.
+Point them to their workspace's `inbox` folder: they can drop the files there
+and you read them from it.
 
-**How the numbers get here.** The user opens Instagram's own Insights
-(professional accounts) or each post's "View insights", and pastes the figures,
-exports them, or sends screenshots. This skill never logs in, never asks for a
-password, a login code or an access token, and never scrapes. If the user's
-agent has a data connector they authorised themselves, they can paste its
-output here like any other export.
+**Option 2: you browse, with their permission.** Only if this agent has a
+browser it can drive (a browser extension, a built-in browser, computer use).
+If it has none, say so in one line and fall back to option 1.
+
+1. **The user signs in, not you.** Ask them to open Instagram (web) in that
+   browser and sign in themselves. Never type, ask for, read aloud or store a
+   password, a login or 2FA code, or a recovery code, even if they offer it.
+   At any login, 2FA or "confirm it's you" screen, stop and let them do it.
+2. **Read only.** Open their own profile, the professional dashboard or
+   Insights, and each recent post's "View insights". Never click follow, like,
+   comment, post, delete, archive, message, or change any setting. If a page
+   asks you to accept or confirm anything, stop and ask the user.
+3. **Their account only, at a human pace.** About 20 to 30 recent posts, one at
+   a time. No other accounts in this step, no loops, no scraping tools,
+   nothing left running after the task. Say plainly that automated collection
+   is against Instagram's terms and heavy browsing can get an account
+   rate-limited, which is why you keep it short.
+4. **Write down what you read** in a table (date, format, views, reach,
+   saves, shares, follows, non-follower share) and show it to the user before
+   analysing, so they can correct a misread number.
+5. **Close what you opened** and tell them they can sign out if they want.
+
+A data connector the user authorised themselves in their agent (an analytics
+connector, for example) counts as option 2 without the browser: use its read
+functions only, never its write functions, and show the table the same way.
+
+Either way, also read `<settings>/log.md` if it exists: it records the hook
+formula each post used.
 
 ## What to compute, showing the working
 

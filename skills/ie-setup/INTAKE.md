@@ -20,6 +20,14 @@ chat sandbox, for example), say so once, write the same files into the working
 folder, hand them to the user as files, and ask them to attach those files next
 time. Never pretend something was saved when it was not.
 
+## The user's field
+
+Every writing skill reads `Field:` in `config.md` and applies its section of
+`NICHES.md` (next to this file): which sources count, the tone the audience
+expects, and the red lines. Religious, political, social and tech accounts get
+different output from the same request. If no field is saved, add the field
+question to the batch below.
+
 ## The five steps
 
 1. **Look before asking.** Read `config.md`, `style.md` and the task's block in

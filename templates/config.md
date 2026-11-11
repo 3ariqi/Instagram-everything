@@ -1,6 +1,6 @@
 # Instagram Everything — config
 
-Copy this file to `~/.instagram-everything/config.md` and fill it in. Every skill in
+Copy this file to the `settings` folder of your workspace as `config.md` and fill it in. Every skill in
 the pack reads it before writing anything, so it is the single place to set
 your language, your voice and your signature. Delete any line you don't need.
 
@@ -19,6 +19,8 @@ into Claude and ask it to draft this file from them, then correct it.
 
 - **Account handle:**
 - **What the account is about, in one line:**
+- **Field:** tech and security / religious / political / social / health / money / education / entertainment / other (up to two)
+- **Field rules (for "other"):** the sources your audience trusts, and your red lines
 - **Who you are to your audience:** (an engineer explaining security, a trainer, a reviewer...)
 
 ## Audience
