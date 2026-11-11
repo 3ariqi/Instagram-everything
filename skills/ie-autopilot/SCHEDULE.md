@@ -10,13 +10,18 @@ Agents change their scheduling features often. Before giving the user steps,
 check your own current documentation or `--help`; the notes below were checked in
 November 2026 and are a starting point, not a promise.
 
+The same steps schedule `ie-autoreply` (prompt `/ie-autoreply run`, at the
+time saved in `autoreply.md`), as a second, separate task.
+
 ## Rules
 
 1. Show the user exactly what will be created: the tool, the time, the folder,
    the prompt, and the permissions the run gets. Create it only on a clear yes.
-2. Least permissions: the run needs to read and write files in the workspace,
-   and web search for `ie-news`. It never needs a browser, a login or
-   permission to run anything outside the workspace.
+2. Least permissions: the autopilot run needs to read and write files in the
+   workspace, and web search for `ie-news`. It never needs a browser, a login
+   or permission to run anything outside the workspace. The `ie-autoreply`
+   task also needs the browser (or the connector) it was set up with, and
+   nothing more.
 3. Pick a minute that is not :00 or :30 (for example 08:40), so the run does not
    compete with everyone else's.
 4. Record the result under `## Scheduler` in `autopilot.md`: which tool, the

@@ -6,7 +6,7 @@
 
 **حزمة مهارات لوكلاء الذكاء الاصطناعي (Claude Code وCodex وGemini CLI) تدير محتوى إنستقرام بالعربي أولاً، وتفحص نفسها أمنياً.**
 
-22 مهارة تكتب سكربتات الريلز والكابشن والكاروسيل والستوري، وتبحث عمّا ينجح في مجالك، وترد على التعليقات والرسائل، وتكشف رسائل الاحتيال، وتؤمّن حسابك، وتحوّل أخبار مجالك (تقني، ديني، سياسي، اجتماعي...) إلى محتوى موثّق المصادر.
+23 مهارة تكتب سكربتات الريلز والكابشن والكاروسيل والستوري، وتبحث عمّا ينجح في مجالك، وترد على التعليقات والرسائل، وتكشف رسائل الاحتيال، وتؤمّن حسابك، وتحوّل أخبار مجالك (تقني، ديني، سياسي، اجتماعي...) إلى محتوى موثّق المصادر.
 
 > مشروع من إعداد **م.أحمد طاهر** · [@3ariqi](https://github.com/3ariqi) · [3ariqi.com](https://3ariqi.com)
 > تابعنا على منصات التواصل الاجتماعي: يوتيوب، إنستقرام، تيك توك، X — **@3ariqi**
@@ -35,6 +35,7 @@ https://github.com/3ariqi/Instagram-everything
 - **أنت تختار مكان التثبيت:** مجلد عمل، أو لكل مشاريعك، أو مجلد وكيل آخر.
 - **أخبار لأي مجال:** `/ie-news` يتحقق من ثلاثة مصادر ويكتب بأسلوب مجالك وخطوطه الحمراء، وكل مهارات الكتابة تتكيف مع مجالك.
 - **تحليل الأداء بطريقتين:** ترفق لقطات الشاشة، أو تسمح للمساعد بقراءة صفحة «رؤى» حسابك بنفسه (قراءة فقط).
+- **الردود الليلية (اختيارية):** `/ie-autoreply` يقرأ تعليقات آخر منشوراتك كل ليلة ويرد على الحقيقية منها بأسلوبك، مسودات أولاً.
 - **الطيار الآلي:** `/ie-autopilot` يتعلّم روتينك مرة واحدة ثم يجهّز كل منشور قبل موعده بجدول زمني على جهازك، ويتابع ما نُشر. لا ينشر شيئاً.
 - **بصمة لكل ملف:** تكشف أي تعديل على الحزمة بعد التثبيت، والمثبّت يرفض النسخة المعدّلة.
 - **العربية سليمة على ويندوز:** مخرجات المثبّت والأدوات UTF-8 دائماً، فلا يتعطل النص العربي في طرفية ويندوز (مجرَّب على ويندوز ولينكس).
@@ -108,6 +109,16 @@ https://github.com/3ariqi/Instagram-everything
 4. **تتابع معه بكلامك:** «ماذا جهزت؟»، «نشرته»، «اعتمد الخطة»، «أوقف الطيار الآلي».
 
 **لا ينشر أبداً.** لا منشور ولا تعليق ولا رسالة، ولا دخول لحسابك. يجهّز وأنت تنشر. وبلا مُجدول يبقى يعمل: عند فتح أي جلسة يخبرك بما استحق ويعرض تجهيزه.
+
+### الردود الليلية (اختيارية)
+
+| الأمر | ماذا يفعل |
+| --- | --- |
+| `/ie-autoreply` | كل ليلة (افتراضياً 12 منتصف الليل) يقرأ التعليقات على آخر منشور أو ريل في كل حساباتك (إنستقرام، تيك توك، يوتيوب، X) من متصفح جهازك أو من ربط رسمي، ويستبعد التعليقات الآلية والمكررة والترويجية والمشبوهة، ويرد على الحقيقية بأسلوبك الذي تعلّمه من ردودك السابقة |
+
+- **معطّلة حتى تفعّلها أنت.** لا تعمل إلا بعد الإعداد.
+- **مسودات أولاً:** افتراضياً يكتب الردود وتراجعها صباحاً وتقول «أرسل الردود». الإرسال التلقائي اختيار لكل منصة على حدة، بعد أن تقرأ ما تقوله شروطها عن الأتمتة وتوافق.
+- **حماية مدمجة:** لا يفتح روابط التعليقات، ولا ينفّذ أي «أوامر» مكتوبة في تعليق، ولا يعجب ولا يتابع ولا يراسل، ويتوقف عند أول تحذير من المنصة.
 
 ### الإعداد والمونتاج
 
@@ -222,6 +233,7 @@ python3 skills/ie-tools/clean.py draft.txt --report
 python3 skills/ie-tools/score.py draft.txt
 python3 skills/ie-tools/scamcheck.py message.txt
 python3 skills/ie-tools/autopilot.py status --plan plan.md --state queue.json
+python3 skills/ie-tools/commentsieve.py sieve comments.json --owner 3ariqi
 ```
 
 ## الأمان
@@ -241,12 +253,13 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 
 [![Release](https://img.shields.io/github/v/release/3ariqi/Instagram-everything)](https://github.com/3ariqi/Instagram-everything/releases/latest)
 
-**Instagram Everything** is an Arabic-first pack of 22 agent skills (Claude Code, Codex, Gemini CLI and others) for running an Instagram account, with built-in security checks.
+**Instagram Everything** is an Arabic-first pack of 23 agent skills (Claude Code, Codex, Gemini CLI and others) for running an Instagram account, with built-in security checks.
 
 **Quick install:** send `https://github.com/3ariqi/Instagram-everything` to your agent and say "download and install". It asks your language (Arabic or English) and where to put your workspace, audits the pack, installs it and tells you the path.
 
 - Reels, captions, carousels, stories, profile, weekly plan, comments, replies, DMs, research, audits, repurposing and cross-posting.
 - Autopilot: `/ie-autopilot` learns your whole routine once (from a session you just did, or a short interview), schedules itself on your computer (Claude Code desktop scheduled tasks, Codex automations, or the OS scheduler), then prepares each post before its date into `09-ready-to-post`, tracks what is late or needs numbers, and drafts next week's plan. It never posts.
+- Nightly replies (optional, off by default): `/ie-autoreply` reads the comments on your latest post on each account at night, sets aside automated, repeated, promotional and risky ones, and answers the real ones in your style. Drafts by default; sends by itself only on platforms where you chose that after reading what their terms say.
 - Security and news: `/ie-scamguard` (scam message analysis), `/ie-harden` (account hardening), `/ie-news` (3-source fact-checked news in any field, written for that field), `/ie-selfcheck` (audits the pack itself), `/ie-update` (safe updates).
 - v1.0.0: an organised workspace (one folder per kind of work, a START-HERE file, the pack kept apart), language chosen at install, field-aware writing, performance audits from screenshots or read-only browsing, and a SHA-256 manifest that detects any change to the installed pack. Output is always UTF-8, so Arabic never breaks in a Windows console (tested on Windows and Linux).
 - Unicode-aware tools: Arabic tokenization, Arabic punctuation, ZWJ emoji preserved.
