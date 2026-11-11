@@ -122,7 +122,7 @@ def stale_skills(root, dest):
 
 
 def old_flat_install(workspace):
-    """ie-* skill folders sitting directly in the workspace (the v1.0 layout)."""
+    """ie-* skill folders sitting directly in the workspace (an early pre-release layout)."""
     if not os.path.isdir(workspace):
         return []
     return sorted(n for n in os.listdir(workspace)
@@ -182,10 +182,11 @@ def setup_workspace(workspace, lang, skills_dirs, version, dry_run=False):
 
 
 def main(argv=None):
+    selfcheck.utf8_stdio()  # Arabic folder names must not crash a Windows console
     ap = argparse.ArgumentParser(description="Install Instagram-everything for any AI agent.")
     ap.add_argument("--agent", choices=sorted(GLOBAL_TARGETS) + ["all"], help="which agent")
     ap.add_argument("--workspace", help="the folder the user chose for their work (and, by default, the skills)")
-    ap.add_argument("--project", help=argparse.SUPPRESS)  # v1.0.1 name for --workspace
+    ap.add_argument("--project", help=argparse.SUPPRESS)  # earlier name for --workspace
     ap.add_argument("--global", dest="global_", action="store_true",
                     help="put the skills in the agent's folder for all projects; the workspace holds outputs only")
     ap.add_argument("--dest", help="a custom skills folder (for any other agent)")
@@ -205,7 +206,7 @@ def main(argv=None):
             lang = args.lang or info.get("lang")
     migrate = False
     if args.dest and not workspace:
-        # A v1.0 install put the ie-* folders straight into the folder the user
+        # An early pre-release install put the ie-* folders straight into the folder the user
         # chose. Updating it in place would keep that mess and create the
         # workspace somewhere else, so turn that folder into the workspace.
         dest_abs = os.path.abspath(os.path.expanduser(args.dest))
@@ -237,12 +238,12 @@ def main(argv=None):
     dests = []
     for a in agents:
         if args.global_ or not workspace_given:
-            d = os.path.expanduser(GLOBAL_TARGETS[a])
+            d = os.path.normpath(os.path.expanduser(GLOBAL_TARGETS[a]))
         else:
-            d = os.path.join(workspace, LOCAL_TARGETS[a])
+            d = os.path.normpath(os.path.join(workspace, LOCAL_TARGETS[a]))  # one kind of slash on Windows
         if args.agent == "all" and args.global_:
             for g in GLOBAL_TARGETS.values():
-                g = os.path.expanduser(g)
+                g = os.path.normpath(os.path.expanduser(g))
                 if g not in dests:
                     dests.append(g)
             continue
@@ -292,7 +293,9 @@ def main(argv=None):
     if not args.dry_run:
         local = [d for d in dests if d.startswith(workspace + os.sep)]
         if local:
-            print("Open the agent from %s (or restart it there) so it picks the skills up." % workspace)
+            print("Open the agent from %s (or restart it there) so it picks the skills up.\n"
+                  "The ie-* skills show up ONLY when the agent is opened from that folder, not from any other project."
+                  % workspace)
         else:
             print("Restart the agent (or open its /skills list) so it picks the new skills up.")
     return 0

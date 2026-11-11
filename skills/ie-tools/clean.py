@@ -183,6 +183,7 @@ def render_report(r, lang, out=sys.stderr):
 
 
 def main():
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Clean a draft (Arabic or English).")
     ap.add_argument("input", nargs="?", default="-", help="file, or - for stdin")
     ap.add_argument("-o", "--out", help="write the cleaned text here")

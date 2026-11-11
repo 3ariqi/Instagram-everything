@@ -160,6 +160,7 @@ def render(r):
 
 
 def main():
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Lint an Instagram caption (Arabic/English).")
     ap.add_argument("input", nargs="?", default="-")
     ap.add_argument("--signature", help="text that must close the caption")

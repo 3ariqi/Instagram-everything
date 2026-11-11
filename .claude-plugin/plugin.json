@@ -1,6 +1,6 @@
 {
   "name": "instagram-everything",
-  "version": "1.1.1",
+  "version": "1.0.0",
   "description": "Arabic-first Instagram skill pack: reels, captions, carousels, stories, research, scam protection and fact-checked tech news. Standard-library Python only; posts nothing on your behalf.",
   "author": { "name": "Ahmed Taher (@3ariqi)" },
   "homepage": "https://github.com/3ariqi/Instagram-everything",

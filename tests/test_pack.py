@@ -392,7 +392,7 @@ class Installer(unittest.TestCase):
             self.assertIn("OLD_LAYOUT=ie-reel", out)
 
     def test_update_of_an_old_loose_install_turns_its_folder_into_the_workspace(self):
-        # v1.0 put ie-* straight into the chosen folder, and its ie-update runs
+        # An early pre-release put ie-* straight into the chosen folder, and its ie-update runs
         # the new installer with --dest <that folder>.
         with tempfile.TemporaryDirectory() as d:
             old = os.path.join(d, "instagram")
@@ -611,6 +611,89 @@ class Intake(unittest.TestCase):
         with open(os.path.join(ROOT, "skills", "ie-setup", "INTAKE.md"), encoding="utf-8") as fh:
             t = fh.read().lower()
         self.assertIn("password", t)
+
+
+
+class LegacyConsole(unittest.TestCase):
+    """A piped Windows console encodes output as cp1252 or cp437. Printing
+    Arabic there used to raise UnicodeEncodeError (installer and every tool)."""
+
+    def run_main(self, fn, argv, encoding="cp1252"):
+        raw = io.BytesIO()
+        out = io.TextIOWrapper(raw, encoding=encoding, errors="strict")
+        old = sys.stdout, sys.stderr, sys.argv
+        sys.stdout, sys.stderr, sys.argv = out, out, ["tool"] + argv
+        code = 0
+        try:
+            try:
+                code = fn()
+            except SystemExit as e:
+                code = e.code
+            out.flush()
+        finally:
+            sys.stdout, sys.stderr, sys.argv = old
+        return code or 0, raw.getvalue().decode("utf-8")
+
+    def test_helper_switches_a_legacy_stream_to_utf8(self):
+        raw = io.BytesIO()
+        old = sys.stdout, sys.stderr
+        out = io.TextIOWrapper(raw, encoding="cp437", errors="strict")
+        sys.stdout = sys.stderr = out
+        try:
+            tk.utf8_stdio()
+            print("حماية الحساب")
+            out.flush()
+            got = raw.getvalue().decode("utf-8").strip()
+        finally:
+            sys.stdout, sys.stderr = old
+        self.assertEqual(got, "حماية الحساب")
+
+    def test_helper_survives_a_stream_it_cannot_change(self):
+        old = sys.stdout, sys.stderr
+        sys.stdout = sys.stderr = io.StringIO()
+        try:
+            tk.utf8_stdio()
+            selfcheck.utf8_stdio()
+        finally:
+            sys.stdout, sys.stderr = old
+
+    def test_installer_prints_arabic_folders_on_a_legacy_console(self):
+        for enc in ("cp1252", "cp437"):
+            with tempfile.TemporaryDirectory() as d:
+                ws = os.path.join(d, "ws")
+                os.mkdir(ws)
+                code, text = self.run_main(
+                    lambda: install.main(["--workspace", ws, "--agent", "claude", "--lang", "ar"]), [], enc)
+                self.assertEqual(code, 0, text)
+                self.assertIn("WORKSPACE_PATH=", text)
+                self.assertIn("01-ريلز", text)
+                self.assertIn("ONLY when the agent is opened from that folder", text)
+
+    def test_every_tool_prints_arabic_on_a_legacy_console(self):
+        import swipe
+        with tempfile.TemporaryDirectory() as d:
+            draft = os.path.join(d, "مسودة.txt")
+            with open(draft, "w", encoding="utf-8") as fh:
+                fh.write("لا أحد يخبرك أن كلمة مرورك تسربت.\nغيّر كلمة المرور الآن وفعّل التحقق بخطوتين.\n")
+            for mod, argv in ((hookscore, ["--hook", "لا أحد يخبرك أن كلمة مرورك تسربت"]),
+                              (clean, [draft, "--report"]), (score, [draft]), (scamcheck, [draft]),
+                              (caption, [draft]), (beats, [draft]), (swipe, [draft]),
+                              (stylekit, ["learn", draft]), (selfcheck, [d, "--quiet"])):
+                try:
+                    code, text = self.run_main(mod.main, argv)
+                except UnicodeEncodeError as e:
+                    self.fail("%s crashed on a cp1252 console: %s" % (mod.__name__, e))
+                self.assertNotIsInstance(code, str, "%s: %s" % (mod.__name__, text))
+
+    def test_install_paths_use_one_kind_of_slash(self):
+        with tempfile.TemporaryDirectory() as d:
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                install.main(["--workspace", d, "--agent", "all", "--lang", "en", "--dry-run"])
+            for line in buf.getvalue().splitlines():
+                if line.startswith("TARGET_PATH="):
+                    p = line.split("=", 1)[1]
+                    self.assertEqual(p, os.path.normpath(p))
 
 
 if __name__ == "__main__":

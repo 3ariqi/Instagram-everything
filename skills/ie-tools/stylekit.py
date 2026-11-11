@@ -288,6 +288,7 @@ def _read(path):
 
 
 def main(argv=None):
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Learn a writing style from samples, or from your edits.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     pl = sub.add_parser("learn", help="measure what a set of posts has in common")

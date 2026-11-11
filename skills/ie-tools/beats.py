@@ -126,6 +126,7 @@ def render(r):
 
 
 def main():
+    tk.utf8_stdio()
     ap = argparse.ArgumentParser(description="Time a Reel script beat by beat.")
     ap.add_argument("input", nargs="?", default="-")
     ap.add_argument("--target", type=int, help="target length in seconds")

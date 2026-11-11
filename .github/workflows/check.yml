@@ -10,12 +10,30 @@ permissions:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    env:
+      PY: ${{ matrix.os == 'windows-latest' && 'python' || 'python3' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           persist-credentials: false
       - name: Self-check (banned code, hidden characters, injection text)
-        run: python3 -I skills/ie-tools/selfcheck.py . --quiet
+        run: $PY -B -I skills/ie-tools/selfcheck.py . --quiet
       - name: Tests
-        run: python3 -I -m unittest discover -s tests -v
+        run: $PY -B -I -m unittest discover -s tests -v
+      # The real thing: output is piped here, so on Windows it uses the legacy
+      # code page. Printing the Arabic folder names used to crash at this point.
+      - name: Install into an Arabic workspace and run a tool
+        run: |
+          mkdir -p "$RUNNER_TEMP/ws"
+          $PY -B -I -c "import sys; print('stdout encoding before the fix-up:', sys.stdout.encoding)"
+          $PY -B -I install.py --workspace "$RUNNER_TEMP/ws" --agent claude --lang ar
+          $PY -B -I "$RUNNER_TEMP/ws/.claude/skills/ie-tools/selfcheck.py" --verify "$RUNNER_TEMP/ws/.claude/skills"
+          $PY -B -I "$RUNNER_TEMP/ws/.claude/skills/ie-tools/hookscore.py" --hook "لا أحد يخبرك أن كلمة مرورك تسربت"
