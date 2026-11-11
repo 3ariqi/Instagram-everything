@@ -1,6 +1,6 @@
 # Instagram Everything
 
-[![Release](https://img.shields.io/github/v/release/3ariqi/Instagram-everything?label=%D8%A7%D9%84%D8%A5%D8%B5%D8%AF%D8%A7%D8%B1)](https://github.com/3ariqi/Instagram-everything/releases/latest)
+[![Release](https://img.shields.io/github/v/release/3ariqi/Instagram-everything)](https://github.com/3ariqi/Instagram-everything/releases/latest)
 [![Checks](https://github.com/3ariqi/Instagram-everything/actions/workflows/check.yml/badge.svg)](https://github.com/3ariqi/Instagram-everything/actions/workflows/check.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
