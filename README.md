@@ -154,10 +154,6 @@ python3 skills/ie-tools/scamcheck.py message.txt
 - كل تعديل على المستودع يمر بفحص تلقائي (GitHub Actions) يرفض: الاتصال بالشبكة، تشغيل الأوامر، `eval`/`exec`، الأحرف الخفية، وعبارات حقن الأوامر.
 - للإبلاغ عن ثغرة: راجع [SECURITY.md](SECURITY.md).
 
-## شكر
-
-الفكرة مستوحاة من [instagram-agent-skill](https://github.com/Jakeschincariol/instagram-agent-skill) (رخصة MIT). هذه الحزمة أعيد بناؤها من الصفر: الكود والمهارات والبيانات مكتوبة من جديد بدعم العربية وطبقة أمان كاملة.
-
 ## الرخصة
 
 MIT — استخدمها وطوّرها وانشرها، مع الإبقاء على ملف الرخصة.
@@ -176,4 +172,4 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 
 Install a pinned release (`git checkout v1.0.0`), run `python3 skills/ie-tools/selfcheck.py .`, then copy `skills/ie-*` into `~/.claude/skills/`.
 
-By **Ahmed Taher** ([@3ariqi](https://github.com/3ariqi)). Inspired by [instagram-agent-skill](https://github.com/Jakeschincariol/instagram-agent-skill) (MIT), rebuilt from scratch. MIT licensed.
+By **Ahmed Taher** ([@3ariqi](https://github.com/3ariqi)). MIT licensed.
