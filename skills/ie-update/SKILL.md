@@ -42,11 +42,20 @@ Read `updates:` from the user's config (templates/config.md). Default: `auto`.
    contains this skill>`. The installer repeats the audit, keeps the user's
    workspace and language from `ie-tools/workspace.json`, checks the copy
    against the release manifest, and refuses on any failure.
-8. **Old skills.** If the installer printed `STALE=`, those skill folders were
-   renamed or removed in the new release. Tell the user, and delete them only
+8. **Old skills and old layout.** If the installer printed `STALE=`, those
+   skill folders were renamed or removed in the new release. If it printed
+   `MIGRATE=` and `OLD_LAYOUT=`, the user had an older loose install: the pack
+   now lives in `.claude/skills` and `.agents/skills` inside that folder, next
+   to the new work folders, and the loose `ie-*` folders are leftover copies.
+   In both cases list the folders, explain in one line, and delete them only
    on a yes.
-9. **Report in two lines, in the user's language:** the old and new version, and that the agent must be
-   restarted (or its skills list reopened) to load the new skills. Delete `<tmp>`.
+9. **Check before you report.** Read `ie-tools/VERSION` in the folder printed as
+   `INSTALLED_PATH=` and confirm it is the new version. Never report success
+   from memory or from the tag name alone.
+10. **Report in two lines, in the user's language:** the old and new version, and that the agent must be
+   restarted (or its skills list reopened) to load the new skills. After a
+   migration, add the workspace path and say to open the agent from it.
+   Delete `<tmp>`.
 
 ## Rules
 

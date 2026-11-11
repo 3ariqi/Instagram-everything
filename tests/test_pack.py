@@ -391,6 +391,34 @@ class Installer(unittest.TestCase):
             self.assertEqual(rc, 0)
             self.assertIn("OLD_LAYOUT=ie-reel", out)
 
+    def test_update_of_an_old_loose_install_turns_its_folder_into_the_workspace(self):
+        # v1.0 put ie-* straight into the chosen folder, and its ie-update runs
+        # the new installer with --dest <that folder>.
+        with tempfile.TemporaryDirectory() as d:
+            old = os.path.join(d, "instagram")
+            for n in ("ie-tools", "ie-reel", "ie-technews"):
+                os.makedirs(os.path.join(old, n))
+            rc, out = self._run(["--dest", old])
+            self.assertEqual(rc, 0)
+            self.assertIn("MIGRATE=" + old, out)
+            self.assertIn("WORKSPACE_PATH=" + old, out)
+            self.assertIn("OLD_LAYOUT=ie-reel, ie-technews, ie-tools", out)
+            for sub in (".claude", ".agents"):
+                skills = os.path.join(old, sub, "skills")
+                self.assertEqual(selfcheck.verify(skills), ([], [], []))
+            self.assertFalse(os.path.exists(os.path.join(old, "ie-news")))
+            self.assertTrue(os.path.isdir(os.path.join(old, "01-ريلز")))
+            self.assertTrue(os.path.isfile(os.path.join(old, "ابدأ-هنا.md")))
+
+    def test_update_of_an_agent_skills_folder_stays_in_place(self):
+        with tempfile.TemporaryDirectory() as d:
+            self._run(["--workspace", d, "--agent", "claude"])
+            skills = os.path.join(d, ".claude", "skills")
+            rc, out = self._run(["--dest", skills])
+            self.assertEqual(rc, 0)
+            self.assertNotIn("MIGRATE=", out)
+            self.assertIn("INSTALLED_PATH=" + skills, out)
+
     def test_reports_skills_the_release_no_longer_ships(self):
         with tempfile.TemporaryDirectory() as d:
             self._run(["--workspace", d, "--agent", "claude"])

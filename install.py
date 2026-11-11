@@ -203,6 +203,22 @@ def main(argv=None):
                 info = json.load(fh)
             workspace = info.get("workspace")
             lang = args.lang or info.get("lang")
+    migrate = False
+    if args.dest and not workspace:
+        # A v1.0 install put the ie-* folders straight into the folder the user
+        # chose. Updating it in place would keep that mess and create the
+        # workspace somewhere else, so turn that folder into the workspace.
+        dest_abs = os.path.abspath(os.path.expanduser(args.dest))
+        if (os.path.isdir(os.path.join(dest_abs, "ie-tools"))
+                and os.path.basename(dest_abs.rstrip(os.sep)).lower() != "skills"):
+            migrate = True
+            workspace = dest_abs
+            args.workspace = dest_abs
+            args.dest = None
+            args.agent = args.agent or "all"
+            print("MIGRATE=%s" % dest_abs)
+            print("This folder holds an older loose install. It becomes the workspace: the pack goes into "
+                  ".claude/skills and .agents/skills inside it, and the loose ie-* folders are listed below.")
     lang = lang if lang in ("ar", "en") else "ar"
     if not args.agent and not args.dest:
         print("error: choose --agent (claude, codex, gemini, agents, all) or --dest FOLDER", file=sys.stderr)
