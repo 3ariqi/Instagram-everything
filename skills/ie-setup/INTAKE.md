@@ -46,6 +46,26 @@ question to the batch below.
 5. **After delivering:** offer once to keep the answers as the default for this
    task. Save only on a clear yes. Say where it was saved.
 
+## Unattended runs
+
+When a skill runs inside `ie-autopilot run` (a scheduled task), nobody is there
+to answer. Then:
+
+- Ask nothing and wait for nothing. Use `config.md`, `style.md` and the task's
+  preset; where nothing is saved, use the defaults and put the "Assumed:" line
+  at the top of the output, as in step 4.
+- Do not offer to save presets or learn from edits; that happens when the user
+  reviews the package.
+- Anything that needs a decision goes into the autopilot report, not into a
+  question.
+
+## Turning a session into a routine
+
+When the user has just gone through several skills in a row for one post (plan,
+script, caption, edit plan...), offer once at the end: "Want me to do this by
+myself from now on? (`/ie-autopilot`)". On a yes, `ie-autopilot` learns the
+routine from this session.
+
 ## Learning the user's style
 
 - **From samples.** When the user pastes or attaches posts of their own (three

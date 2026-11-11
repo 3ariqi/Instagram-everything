@@ -18,6 +18,11 @@ until the account's numbers agree.
 
 **Files and language:** follow `<base>/../ie-setup/WORKSPACE.md`: read settings from the workspace, save the result in this skill's folder there, and use the language the user chose.
 
+**Autopilot first:** if `<settings>/autopilot.md` exists and the user is
+reporting that planned posts went out (or should be skipped), update the queue
+first as `ie-autopilot` follow-up mode says (mark posted, measured or skipped,
+add the numbers to `log.md`). Then audit, if there is enough to compare.
+
 ## Two ways to get the numbers: the user chooses
 
 Ask once, in the user's language, and do whichever they pick:
