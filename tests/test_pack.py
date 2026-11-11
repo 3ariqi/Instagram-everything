@@ -443,6 +443,24 @@ class Installer(unittest.TestCase):
             self.assertIn(needle, t)
 
 
+class DocsPdf(unittest.TestCase):
+    def test_pdf_allowed_only_in_top_level_docs_with_a_real_header(self):
+        with tempfile.TemporaryDirectory() as d:
+            os.makedirs(os.path.join(d, "docs"))
+            os.makedirs(os.path.join(d, "skills", "ie-x"))
+            with open(os.path.join(d, "docs", "guide.pdf"), "wb") as fh:
+                fh.write(b"%PDF-1.7\n\xff\xfe binary")
+            with open(os.path.join(d, "docs", "fake.pdf"), "wb") as fh:
+                fh.write(b"\xff\xfe not a pdf")
+            with open(os.path.join(d, "skills", "ie-x", "a.pdf"), "wb") as fh:
+                fh.write(b"%PDF-1.7\n\xff\xfe")
+            rep, _ = selfcheck.scan(d)
+            fails = {i["file"] for i in rep.items if i["level"] == "FAIL"}
+            self.assertNotIn(os.path.join("docs", "guide.pdf"), fails)
+            self.assertIn(os.path.join("docs", "fake.pdf"), fails)
+            self.assertIn(os.path.join("skills", "ie-x", "a.pdf"), fails)
+
+
 class Manifest(unittest.TestCase):
     SKILLS = os.path.join(ROOT, "skills")
 

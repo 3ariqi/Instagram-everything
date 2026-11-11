@@ -242,6 +242,12 @@ def scan(root):
             continue
         with open(f, "rb") as fh:
             data = fh.read()
+        parts = rel.split(os.sep)
+        if len(parts) == 2 and parts[0] == "docs" and ext == ".pdf" and data.startswith(b"%PDF-"):
+            # Only top-level docs/*.pdf with a real PDF header. The installer never copies docs/,
+            # and nothing in the pack opens or runs these files.
+            rep.add("INFO", rel, 0, "documentation PDF (%d KB): not installed, not executed" % (len(data) // 1024))
+            continue
         try:
             text = data.decode("utf-8")
         except UnicodeDecodeError:

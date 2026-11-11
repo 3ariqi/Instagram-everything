@@ -9,6 +9,11 @@
 
 ---
 
+## الدليل المصوّر
+
+- [دليل المستخدم (PDF)](docs/user-guide.pdf): لكل شخص، بلا أوامر برمجية: ماذا تفعل الحزمة، كيف تبدأ، أمثلة محادثة كاملة.
+- [دليل المبرمجين (PDF)](docs/developer-guide.pdf): البنية، التثبيت لكل وكيل، الأدوات بمخرجاتها الحقيقية، والفحص الأمني.
+
 ## لماذا هذه الحزمة؟
 
 | | الحزم المعتادة | Instagram Everything |
@@ -188,6 +193,9 @@ MIT — استخدمها وطوّرها وانشرها، مع الإبقاء ع�
 ---
 
 ## English
+
+Guides: [user guide](docs/user-guide.pdf) and [developer guide](docs/developer-guide.pdf) (Arabic, PDF).
+
 
 **Instagram Everything** is an Arabic-first pack of 21 agent skills (Claude Code, Codex, Gemini CLI and others) for running an Instagram account, with built-in security checks.
 

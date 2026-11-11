@@ -93,7 +93,7 @@ Report what the checker found and what you read by hand, and separate the two.
 ## Output
 
 ```
-PASS   55 files   0 fail   0 warn
+PASS   57 files   0 fail   0 warn
 Python: standard library only, no network or process calls.
 Text:   no hidden characters, no override phrases.
 Writes: clean.py, swipe.py and stylekit.py write only the file you name with -o / --out.
